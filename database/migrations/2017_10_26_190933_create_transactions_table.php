@@ -19,6 +19,10 @@ class CreateTransactionsTable extends Migration
             $table->enum('type', ['DEPOSIT','WITHDRAWAL','CHARGE','PAYMENT']);
             $table->integer('credits');
             $table->integer('event_id')->nullable();
+            $table->string('invoice_id')->nullable();
+            $table->string('invoice_description')->nullable();
+            $table->double('price', 2)->default(0);
+            $table->string('payment_status')->nullable();
             $table->timestamps();
         });
     }

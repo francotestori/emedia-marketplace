@@ -13,12 +13,17 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'wallet_id','type', 'credits', 'event_id'
+        'wallet_id','type', 'credits', 'event_id', 'invoice_id', 'invoice_description'
     ];
 
     public function wallet()
     {
         return $this->belongsTo(Wallet::class);
+    }
+
+    public function getWallet()
+    {
+        return $this->wallet()->first();
     }
 
     public function event()
@@ -37,5 +42,13 @@ class Transaction extends Model
         if($event != null)
             return $event->getAddspace();
         else return null;
+    }
+
+    public function completed()
+    {
+        if ($this->type == 'DEPOSIT'){
+            return $this->payment_status == 'Completed';
+        }
+        return true;
     }
 }

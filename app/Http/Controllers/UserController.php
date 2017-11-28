@@ -25,7 +25,7 @@ class UserController extends Controller
         if($user->isManager())
             return view('user.index', compact('users'))->with('users', User::all());
         else
-            return redirect('users'.$user->id);
+            return redirect('users/'.$user->id);
     }
 
     /**
@@ -82,7 +82,7 @@ class UserController extends Controller
             ]);
 
             // redirect
-            Session::flash('message', Lang::get('messages.created', ['item' =>'User']));
+                Session::flash('message', Lang::get('messages.created', ['item' =>'User']));
             return redirect('users');
         }
     }

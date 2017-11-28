@@ -21,6 +21,8 @@ Route::get('/logout', function(){
    return redirect('/');
 });
 
+Route::get('/register/verify/{token}','Auth\RegisterController@verify');
+
 Auth::routes();
 
 # Auth enabled routes
@@ -61,11 +63,17 @@ Route::group(['middleware' => ['auth']], function(){
     # Editor specific routes
     Route::group(['middleware' => ['editor']], function(){
         Route::resource('addspaces', 'AddspaceController', ['except' => ['index', 'show']]);
+
+        Route::get('withdrawal');
     });
 
     # Advertiser specific routes
     Route::group(['middleware' => ['advertiser']], function(){
         Route::post('addspace/{id}/charge', ['as' => 'addspaces.charge', 'uses' => 'WalletController@charge']);
+
+        Route::get('deposit', ['as' => 'deposit', 'uses' => 'WalletController@showDepositForm']);
+        Route::post('deposit', ['as' => 'deposit.prepare', 'uses' => 'WalletController@deposit']);
+        Route::get('deposit-success', ['uses' => 'WalletController@depositSuccess']);
     });
 });
 

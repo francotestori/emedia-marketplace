@@ -22,11 +22,13 @@ class TransactionTableSeeder extends Seeder
         $editor = User::where('name', 'editor')->first();
         $e_wallet = $editor->getWallet();
 
-        Transaction::create([
+        $deposit = Transaction::create([
             'wallet_id' => $a_wallet->id,
             'type' => 'DEPOSIT',
             'credits' => 100,
         ]);
+        $deposit->payment_status = 'Completed';
+        $deposit->save();
         $a_wallet->balance = $a_wallet->balance + 100;
         $a_wallet->save();
 

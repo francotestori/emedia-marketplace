@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\Welcome;
 use App\Role;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Wallet;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\View;
@@ -60,6 +64,16 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return back();
+    }
+
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -70,19 +84,33 @@ class RegisterController extends Controller
     {
         $role = Role::find($data['role']);
 
+        $activation_code = str_random(30);
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'activation_code' => $activation_code,
+            'role_id' => $role->id
         ]);
-
-        $user->role()->attach($role);
 
         Wallet::create([
             'user_id' => $user->id,
             'balance' => 0
         ]);
 
+        $email = new Welcome($activation_code);
+
+        Mail::to($user->email)->send($email);
+
         return $user;
+    }
+
+    public function verify($token)
+    {
+        // The verified method has been added to the user model and chained here
+        // for better readability
+        User::where('activation_code',$token)->firstOrFail()->verified();
+        return redirect('login');
     }
 }

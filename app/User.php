@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role_id'
+        'name', 'email', 'password','role_id', 'activation_code'
     ];
 
     /**
@@ -28,6 +28,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function verified()
+    {
+        $this->activated = true;
+        $this->activation_code = null;
+        $this->save();
+    }
 
     public function role()
     {

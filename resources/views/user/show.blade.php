@@ -31,7 +31,7 @@
                                             @if(Auth::user()->isEditor())
                                                 <a href="#" class="btn btn-warning">{{Lang::get('messages.withdraw')}}</a>
                                             @elseif(Auth::user()->isAdvertiser())
-                                                <a href="#" class="btn btn-warning">{{Lang::get('messages.deposit')}}</a>
+                                                <a href="{{route('deposit')}}" class="btn btn-warning">{{Lang::get('messages.deposit')}}</a>
                                             @endif
 
                                         </div>
@@ -66,11 +66,13 @@
                                     <h4>TRANSACTIONS</h4>
                                     <ul>
                                         @foreach($user->getWallet()->getTransactions() as $transaction)
+                                            @if($transaction->completed())
                                             <li>
                                             <span>
                                                 {{$transaction->type.' - '.$transaction->credits.' - '}}{{$transaction->getAddspace() == null ? 'system' : 'to: '.$transaction->getAddspace()->getEditor()->name}}
                                             </span>
                                             </li>
+                                            @endif
                                         @endforeach
                                     </ul>
                                 </div>

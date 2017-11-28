@@ -19,32 +19,40 @@ class UserTableSeeder extends Seeder
         $role_advertiser = Role::where('name', 'advertiser')->first();
 
         // Create Users
-        $manager = new User();
-        $manager->name = 'Manager';
-        $manager->email = 'it@manager.com';
-        $manager->password = bcrypt('secret');
-        $manager->role_id = $role_manager->id;
+        $manager = User::create([
+            'name' => 'Manager',
+            'email' => 'it@manager.com',
+            'password' => bcrypt('secret'),
+            'role_id' => $role_manager->id
+        ]);
+        $manager->activated = true;
         $manager->save();
 
-        $editor = new User();
-        $editor->name = 'Editor';
-        $editor->email = 'it@editor.com';
-        $editor->password = bcrypt('secret');
-        $editor->role_id = $role_editor->id;
+        $editor = User::create([
+            'name' => 'Editor',
+            'email' => 'it@editor.com',
+            'password' => bcrypt('secret'),
+            'role_id' => $role_editor->id
+        ]);
+        $editor->activated = true;
         $editor->save();
 
-        $advertiser = new User();
-        $advertiser->name = 'Advertiser';
-        $advertiser->email = 'it@advertiser.com';
-        $advertiser->password = bcrypt('secret');
-        $advertiser->role_id = $role_advertiser->id;
+        $advertiser = User::create([
+            'name' => 'Advertiser',
+            'email' => 'it@advertiser.com',
+            'password' => bcrypt('secret'),
+            'role_id' => $role_advertiser->id
+        ]);
+        $advertiser->activated = true;
         $advertiser->save();
 
-        $advertiser2 = new User();
-        $advertiser2->name = 'Advertiser 2';
-        $advertiser2->email = 'it@advertiser2.com';
-        $advertiser2->password = bcrypt('secret');
-        $advertiser2->role_id = $role_advertiser->id;
+        $advertiser2 = User::create([
+            'name' => 'Advertiser 2',
+            'email' => 'it@advertiser2.com',
+            'password' => bcrypt('secret'),
+            'role_id' => $role_advertiser->id
+        ]);
+        $advertiser2->activated = true;
         $advertiser2->save();
 
         // Create User wallets
