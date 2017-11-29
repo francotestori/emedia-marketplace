@@ -13,8 +13,12 @@ class ConfigurationTableSeeder extends Seeder
     public function run()
     {
         Configuration::create([
-            'configuration_key' => 'paypal_fee',
-            'configuration_value' => '5'
+            'key' => 'transaction_fee',
+            'value' => '0.05'
+        ]);
+        Configuration::create([
+            'key' => 'dolar_to_credit',
+            'value' => '1'
         ]);
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
 
 class WalletController extends Controller
@@ -151,6 +152,32 @@ class WalletController extends Controller
         Session::flash('error_message', 'Error processing PayPal payment for Order ' . $transaction->id . '!');
         return redirect('users');
 
+    }
+
+    //TODO chequear si es necesario (pagos recurrentes)
+    public function notifyIPN(Request $request)
+    {
+
+        // add _notify-validate cmd to request,
+        // we need that to validate with PayPal that it was realy
+        // PayPal who sent the request
+        $request->merge(['cmd' => '_notify-validate']);
+        $post = $request->all();
+
+        // send the data to PayPal for validation
+        $response = (string) $this->provider->verifyIPN($post);
+
+        //if PayPal responds with VERIFIED we are good to go
+        if ($response === 'VERIFIED') {
+
+            // I leave this code here so you can log IPN data if you want
+            // PayPal provides a lot of IPN data that you should save in real world scenarios
+
+            $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
+            Storage::disk('local')->put($logFile, print_r($post, true));
+
+
+        }
     }
 
 

@@ -15,8 +15,8 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('configuration_key');
-            $table->string('configuration_value');
+            $table->string('key');
+            $table->string('value');
             $table->timestamps();
         });
     }

@@ -12,6 +12,6 @@ class Configuration extends Model
      * @var array
      */
     protected $fillable = [
-        'configuration_key', 'configuration_value',
+        'key', 'value',
     ];
 }
