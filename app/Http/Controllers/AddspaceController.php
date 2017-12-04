@@ -31,13 +31,26 @@ class AddspaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
-        $addspaces = $user->isEditor() ? $user->addspaces()->get() : Addspace::all();
+        $categories = Category::all();
 
-        return view('addspace.index', compact('addspaces'));
+        $filter = $request->query('category');
+
+        if($filter == null)
+            $addspaces = $user->isEditor() ? $user->addspaces()->get() : Addspace::all();
+        else
+            $addspaces = $user->isEditor() ? $user->addspaces()->whereHas('categories', function($q) use ($filter) {
+                                                $q->where('name', $filter);
+                                             })->get()
+
+                : Addspace::whereHas('categories', function($q) use ($filter) {
+                    $q->where('name', $filter);
+                  })->get();
+       
+        return view('addspace.index', compact('addspaces', 'categories'));
     }
 
     /**

@@ -7,6 +7,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
 
+                @if (Session::has('message'))
+                    <div class="alert alert-info">{{ Session::get('message') }}</div>
+                @endif
+
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
@@ -22,6 +26,7 @@
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
+
                             </div>
                         </div>
 

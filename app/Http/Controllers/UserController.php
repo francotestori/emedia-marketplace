@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Configuration;
 use App\Role;
 use App\User;
 use App\Wallet;
@@ -11,9 +12,16 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        View::share('min', Configuration::where('key', 'min_withdrawal')->first()->value);
+        View::share('max', Configuration::where('key', 'max_withdrawal')->first()->value);
+    }
+
     /**
      * Display a listing of the resource.
      *

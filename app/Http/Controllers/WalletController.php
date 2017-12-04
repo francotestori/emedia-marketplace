@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Configuration;
 use App\Event;
+use App\Mail\Withdrawal;
 use App\Transaction;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Srmklive\PayPal\Services\ExpressCheckout;
@@ -62,8 +65,11 @@ class WalletController extends Controller
 
     private function applyFee($price)
     {
-        //TODO should apply fee to price and return expected credits
-        return $price;
+        $fee = Configuration::where('key', 'transaction_fee')->first()->value;
+        $ratio = Configuration::where('key', 'credit_ratio')->first()->value;
+
+        $credits = ($price * $ratio) * (1 - $fee);
+        return $credits;
     }
 
 
@@ -154,7 +160,7 @@ class WalletController extends Controller
 
     }
 
-    //TODO chequear si es necesario (pagos recurrentes)
+    //TODO chequear si es necesario (pagos recurrentes php)
     public function notifyIPN(Request $request)
     {
 
@@ -186,7 +192,21 @@ class WalletController extends Controller
      */
     public function withdraw()
     {
-        //TODO mailer integration
+        $admin = env('MAIL_MANAGER_ACCOUNT');
+
+        $sender = Auth::user()->email;
+
+        $paypal = Input::get('paypal');
+        $cbu = Input::get('cbu');
+        $alias = Input::get('alias');
+        $comment = Input::get('comment');
+        $amount = Input::get('amount');
+
+        $email = new Withdrawal($amount, $paypal, $cbu, $alias, $sender, $comment);
+
+        Mail::to($admin)->send($email);
+
+        return back();
     }
 
     /**

@@ -74,6 +74,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
+                                    <a href="{{URL::previous()}}" class="btn btn-def">{{Lang::get('messages.cancel')}}</a>
                                     <button type="submit" class="btn btn-primary">
                                         {{Lang::get('messages.create')}}
                                     </button>

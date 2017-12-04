@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::group(['middleware' => ['editor']], function(){
         Route::resource('addspaces', 'AddspaceController', ['except' => ['index', 'show']]);
 
-        Route::get('withdrawal');
+        Route::post('withdraw', ['as' => 'withdraw','uses' => 'WalletController@withdraw']);
     });
 
     # Advertiser specific routes

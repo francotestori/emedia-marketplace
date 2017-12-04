@@ -52,4 +52,11 @@ return [
     'key' => 'Key',
     'value' => 'Value',
 
+    'sender' => 'Sender',
+    'paypal_account' => 'Paypal Account',
+    'cbu' => 'CBU',
+    'alias' => 'Alias',
+    'amount' => 'Amount',
+    'comment' => 'Comment',
+
 ];

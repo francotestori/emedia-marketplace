@@ -16,9 +16,21 @@ class ConfigurationTableSeeder extends Seeder
             'key' => 'transaction_fee',
             'value' => '0.05'
         ]);
+
         Configuration::create([
-            'key' => 'dolar_to_credit',
+            'key' => 'credit_ratio',
             'value' => '1'
         ]);
+
+        Configuration::create([
+            'key' => 'max_withdrawal',
+            'value' => '1000'
+        ]);
+
+        Configuration::create([
+            'key' => 'min_withdrawal',
+            'value' => '50'
+        ]);
+
     }
 }

@@ -29,6 +29,16 @@
 
                         <div class="row">
                             <div class="col-lg-12">
+                                <h3>Filters</h3>
+                                @foreach($categories as $category)
+                                    <a href="{{route('addspaces.index', ['category' => $category->name])}}"><span class="label label-primary">{{$category->name}}</span></a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3>Addspaces</h3>
                                 <ul>
                                 @foreach($addspaces as $addspace)
                                 <li>

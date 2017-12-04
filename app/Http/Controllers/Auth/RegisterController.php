@@ -10,6 +10,7 @@ use App\Wallet;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\View;
@@ -70,6 +71,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
+        Session::flash('message', "Verify your email");
         return back();
     }
 
