@@ -47,5 +47,15 @@ class LoginController extends Controller
         ];
     }
 
+    public function loginAdvertiser()
+    {
+        return view('auth.login-advertiser');
+    }
+
+    public function loginEditor()
+    {
+        return view('auth.login-editor');
+    }
+
 
 }

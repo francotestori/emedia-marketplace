@@ -87,6 +87,10 @@ class MessagesController extends Controller
      */
     public function store()
     {
+        //TODO incluir charge al anunciante y luego flujo de validacion del mismo
+        //TODO opcion de un mensaje generico de validacion que invoque MessagesController@validate
+        //TODO opcion de rollback que le envía un email al manager del sitio MessagesController@rollbackCharge
+
         $event = Event::create([
             'addspace_id' => Input::get('reference'),
             'state' => 'PENDING'

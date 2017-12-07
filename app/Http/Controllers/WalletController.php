@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use function Sodium\add;
 use Srmklive\PayPal\Services\ExpressCheckout;
 
 class WalletController extends Controller
@@ -99,11 +100,12 @@ class WalletController extends Controller
         $response = $this->provider->setExpressCheckout($item, false);
 
         // if there is no link redirect back with error message
-        if (!$response['paypal_link']) {
+        $link = $response['paypal_link'];
+        if (!$link) {
             return redirect('users')->with(['code' => 'danger', 'message' => $response['L_LONGMESSAGE0']]);
         }
 
-        return redirect($response['paypal_link']);
+        return redirect($link);
     }
 
     /**
@@ -181,8 +183,6 @@ class WalletController extends Controller
 
             $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
             Storage::disk('local')->put($logFile, print_r($post, true));
-
-
         }
     }
 
@@ -222,16 +222,17 @@ class WalletController extends Controller
             Session::flash('error_message', 'No addspaces referenced');
             return redirect('addspaces');
         }
+
         $addspace = $event->getAddspace();
 
-        $cost = $addspace->getAddspace()->cost;
+        $cost = $addspace->cost;
 
         $source = Auth::user()->getWallet();
         $destination = $addspace->getEditor()->getWallet();
 
         if($source->balance < $cost){
             Session::flash('error_message', Lang::get('messages.no_funds'));
-            return redirect()->route('addspaces.show', $id);
+            return redirect()->route('addspaces.show', $addspace->id);
         }
 
         Transaction::create([
@@ -253,7 +254,7 @@ class WalletController extends Controller
         $destination->save();
 
         Session::flash('message', Lang::get('messages.transaction'));
-        redirect()->route('addspaces.show', $id);
+        redirect()->route('addspaces.show', $addspace->id);
 
     }
 }

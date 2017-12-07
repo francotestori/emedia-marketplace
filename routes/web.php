@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('emediamarket');
 });
 
 Route::get('/logout', function(){
@@ -24,6 +24,15 @@ Route::get('/logout', function(){
 Route::get('/register/verify/{token}','Auth\RegisterController@verify');
 
 Auth::routes();
+
+
+Route::get('login-advertiser', ['as' => 'login.advertiser', 'uses' => 'Auth\LoginController@loginAdvertiser']);
+Route::get('register-advertiser', ['as' => 'register.advertiser', 'uses' => 'Auth\RegisterController@registerAdvertiser']);
+Route::get('reset-advertiser', ['as' => 'password.reset-advertiser', 'uses' => 'Auth\ResetPasswordController@resetAdvertiser']);
+
+Route::get('login-editor', ['as' => 'login.editor', 'uses' => 'Auth\LoginController@loginEditor']);
+Route::get('register-editor', ['as' => 'register.editor', 'uses' => 'Auth\RegisterController@registerEditor']);
+Route::get('reset-editor', ['as' => 'password.reset-editor', 'uses' => 'Auth\ResetPasswordController@resetEditor']);
 
 # Auth enabled routes
 Route::group(['middleware' => ['auth']], function(){

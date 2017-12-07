@@ -46,9 +46,9 @@ class AddspaceController extends Controller
                                                 $q->where('name', $filter);
                                              })->get()
 
-                : Addspace::whereHas('categories', function($q) use ($filter) {
-                    $q->where('name', $filter);
-                  })->get();
+                                           : Addspace::whereHas('categories', function($q) use ($filter) {
+                                                $q->where('name', $filter);
+                                             })->get();
        
         return view('addspace.index', compact('addspaces', 'categories'));
     }
@@ -205,6 +205,58 @@ class AddspaceController extends Controller
         $addspace->delete();
 
         Session::flash('message', Lang::get('messages.deleted', ['item' =>'Addspace']));
+
+        return redirect('addspaces');
+    }
+
+    public function activate($id)
+    {
+        $addspace = Addspace::find($id);
+
+        if(Auth::id() != $addspace->editor_id){
+            Session::flash('message', Lang::get('messages.forbidden'));
+            return redirect('addspaces');
+        }
+
+        $addspace->status = 'ACTIVE';
+        $addspace->save();
+
+        Session::flash('message', Lang::get('messages.activation', ['item' =>'Addspace']));
+
+        return redirect('addspaces');
+
+    }
+
+    public function pause($id)
+    {
+        $addspace = Addspace::find($id);
+
+        if(Auth::id() != $addspace->editor_id){
+            Session::flash('message', Lang::get('messages.forbidden'));
+            return redirect('addspaces');
+        }
+
+        $addspace->status = 'PAUSED';
+        $addspace->save();
+
+        Session::flash('message', Lang::get('messages.pause', ['item' =>'Addspace']));
+
+        return redirect('addspaces');
+    }
+
+    public function close($id)
+    {
+        $addspace = Addspace::find($id);
+
+        if(Auth::id() != $addspace->editor_id){
+            Session::flash('message', Lang::get('messages.forbidden'));
+            return redirect('addspaces');
+        }
+
+        $addspace->status = 'CLOSED';
+        $addspace->save();
+
+        Session::flash('message', Lang::get('messages.closed', ['item' =>'Addspace']));
 
         return redirect('addspaces');
     }

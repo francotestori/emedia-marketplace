@@ -15,11 +15,12 @@ class CreateAddspacesTable extends Migration
     {
         Schema::create('addspaces', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('url', 255)->index();
+            $table->string('url')->index();
             $table->string('description', 800);
             $table->integer('visits');
             $table->double('cost', 15,2);
             $table->integer('editor_id');
+            $table->enum('status', ['ACTIVE','PAUSED','CLOSED'])->default('ACTIVE');
             $table->timestamps();
         });
     }

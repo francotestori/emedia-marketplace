@@ -36,4 +36,12 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    public function resetAdvertiser(){
+        return view('auth.passwords.reset-advertiser');
+    }
+
+    public function resetEditor(){
+        return view('auth.passwords.reset-editor');
+    }
 }

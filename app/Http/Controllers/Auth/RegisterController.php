@@ -115,4 +115,14 @@ class RegisterController extends Controller
         User::where('activation_code',$token)->firstOrFail()->verified();
         return redirect('login');
     }
+
+    public function registerAdvertiser(){
+        $role = Role::where('name', 'Advertiser')->first();
+        return view('auth.register-advertiser', compact('role'));
+    }
+
+    public function registerEditor(){
+        $role = Role::where('name', 'Editor')->first();
+        return view('auth.register-editor',  compact('role'));
+    }
 }
