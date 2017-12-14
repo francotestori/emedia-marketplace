@@ -18,7 +18,7 @@ class CreateAddspacesTable extends Migration
             $table->string('url')->index();
             $table->string('description', 800);
             $table->integer('visits');
-            $table->double('cost', 15,2);
+            $table->double('cost', 8,2);
             $table->integer('editor_id');
             $table->enum('status', ['ACTIVE','PAUSED','CLOSED'])->default('ACTIVE');
             $table->timestamps();

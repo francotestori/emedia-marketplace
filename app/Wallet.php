@@ -15,24 +15,24 @@ class Wallet extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function transactions()
+    public function debits()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class, 'from_wallet');
     }
 
-    public function getTransactions()
+    public function credits()
     {
-        return $this->transactions()->get();
+        return $this->hasMany(Transaction::class,'to_wallet');
     }
 
     public function getCredits()
     {
-        return $this->transactions()->whereIn('type', ['DEPOSIT','CHARGE'])->get();
+        return $this->credits()->get();
     }
 
     public function getDebits()
     {
-        return $this->transactions()->whereIn('type', ['WITHDRAWAL','PAYMENT'])->get();
+        return $this->debits()->get();
     }
 
 }

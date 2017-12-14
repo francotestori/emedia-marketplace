@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Addspace;
 use App\Configuration;
 use App\Event;
+use App\EventThreads;
 use App\Mail\Withdrawal;
 use App\Transaction;
+use Carbon\Carbon;
+use Cmgmyr\Messenger\Models\Participant;
+use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +19,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use function Sodium\add;
 use Srmklive\PayPal\Services\ExpressCheckout;
 
 class WalletController extends Controller
@@ -209,52 +213,88 @@ class WalletController extends Controller
         return back();
     }
 
-    /**
-     * Charge advertiser user the amount of credits corresponding to and addspace Transaction
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function charge($id)
+    private function chargeAddspace(Event $event, Addspace $addspace)
     {
-        try{
-            $event = Event::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'No addspaces referenced');
-            return redirect('addspaces');
-        }
-
-        $addspace = $event->getAddspace();
-
-        $cost = $addspace->cost;
-
         $source = Auth::user()->getWallet();
         $destination = $addspace->getEditor()->getWallet();
 
+        $cost = $addspace->cost;
+
+        // Analyze if Transaction can be made
         if($source->balance < $cost){
             Session::flash('error_message', Lang::get('messages.no_funds'));
             return redirect()->route('addspaces.show', $addspace->id);
         }
 
+        // Advertiser related transaction
         Transaction::create([
             'wallet_id' => $source->id,
             'type' => 'PAYMENT',
             'credits' => $cost,
-            'event_id' => $id
+            'event_id' => $event->id
         ]);
         $source->balance = $source->balance - $cost;
         $source->save();
 
+        // Editor related transaction
         Transaction::create([
             'wallet_id' => $destination->id,
             'type' => 'CHARGE',
             'credits' => $cost,
-            'event_id' => $id
+            'event_id' => $event->id
         ]);
         $destination->balance = $destination->balance + $cost;
         $destination->save();
+    }
+
+
+    /**
+     * Charge advertiser user the amount of credits corresponding to and addspace Transaction
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function charge()
+    {
+        try{
+            $addspace = Addspace::findOrFail(Input::get('reference'));
+        } catch (ModelNotFoundException $e) {
+            Session::flash('error_message', 'No addspaces referenced');
+            return redirect('addspaces');
+        }
+
+        $event = Event::create([
+            'addspace_id' => $addspace->id,
+            'state' => 'PENDING'
+        ]);
+
+        $this->chargeAddspace($event, $addspace);
+
+        $thread = Thread::create([
+            'subject' => Input::get('subject'),
+        ]);
+
+        EventThreads::create([
+            'event_id' => $event->id,
+            'thread_id' => $thread->id
+        ]);
+
+        // Advertiser is first participant
+        Participant::create([
+            'thread_id' => $thread->id,
+            'user_id' => Auth::id(),
+            'last_read' => new Carbon,
+        ]);
+
+        // Add Editor to messaging thread
+        if (Input::has('recipient')) {
+            $thread->addParticipant(Input::get('recipient'));
+        }
 
         Session::flash('message', Lang::get('messages.transaction'));
-        redirect()->route('addspaces.show', $addspace->id);
+        return redirect()->route('messages');
+    }
 
+    public function rollback()
+    {
+        //TODO send admin email notifying the transaction to be rollbacked
     }
 }

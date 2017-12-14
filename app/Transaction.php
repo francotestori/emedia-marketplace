@@ -13,17 +13,27 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'wallet_id','type', 'credits', 'event_id', 'invoice_id', 'invoice_description'
+        'from_wallet', 'to_wallet' , 'amount', 'type', 'event_id', 'invoice_id', 'invoice_description'
     ];
 
-    public function wallet()
+    public function sender()
     {
-        return $this->belongsTo(Wallet::class);
+        return $this->belongsTo(Wallet::class,'id','from_wallet');
     }
 
-    public function getWallet()
+    public function receiver()
     {
-        return $this->wallet()->first();
+        return $this->belongsTo(Wallet::class,'id','to_wallet');
+    }
+
+    public function getSender()
+    {
+        return $this->sender()->first();
+    }
+
+    public function getReceiver()
+    {
+        return $this->receiver()->first();
     }
 
     public function event()
@@ -39,9 +49,8 @@ class Transaction extends Model
     public function getAddspace()
     {
         $event = $this->getEvent();
-        if($event != null)
-            return $event->getAddspace();
-        else return null;
+
+        return ($event != null) ? $event->getAddspace() : null;
     }
 
     public function completed()

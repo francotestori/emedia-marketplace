@@ -16,7 +16,7 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('addspace_id');
-            $table->enum('state',['PENDING', 'CLOSED']);
+            $table->enum('state',['PENDING', 'ACCEPTED', 'REJECTED'])->default('PENDING');
             $table->tinyInteger('score',false,true)->default(0);
             $table->timestamps();
         });

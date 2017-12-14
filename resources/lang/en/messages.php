@@ -57,6 +57,7 @@ return [
 
     'withdraw' => 'Withdraw',
     'deposit' => 'Deposit',
+    'rollback' => 'Rollback',
 
     'users' => 'Users',
 

@@ -15,13 +15,13 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('wallet_id');
-            $table->enum('type', ['DEPOSIT','WITHDRAWAL','CHARGE','PAYMENT']);
-            $table->integer('credits');
+            $table->integer('from_wallet');
+            $table->integer('to_wallet');
+            $table->double('amount',8, 2)->default(0);
+            $table->enum('type', ['DEPOSIT','PAYMENT','WITHDRAWAL']);
             $table->integer('event_id')->nullable();
             $table->string('invoice_id')->nullable();
             $table->string('invoice_description')->nullable();
-            $table->double('price', 2)->default(0);
             $table->string('payment_status')->nullable();
             $table->timestamps();
         });

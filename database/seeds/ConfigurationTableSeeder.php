@@ -13,24 +13,41 @@ class ConfigurationTableSeeder extends Seeder
     public function run()
     {
         Configuration::create([
-            'key' => 'transaction_fee',
-            'value' => '0.05'
+            'key' => 'withdrawal',
+            'min' => 50.00,
+            'max' => 1000.00,
         ]);
 
         Configuration::create([
-            'key' => 'credit_ratio',
-            'value' => '1'
+            'key' => 'fee_1',
+            'min' => 0.01,
+            'max' => 100.00,
         ]);
 
         Configuration::create([
-            'key' => 'max_withdrawal',
-            'value' => '1000'
+            'key' => 'fee_2',
+            'min' => 100.00,
+            'max' => 200.00,
         ]);
 
         Configuration::create([
-            'key' => 'min_withdrawal',
-            'value' => '50'
+            'key' => 'fee_3',
+            'min' => 200.00,
+            'max' => 300.00,
         ]);
+
+        Configuration::create([
+            'key' => 'fee_4',
+            'min' => 300.00,
+            'max' => 400.00,
+        ]);
+
+        Configuration::create([
+            'key' => 'fee_5',
+            'min' => 400.00,
+            'max' => 999999.00,
+        ]);
+
 
     }
 }

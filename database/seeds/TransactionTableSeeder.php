@@ -16,6 +16,9 @@ class TransactionTableSeeder extends Seeder
      */
     public function run()
     {
+        $manager = User::where('name', 'manager')->first();
+        $m_wallet = $manager->getWallet();
+
         $advertiser = User::where('name', 'advertiser')->first();
         $a_wallet = $advertiser->getWallet();
 
@@ -23,44 +26,34 @@ class TransactionTableSeeder extends Seeder
         $e_wallet = $editor->getWallet();
 
         $deposit = Transaction::create([
-            'wallet_id' => $a_wallet->id,
+            'from_wallet' => $m_wallet->id,
+            'to_wallet' => $a_wallet->id,
             'type' => 'DEPOSIT',
-            'credits' => 100,
+            'amount' => 100,
         ]);
         $deposit->payment_status = 'Completed';
         $deposit->save();
-        $a_wallet->balance = $a_wallet->balance + 100;
+        $a_wallet->balance = $a_wallet->balance + $deposit->amount;
         $a_wallet->save();
 
+
+        $addspace = Addspace::find(1);
+
         $event = Event::create([
-            'addspace_id' => 1,
+            'addspace_id' => $addspace->id,
             'state' => 'PENDING'
         ]);
 
+
         Transaction::create([
-            'wallet_id' => $a_wallet->id,
+            'from_wallet' => $a_wallet->id,
+            'to_wallet' => $e_wallet->id,
             'type' => 'PAYMENT',
-            'credits' => 25,
+            'amount' => $addspace->cost,
             'event_id' => $event->id
         ]);
-        $a_wallet->balance = $a_wallet->balance -25;
+
+        $a_wallet->balance = $a_wallet->balance - $addspace->cost;
         $a_wallet->save();
-
-        Transaction::create([
-            'wallet_id' => $e_wallet->id,
-            'type' => 'CHARGE',
-            'credits' => 25,
-            'event_id' => $event->id
-        ]);
-        $e_wallet->balance = $e_wallet->balance + 25;
-        $e_wallet->save();
-
-        Transaction::create([
-            'wallet_id' => $e_wallet->id,
-            'type' => 'WITHDRAWAL',
-            'credits' => 25,
-        ]);
-        $e_wallet->balance = $e_wallet->balance -25;
-        $e_wallet->save();
     }
 }

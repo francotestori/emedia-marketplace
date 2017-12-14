@@ -12,6 +12,8 @@
 */
 
 Route::get('/', function () {
+    if(Auth::user() != null)
+        return redirect('/home');
     return view('emediamarket');
 });
 
@@ -50,7 +52,6 @@ Route::group(['middleware' => ['auth']], function(){
     # Messages routes
     Route::group(['prefix' => 'messages'], function () {
         Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
-        Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
         Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
         Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
     });
@@ -79,6 +80,7 @@ Route::group(['middleware' => ['auth']], function(){
     # Advertiser specific routes
     Route::group(['middleware' => ['advertiser']], function(){
         Route::post('addspace/{id}/charge', ['as' => 'addspaces.charge', 'uses' => 'WalletController@charge']);
+        Route::post('addspace/{id}/rollback', ['as' => 'addspaces.rollback', 'uses' => 'WalletController@rollback']);
 
         Route::get('deposit', ['as' => 'deposit', 'uses' => 'WalletController@showDepositForm']);
         Route::post('deposit', ['as' => 'deposit.prepare', 'uses' => 'WalletController@deposit']);

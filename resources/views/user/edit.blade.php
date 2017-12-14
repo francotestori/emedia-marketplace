@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.emedia-layout
+')
 @section('content')
     <div class="container">
         <div class="row">

@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.emedia-layout')
 
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
@@ -13,8 +13,9 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                    <div class="formulario">
+                        <p>You are logged in!</p>
+                    </div>
                 </div>
             </div>
         </div>

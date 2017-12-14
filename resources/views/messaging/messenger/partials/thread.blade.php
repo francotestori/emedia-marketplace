@@ -4,10 +4,12 @@
     <h4 class="media-heading">
         <a href="{{ route('messages.show', $thread->id) }}">{{ $thread->subject }}</a>
         ({{ $thread->userUnreadMessagesCount(Auth::id()) }} unread)</h4>
+    @if($thread->latestMessage != null)
+    <p>{{ $thread->latestMessage->body }}</p>
+
+    @endif
+<!--
     <p>
-        {{ $thread->latestMessage->body }}
-    </p>
-<!--    <p>
         <small><strong>Creator:</strong> {{$thread->creator()->name }}</small>
     </p>
 -->

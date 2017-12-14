@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.emedia-layout')
 @section('content')
 
 @endsection

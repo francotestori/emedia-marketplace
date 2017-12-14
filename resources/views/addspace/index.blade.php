@@ -1,57 +1,61 @@
-@extends('layouts.app')
+@extends('layouts.emedia-layout')
 
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-lg-6">
-                                <span>Addspaces</span>
+                                <h3>
+                                    <span>Addspaces</span>
+                                </h3>
                             </div>
                             <div class="col-lg-6">
                                 @if(Auth::user()->isEditor())
-                                <div class="pull-right">
-                                    <a href="{{route('addspaces.create')}}" class="btn btn-info">{{Lang::get('messages.create')}}</a>
-                                </div>
+                                    <div class="pull-right">
+                                        <a href="{{route('addspaces.create')}}" class="btn btn-info btn-lg">{{Lang::get('messages.create')}}</a>
+                                    </div>
                                 @endif
                             </div>
                         </div>
                     </div>
-
                     <div class="panel-body">
                         @if (session('status'))
                             <div class="alert alert-success">
                                 {{ session('status') }}
                             </div>
                         @endif
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h3>Filters</h3>
-                                @foreach($categories as $category)
-                                    <a href="{{route('addspaces.index', ['category' => $category->name])}}"><span class="label label-primary">{{$category->name}}</span></a>
-                                @endforeach
+                        @if (session('errors'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ session('errors') }}
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h3>Addspaces</h3>
-                                <ul>
-                                @foreach($addspaces as $addspace)
-                                <li>
-                                    <span>
-                                        {{$addspace->id}} -<a href="{{route('addspaces.show',$addspace->id)}}">Addspace - {{$addspace->url}}</a>
-                                    </span>
-
-                                </li>
-
-                                @endforeach
-                                </ul>
+                        @endif
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4>Filters: </h4>
+                                    @foreach($categories as $category)
+                                        <a href="{{route('addspaces.index', ['category' => $category->name])}}"><span class="label label-primary">{{$category->name}}</span></a>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <ul>
+                                        @foreach($addspaces as $addspace)
+                                            <li>
+                                                <h5>
+                                                    <span>
+                                                        {{'#'.$addspace->id}} -<a href="{{route('addspaces.show',$addspace->id)}}">{{'Check it at: '.$addspace->url}}</a>
+                                                    </span>
+                                                </h5>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

@@ -1,21 +1,29 @@
-@extends('layouts.app')
+@extends('layouts.emedia-layout')
 
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <span><strong>{{$user->name}}</strong></span>
+                                        <h5>
+                                            <span>
+                                                <strong>{{$user->name}}</strong>
+                                            </span>
+                                        </h5>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <span>{{$user->email}}</span>
+                                        <h5>
+                                            <span>
+                                                {{$user->email}}
+                                            </span>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
@@ -24,14 +32,14 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             @if(Auth::user()->id == $user->id)
-                                                <a href="{{route('users.edit', $user->id)}}" class="btn btn-info">{{Lang::get('messages.edit')}}</a>
+                                                <a href="{{route('users.edit', $user->id)}}" class="btn btn-info btn-lg">{{Lang::get('messages.edit')}}</a>
                                             @endif
                                         </div>
                                         <div class="col-md-4">
                                             @if(Auth::user()->isEditor())
-                                                <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-warning">{{Lang::get('messages.withdraw')}}</button>
+                                                <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-warning btn-lg">{{Lang::get('messages.withdraw')}}</button>
                                             @elseif(Auth::user()->isAdvertiser())
-                                                <a href="{{route('deposit')}}" class="btn btn-warning">{{Lang::get('messages.deposit')}}</a>
+                                                <a href="{{route('deposit')}}" class="btn btn-warning btn-lg">{{Lang::get('messages.deposit')}}</a>
                                             @endif
 
                                         </div>
@@ -40,7 +48,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="panel-body">
 
                         @if (session('status'))
@@ -67,11 +74,11 @@
                                     <ul>
                                         @foreach($user->getWallet()->getTransactions() as $transaction)
                                             @if($transaction->completed())
-                                            <li>
+                                                <li>
                                             <span>
                                                 {{$transaction->type.' - '.$transaction->credits.' - '}}{{$transaction->getAddspace() == null ? 'system' : 'to: '.$transaction->getAddspace()->getEditor()->name}}
                                             </span>
-                                            </li>
+                                                </li>
                                             @endif
                                         @endforeach
                                     </ul>
@@ -84,24 +91,24 @@
                                 <div class="col-lg-12">
                                     <h4>Editor's addspaces</h4>
                                     <ul>
-                                    @foreach($user->addspaces()->get() as $addspace)
-                                        <li>
+                                        @foreach($user->addspaces()->get() as $addspace)
+                                            <li>
                                             <span>
                                                 {{$addspace->id}} -<a href="{{route('addspaces.show',$addspace->id)}}">Addspace - {{$addspace->url}}</a>
                                             </span>
-                                        </li>
-                                    @endforeach
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
                         @endif
 
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div id="withdrawModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -149,7 +156,6 @@
                 <div class="modal-footer">
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

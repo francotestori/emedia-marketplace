@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.emedia-layout')
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
+            <div class="col-lg-12">
+                <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-lg-6">

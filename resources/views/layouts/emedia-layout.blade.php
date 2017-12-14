@@ -32,51 +32,57 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{asset('img/logo.png')}}" class="imagen-logo img-responsive" alt="EMedia Market">
-                </a>
+                @guest
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        <img src="{{asset('img/logo.png')}}" class="imagen-logo img-responsive" alt="EMedia Market">
+                    </a>
+                @else
+                    <a class="navbar-brand" href="{{ url('/home') }}">
+                        <img src="{{asset('img/logo.png')}}" class="imagen-logo img-responsive" alt="EMedia Market">
+                    </a>
+                @endguest
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
                     @if(Auth::user() != null && Auth::user()->isManager())
-                        <li><a class="noamarrillo" href="{{route('config')}}">{{Lang::get('messages.config')}}</a></li>
-                        <li><a class="noamarrillo" href="{{route('users')}}">{{Lang::get('messages.users')}}</a></li>
-                        <li><a class="noamarrillo" href="{{route('addspaces')}}">{{Lang::get('messages.addspaces')}}</a></li>
+                        <li><a class="page-scroll noamarrillo" href="{{route('config')}}">{{Lang::get('messages.config')}}</a></li>
+                        <li><a class="page-scroll noamarrillo" href="{{route('users')}}">{{Lang::get('messages.users')}}</a></li>
+                        <li><a class="page-scroll noamarrillo" href="{{route('addspaces.index')}}">{{Lang::get('messages.addspaces')}}</a></li>
                     @elseif(Auth::user() != null)
-                        <li><a class="noamarrillo" href="{{route('addspaces')}}">{{Lang::get('messages.addspaces')}}</a></li>
-                        <li><a class="noamarrillo" href="{{route('messages')}}">Messages @include('messaging.messenger.unread-count')</a></li>
+                        <li><a class="page-scroll noamarrillo" href="{{route('addspaces.index')}}">{{Lang::get('messages.addspaces')}}</a></li>
+                        <li><a class="page-scroll noamarrillo" href="{{route('messages')}}">Messages @include('messaging.messenger.unread-count')</a></li>
                     @endif
+                    <!-- Authentication Links -->
+                        @guest
+                            <li><a class="noamarrillo" href="{{ route('login') }}">{{Lang::get('messages.login')}}</a></li>
+                            <li><a class="noamarrillo" href="{{ route('register') }}">{{Lang::get('messages.register')}}</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{route('users.show', Auth::user()->id)}}">Profile</a></li>
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                            {{Lang::get('messages.logout')}}
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endguest
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @guest
-                        <li><a class="noamarrillo" href="{{ route('login') }}">{{Lang::get('messages.login')}}</a></li>
-                        <li><a class="noamarrillo" href="{{ route('register') }}">{{Lang::get('messages.register')}}</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{route('users.show', Auth::user()->id)}}">Profile</a></li>
-                                <li>
-                                    <a href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                                {{Lang::get('messages.logout')}}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    @endguest
                 </ul>
 
             </div>

@@ -1,4 +1,4 @@
-<h2>Add a new message</h2>
+<h4>Add a new message</h4>
 <form action="{{ route('messages.update', $thread->id) }}" method="post">
     {{ method_field('put') }}
     {{ csrf_field() }}
@@ -10,6 +10,13 @@
 
     <!-- Submit Form Input -->
     <div class="form-group">
-        <button type="submit" class="btn btn-primary form-control">Submit</button>
+        <div class="row">
+            <div class="col-lg-6">
+                <a href="{{route('messages')}}" class="btn btn-default pull-right">Cancel</a>
+            </div>
+            <div class="col-lg-6">
+                <button type="submit" class="btn btn-info pull-left">Submit</button>
+            </div>
+        </div>
     </div>
 </form>

@@ -14,7 +14,7 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'addspace_id', 'state'
+        'addspace_id'
     ];
 
     public function addspace()

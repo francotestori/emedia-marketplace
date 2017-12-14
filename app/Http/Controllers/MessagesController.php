@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\EventThreads;
-use App\User;
-use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
-use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -68,64 +64,6 @@ class MessagesController extends Controller
         return redirect()->route('messages');
     }
 
-    /**
-     * Creates a new message thread.
-     *
-     * @return mixed
-     */
-    public function create()
-    {
-        // $users = User::where('id', '!=', Auth::id())->get();
-
-        // return view('messaging.messenger.create', compact('users'));
-    }
-
-    /**
-     * Stores a new message thread.
-     *
-     * @return mixed
-     */
-    public function store()
-    {
-        //TODO incluir charge al anunciante y luego flujo de validacion del mismo
-        //TODO opcion de un mensaje generico de validacion que invoque MessagesController@validate
-        //TODO opcion de rollback que le envía un email al manager del sitio MessagesController@rollbackCharge
-
-        $event = Event::create([
-            'addspace_id' => Input::get('reference'),
-            'state' => 'PENDING'
-        ]);
-
-        $thread = Thread::create([
-            'subject' => Input::get('subject'),
-        ]);
-
-        EventThreads::create([
-            'event_id' => $event->id,
-            'thread_id' => $thread->id
-        ]);
-
-        // Message
-        Message::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'body' => Input::get('message'),
-        ]);
-
-        // Sender
-        Participant::create([
-            'thread_id' => $thread->id,
-            'user_id' => Auth::id(),
-            'last_read' => new Carbon,
-        ]);
-
-        // Addspace Editor
-        if (Input::has('recipient')) {
-            $thread->addParticipant(Input::get('recipient'));
-        }
-
-        return redirect()->route('messages');
-    }
 
     /**
      * Adds a new message to a current thread.
