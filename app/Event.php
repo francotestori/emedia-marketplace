@@ -50,4 +50,19 @@ class Event extends Model
 
         return null;
     }
+
+    public function rejected()
+    {
+        return $this->state == 'REJECTED';
+    }
+
+    public function pending()
+    {
+        return $this->state == 'PENDING';
+    }
+
+    public function accepted()
+    {
+        return $this->state == 'ACCEPTED';
+    }
 }

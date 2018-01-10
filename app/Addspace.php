@@ -42,13 +42,12 @@ class Addspace extends Model
     public function getThreads()
     {
         $eventThreads = EventThreads::whereIn('event_id', $this->events()->pluck('id')->toArray())
-            ->pluck('thread_id')
-            ->toArray();
+                                      ->pluck('thread_id')
+                                      ->toArray();
 
         return Thread::whereIn('id', $eventThreads)
-            ->latest('updated_at')
-            ->get();
-
+                       ->latest('updated_at')
+                       ->get();
     }
 
     /**
@@ -58,8 +57,8 @@ class Addspace extends Model
     public function getUserThreads($user)
     {
         $eventThreads = EventThreads::whereIn('event_id', $this->events()->pluck('id')->toArray())
-            ->pluck('thread_id')
-            ->toArray();
+                                      ->pluck('thread_id')
+                                      ->toArray();
 
         if($user->isEditor())
             return Thread::forUser($user->id)
@@ -72,4 +71,29 @@ class Addspace extends Model
                                          ->latest('updated_at')
                                          ->get();
     }
+
+    public function getCost()
+    {
+        $config = Configuration::where('key', '<>', 'withdrawal')
+                                 ->where('min', '<=', $this->cost)
+                                 ->where('max', '>=', $this->cost)
+                                 ->first();
+        return $this->cost * (1 + $config->value);
+    }
+
+    public function isActive()
+    {
+        return $this->status == 'ACTIVE';
+    }
+
+    public function isPaused()
+    {
+        return $this->status == 'PAUSED';
+    }
+
+    public function isClosed()
+    {
+        return $this->status == 'CLOSED';
+    }
+
 }

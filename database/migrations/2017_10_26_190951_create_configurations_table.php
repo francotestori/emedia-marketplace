@@ -18,6 +18,7 @@ class CreateConfigurationsTable extends Migration
             $table->string('key');
             $table->double('min',8,2);
             $table->double('max',8,2);
+            $table->double('value', 4, 3);
             $table->timestamps();
         });
     }

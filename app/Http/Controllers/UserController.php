@@ -18,8 +18,12 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        View::share('min', Configuration::where('key', 'min_withdrawal')->first()->value);
-        View::share('max', Configuration::where('key', 'max_withdrawal')->first()->value);
+        $withdrawal_config = Configuration::where('key', 'withdrawal')->first();
+        View::share('min', $withdrawal_config->min);
+        View::share('max', $withdrawal_config->max);
+
+        View::share('users', User::all());
+        View::share('roles', Role::all());
     }
 
     /**
@@ -31,9 +35,9 @@ class UserController extends Controller
     {
         $user = Auth::user();
         if($user->isManager())
-            return view('user.index', compact('users'))->with('users', User::all());
+            return view('user.index');
         else
-            return redirect('users/'.$user->id);
+            return redirect()->route('users.show',[$user->id]);
     }
 
     /**
@@ -43,12 +47,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
         $user = Auth::user();
         if($user->isManager())
-            return view('user.create', compact('roles'));
+            return view('user.create');
 
-        return redirect('users/'.$user->id);
+        return redirect()->route('users.show',[$user->id]);
     }
 
     /**
@@ -67,12 +70,14 @@ class UserController extends Controller
 
         $validator = Validator::make(Input::all(), $rules);
 
-        if ($validator->fails()) {
-            return redirect('users/create')
-                ->withErrors($validator)
-                ->withInput(Input::all());
+        if ($validator->fails())
+        {
+            return redirect()->route('users.create')
+                             ->withErrors($validator)
+                             ->withInput(Input::all());
         }
-        else {
+        else
+        {
             $role = Role::find(Input::get('role'));
 
             $user = User::create([
@@ -82,16 +87,14 @@ class UserController extends Controller
                 'role_id' => $role->id
             ]);
 
-            //$user->role()->attach($role);
-
             Wallet::create([
                 'user_id' => $user->id,
                 'balance' => 0
             ]);
 
             // redirect
-                Session::flash('message', Lang::get('messages.created', ['item' =>'User']));
-            return redirect('users');
+            Session::flash('message', Lang::get('messages.created', ['item' =>'User']));
+            return redirect()->route('users.index');
         }
     }
 
@@ -113,7 +116,7 @@ class UserController extends Controller
         elseif ($user->id == $id)
             return view('user.show')->with('user', $user);
         else
-            return redirect('users/'.$user->id);
+            return redirect()->route('users.show',[$user->id]);
     }
 
     /**
@@ -126,12 +129,12 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        if(Auth::user()->id != $id){
-            Session::flash('message', Lang::get('messages.forbidden'));
-            return redirect('users');
-        }
+        if(Auth::user()->isManager() || Auth::id() == $id)
+            return view('user.edit', compact('user'));
 
-        return view('user.edit')->with('user', $user);
+        Session::flash('message', Lang::get('messages.forbidden'));
+        return redirect()->route('users.index');
+
     }
 
     /**
@@ -151,14 +154,16 @@ class UserController extends Controller
 
         $validator = Validator::make(Input::all(), $rules);
 
-        if ($validator->fails()) {
-            return redirect('users/create')
-                ->withErrors($validator)
-                ->withInput(Input::all());
+        if ($validator->fails())
+        {
+            return redirect()->route('users.edit', [$id])
+                             ->withErrors($validator)
+                             ->withInput(Input::all());
         }
-        else {
-
+        else
+        {
             $user = User::find($id);
+
             $user->name = Input::get('name');
             $user->email = Input::get('email');
             $user->password = bcrypt(Input::get('password'));
@@ -166,7 +171,7 @@ class UserController extends Controller
 
             // redirect
             Session::flash('message', Lang::get('messages.updated', ['item' =>'User']));
-            return redirect('users');
+            return redirect()->route('users.index');
         }
     }
 

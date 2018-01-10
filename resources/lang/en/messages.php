@@ -16,6 +16,12 @@ return [
     |
     */
 
+    'welcome' => 'Welcome :name',
+
+    'no_items_found' => 'No items have been found.',
+    'are_you_sure_buy' => 'Are you sure you want to buy the following addspace?',
+    'charge' => ':amount will be charged',
+
     'created' => 'Your :item has been created successfully!',
     'edited' => 'Your :item has been edited successfully!',
     'deleted' => 'Your :item has been deleted successfully!',
@@ -51,7 +57,6 @@ return [
     'query' => 'Query from @:user related to :url',
 
     'sure' => 'Are you sure you want to continue?',
-    'charge' => '$:cost will be charged',
 
     'messages' => 'Messages',
 
@@ -61,9 +66,12 @@ return [
 
     'users' => 'Users',
 
+    'withdrawals' => 'Withdrawals',
+
     'config' => 'Config',
     'key' => 'Key',
-    'value' => 'Value',
+    'min' => 'Min',
+    'max' => 'Max',
 
     'sender' => 'Sender',
     'paypal_account' => 'Paypal Account',
@@ -72,7 +80,7 @@ return [
     'amount' => 'Amount',
     'comment' => 'Comment',
 
-    'activation' => ':item has been activated!',
+    'activated' => ':item has been activated!',
     'paused' => ':item has been paused!',
     'closed' => ':item has been closed!',
 ];

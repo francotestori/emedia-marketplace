@@ -1,40 +1,43 @@
-@extends('layouts.emedia-layout')
+@extends('layouts.insite-layout')
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <span>Config</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="panel-body">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        <div class="row">
-                            @foreach($config as $item)
-                                <div class="col-lg-6">
-                                    {{Form::label('key', Lang::get('messages.key'))}}
-                                    {{Form::text('key', $item->configuration_key, ['class' => 'form-control', 'readonly' => 'true'])}}
-                                </div>
-                                <div class="col-lg-6">
-                                    {{Form::label('value', Lang::get('messages.value'))}}
-                                    {{Form::text('value', $item->configuration_value.' %', ['class' => 'form-control','readonly' => 'true'])}}
-                                </div>
-                            @endforeach
-                            </div>
-                        </div>
-                    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>
+                        {{Lang::get('titles.config')}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
                 </div>
             </div>
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+            @if (session('errors'))
+                <div class="alert alert-danger" role="alert">
+                    {{ session('errors') }}
+                </div>
+            @endif
+            <div class="row atencion">
+                @foreach($config as $item)
+                    <div class="col-md-4">
+                        {{Form::label('key', Lang::get('messages.key'))}}
+                        {{Form::text('key', $item->key, ['class' => 'form-control', 'readonly' => 'true'])}}
+                    </div>
+                    <div class="col-md-4">
+                        {{Form::label('min', Lang::get('messages.min'))}}
+                        {{Form::text('min', $item->min, ['class' => 'form-control','readonly' => 'true'])}}
+                    </div>
+                    <div class="col-md-4">
+                        {{Form::label('max', Lang::get('messages.max'))}}
+                        {{Form::text('max', $item->max, ['class' => 'form-control','readonly' => 'true'])}}
+                    </div>
+                @endforeach
+            </div>
+
         </div>
     </div>
 @endsection

@@ -35,4 +35,14 @@ class Wallet extends Model
         return $this->debits()->get();
     }
 
+    public function getTransactions()
+    {
+        return $this->getCredits()->merge($this->getDebits());
+    }
+
+    public function getUser()
+    {
+        return $this->user()->first();
+    }
+
 }

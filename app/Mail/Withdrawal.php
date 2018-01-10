@@ -17,6 +17,7 @@ class Withdrawal extends Mailable
     private $alias;
     private $sender;
     private $comment;
+    private $url;
 
 
     /**
@@ -24,7 +25,7 @@ class Withdrawal extends Mailable
      *
      * @return void
      */
-    public function __construct($amount = null, $paypal = null, $cbu = null, $alias = null, $sender = null, $comment = null)
+    public function __construct($amount = null, $paypal = null, $cbu = null, $alias = null, $sender = null, $comment = null, $url = null)
     {
         $this->amount = $amount;
         $this->paypal = $paypal;
@@ -32,6 +33,7 @@ class Withdrawal extends Mailable
         $this->alias = $alias;
         $this->sender = $sender;
         $this->comment = $comment;
+        $this->url = $url;
     }
 
     /**
@@ -47,7 +49,9 @@ class Withdrawal extends Mailable
                     'cbu'=> $this->cbu,
                     'alias'=> $this->alias,
                     'sender'=> $this->sender,
-                    'comment'=> $this->comment,]
+                    'comment'=> $this->comment,
+                    'url'=> $this->url,
+                    ]
             );
     }
 }

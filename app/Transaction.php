@@ -18,12 +18,12 @@ class Transaction extends Model
 
     public function sender()
     {
-        return $this->belongsTo(Wallet::class,'id','from_wallet');
+        return $this->hasOne(Wallet::class,'id','from_wallet');
     }
 
     public function receiver()
     {
-        return $this->belongsTo(Wallet::class,'id','to_wallet');
+        return $this->hasOne(Wallet::class,'id','to_wallet');
     }
 
     public function getSender()

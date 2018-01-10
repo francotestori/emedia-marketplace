@@ -72,6 +72,11 @@ class User extends Authenticatable
         return $this->role()->first()->name == 'Advertiser';
     }
 
+    public function getRole()
+    {
+        return $this->role()->first()->name;
+    }
+
     public function getWallet(){
         return $this->wallet()->first();
     }

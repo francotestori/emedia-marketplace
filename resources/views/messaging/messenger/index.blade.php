@@ -1,17 +1,20 @@
-@extends('layouts.emedia-layout')
+@extends('layouts.insite-layout')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Threads</div>
-                    <div class="panel-body">
-                        @include('messaging.messenger.partials.flash')
-                        @each('messaging.messenger.partials.thread', $threads, 'thread', 'messaging.messenger.partials.no-threads')
-                    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
                 </div>
-            </div>
+            @endif
+            @if (session('errors'))
+                <div class="alert alert-danger" role="alert">
+                    {{ session('errors') }}
+                </div>
+            @endif
         </div>
+        @include('messaging.messenger.partials.flash')
+        @each('messaging.messenger.partials.thread', $threads, 'thread', 'messaging.messenger.partials.no-threads')
     </div>
 @stop

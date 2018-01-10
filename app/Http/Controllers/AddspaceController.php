@@ -5,52 +5,42 @@ namespace App\Http\Controllers;
 use App\Addspace;
 use App\Category;
 use App\Event;
-use Cmgmyr\Messenger\Models\Thread;
+use App\EventThreads;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use Yajra\DataTables\DataTables;
 
 class AddspaceController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
+    private $categories;
+
     public function __construct()
     {
-
+        $this->categories = Category::all();
+        View::share('categories', $this->categories);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $user = Auth::user();
 
-        $categories = Category::all();
-
         $filter = $request->query('category');
 
-        if($filter == null)
-            $addspaces = $user->isEditor() ? $user->addspaces()->get() : Addspace::all();
-        else
-            $addspaces = $user->isEditor() ? $user->addspaces()->whereHas('categories', function($q) use ($filter) {
-                                                $q->where('name', $filter);
-                                             })->get()
+        $addspaces = $user->isEditor() ? $user->addspaces()->whereHas('categories', function($query) use ($filter) {
+                                            is_null($filter) ? $query : $query->where('name', $filter);
+                                         })->get()
 
-                                           : Addspace::whereHas('categories', function($q) use ($filter) {
-                                                $q->where('name', $filter);
-                                             })->get();
+                                       : Addspace::whereHas('categories', function($query) use ($filter) {
+                                            is_null($filter) ? $query : $query->where('name', $filter);
+                                         })->get();
        
-        return view('addspace.index', compact('addspaces', 'categories'));
+        return view('addspace.index', compact('addspaces'));
     }
 
     /**
@@ -60,9 +50,7 @@ class AddspaceController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-
-        return view('addspace.create', compact('categories'));
+        return view('addspace.create');
     }
 
     /**
@@ -123,11 +111,20 @@ class AddspaceController extends Controller
 
         $addspace = Addspace::find($id);
 
-        $categories = $addspace->categories()->get();
-
         $threads = $addspace->getUserThreads($user);
 
-        return view('addspace.show', compact('addspace', 'categories', 'threads'));
+        $events = array();
+        foreach($threads as $thread){
+            $et = EventThreads::where('thread_id', $thread->id)->first();
+            $event = Event::find($et->id);
+            array_push($events, $event);
+        }
+
+        $events = array_filter($events, function($single_event){
+            return $single_event->pending();
+        });
+
+        return view('addspace.show', compact('addspace', 'threads', 'events'));
     }
 
     /**
@@ -140,14 +137,11 @@ class AddspaceController extends Controller
     {
         $addspace = Addspace::find($id);
 
-        if(Auth::id() != $addspace->editor_id){
-            Session::flash('message', Lang::get('messages.forbidden'));
-            return redirect('addspaces');
-        }
+        if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
+            return view('addspace.edit', compact('addspace', 'categories'));
 
-        $categories = Category::all();
-
-        return view('addspace.edit', compact('addspace', 'categories'));
+        Session::flash('message', Lang::get('messages.forbidden'));
+        return redirect('addspaces');
     }
 
     /**
@@ -159,32 +153,37 @@ class AddspaceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rules = array(
-            'url' => 'required|url',
-            'description' => 'required|string',
-            'visits' => 'required|numeric',
-            'cost' => 'required|numeric'
-        );
+        $addspace = Addspace::find($id);
 
-        $validator = Validator::make(Input::all(), $rules);
+        if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
+        {
+            $rules = array(
+                'url' => 'required|url',
+                'description' => 'required|string',
+                'visits' => 'required|numeric',
+                'cost' => 'required|numeric'
+            );
 
-        if ($validator->fails()) {
-            return redirect('addspaces'.$id.'/edit')
-                ->withErrors($validator)
-                ->withInput(Input::all());
-        }
-        else{
-            $addspace = Addspace::find($id);
+            $validator = Validator::make(Input::all(), $rules);
+
+            if ($validator->fails()) {
+                return redirect('addspaces'.$id.'/edit')
+                    ->withErrors($validator)
+                    ->withInput(Input::all());
+            }
+
             $addspace->url = Input::get('url');
             $addspace->description = Input::get('description');
             $addspace->visits = Input::get('visits');
             $addspace->cost = Input::get('cost');
             $addspace->save();
 
-            // redirect
             Session::flash('message', Lang::get('messages.edited', ['item' =>'Addspace']));
             return redirect('addspaces');
         }
+
+        Session::flash('message', Lang::get('messages.forbidden'));
+        return redirect('addspaces');
     }
 
     /**
@@ -197,15 +196,15 @@ class AddspaceController extends Controller
     {
         $addspace = Addspace::find($id);
 
-        if(Auth::id() != $addspace->editor_id){
-            Session::flash('message', Lang::get('messages.forbidden'));
+        if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
+        {
+            $addspace->delete();
+
+            Session::flash('message', Lang::get('messages.deleted', ['item' =>'Addspace']));
             return redirect('addspaces');
         }
 
-        $addspace->delete();
-
-        Session::flash('message', Lang::get('messages.deleted', ['item' =>'Addspace']));
-
+        Session::flash('message', Lang::get('messages.forbidden'));
         return redirect('addspaces');
     }
 
@@ -213,51 +212,50 @@ class AddspaceController extends Controller
     {
         $addspace = Addspace::find($id);
 
-        if(Auth::id() != $addspace->editor_id){
-            Session::flash('message', Lang::get('messages.forbidden'));
-            return redirect('addspaces');
+        if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
+        {
+            $addspace->status = 'ACTIVE';
+            $addspace->save();
+
+            Session::flash('status', Lang::get('messages.activated', ['item' =>'Addspace']));
+            return redirect()->route('addspaces.show', $id);
         }
 
-        $addspace->status = 'ACTIVE';
-        $addspace->save();
-
-        Session::flash('message', Lang::get('messages.activation', ['item' =>'Addspace']));
-
-        return redirect('addspaces');
-
+        Session::flash('errors', Lang::get('messages.forbidden'));
+        return redirect()->route('addspaces.show', $id);
     }
 
     public function pause($id)
     {
         $addspace = Addspace::find($id);
 
-        if(Auth::id() != $addspace->editor_id){
-            Session::flash('message', Lang::get('messages.forbidden'));
-            return redirect('addspaces');
+        if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
+        {
+            $addspace->status = 'PAUSED';
+            $addspace->save();
+
+            Session::flash('status', Lang::get('messages.paused', ['item' =>'Addspace']));
+            return redirect()->route('addspaces.show', $id);
         }
 
-        $addspace->status = 'PAUSED';
-        $addspace->save();
-
-        Session::flash('message', Lang::get('messages.pause', ['item' =>'Addspace']));
-
-        return redirect('addspaces');
+        Session::flash('errors', Lang::get('messages.forbidden'));
+        return redirect()->route('addspaces.show', $id);
     }
 
     public function close($id)
     {
         $addspace = Addspace::find($id);
 
-        if(Auth::id() != $addspace->editor_id){
-            Session::flash('message', Lang::get('messages.forbidden'));
-            return redirect('addspaces');
+        if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
+        {
+            $addspace->status = 'CLOSED';
+            $addspace->save();
+
+            Session::flash('status', Lang::get('messages.closed', ['item' =>'Addspace']));
+            return redirect()->route('addspaces.show', $id);
         }
 
-        $addspace->status = 'CLOSED';
-        $addspace->save();
-
-        Session::flash('message', Lang::get('messages.closed', ['item' =>'Addspace']));
-
-        return redirect('addspaces');
+        Session::flash('errors', Lang::get('messages.forbidden'));
+        return redirect()->route('addspaces.show', $id);
     }
 }

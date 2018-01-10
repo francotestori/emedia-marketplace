@@ -8,17 +8,12 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <h3>
-                        {{Lang::get('titles.users')}}
+                        {{Lang::get('titles.withdrawal')}}
                     </h3>
                 </div>
-                <div class="col-md-6">
-                    @if(Auth::user()->isManager())
-                        <div class="pull-right">
-                            <a href="{{route('users.create')}}" class="btn btn-info btn-lg">{{Lang::get('messages.create_users')}}</a>
-                        </div>
-                    @endif
+                <div class="col-lg-6">
                 </div>
             </div>
         </div>
@@ -31,28 +26,30 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <table class="table table-bordered" id="addspaces-table" @if(count($users)) data-ride="datatables" @endif>
+                    <table class="table table-bordered" id="addspaces-table" @if(count($withdrawals)) data-ride="datatables" @endif>
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th></th>
+                            <th>From</th>
+                            <th>State</th>
+                            <th>Amount</th>
+                            <th>Authorize</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @if(count($users))
-                            @foreach($users as $user)
+                        @if(count($withdrawals))
+                            @foreach($withdrawals as $withdrawal)
                                 <tr>
-                                    <td>{{$user->id}}</td>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>{{$user->getRole()}}</td>
-                                    <td class="">
-                                        <a data-original-title="Detail" class="btn btn-info" href="{{route('users.show', ['id' => $user->id])}}">
-                                            <i class="fa fa-info"></i>
-                                        </a>
+                                    <td>{{$withdrawal->id}}</td>
+                                    <td>{{$withdrawal->getSender()->getUser()->email}}</td>
+                                    <td>{{$withdrawal->getEvent()->state}}</td>
+                                    <td>{{$withdrawal->amount}}</td>
+                                    <td>
+                                        @if($withdrawal->getEvent()->pending())
+                                            <a data-original-title="Authorize" class="btn btn-info" href="{{route('withdrawal.show', ['transaction_id' => $withdrawal->id])}}">
+                                                <i class="fa fa-check"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -67,7 +64,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('custom-js')

@@ -12,6 +12,6 @@ class Configuration extends Model
      * @var array
      */
     protected $fillable = [
-        'key', 'min', 'max'
+        'key', 'min', 'max','value'
     ];
 }

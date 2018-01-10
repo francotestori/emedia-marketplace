@@ -8,6 +8,7 @@ use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 
 class MessagesController extends Controller
@@ -39,11 +40,13 @@ class MessagesController extends Controller
      */
     public function show($id)
     {
-        try {
+        try
+        {
             $thread = Thread::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-
+        }
+        catch (ModelNotFoundException $e)
+        {
+            Session::flash('errors', 'The thread with ID: ' . $id . ' was not found.');
             return redirect()->route('messages');
         }
 
@@ -60,7 +63,7 @@ class MessagesController extends Controller
             return view('messaging.messenger.show', compact('thread', 'users', 'event'));
         }
 
-        Session::flash('error_message', 'FORBIDDEN');
+        Session::flash('errors', Lang::get('messages.forbidden'));
         return redirect()->route('messages');
     }
 
@@ -73,11 +76,13 @@ class MessagesController extends Controller
      */
     public function update($id)
     {
-        try {
+        try
+        {
             $thread = Thread::findOrFail($id);
-        } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
-
+        }
+        catch (ModelNotFoundException $e)
+        {
+            Session::flash('errors', 'The thread with ID: ' . $id . ' was not found.');
             return redirect()->route('messages');
         }
 
@@ -98,7 +103,7 @@ class MessagesController extends Controller
             return redirect()->route('messages.show', $id);
         }
 
-        Session::flash('error_message', 'FORBIDDEN');
+        Session::flash('errors', Lang::get('messages.forbidden'));
         return redirect()->route('messages');
     }
 }

@@ -15,7 +15,6 @@
     <link href="{{ asset('css/font-awesome.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
     @yield('custom-css')
-
     <script type="application/javascript" src="{{asset('js/jquery.js')}}"></script>
     <script type="application/javascript" src="{{asset('js/jquery.scrollTo.js')}}"></script>
 </head>
@@ -48,7 +47,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if(Auth::user() != null && Auth::user()->isManager())
                         <li><a class="page-scroll noamarrillo" href="{{route('config')}}">{{Lang::get('messages.config')}}</a></li>
-                        <li><a class="page-scroll noamarrillo" href="{{route('users')}}">{{Lang::get('messages.users')}}</a></li>
+                        <li><a class="page-scroll noamarrillo" href="{{route('withdrawal.index')}}">{{Lang::get('messages.withdrawals')}}</a></li>
+                        <li><a class="page-scroll noamarrillo" href="{{route('users.index')}}">{{Lang::get('messages.users')}}</a></li>
                         <li><a class="page-scroll noamarrillo" href="{{route('addspaces.index')}}">{{Lang::get('messages.addspaces')}}</a></li>
                     @elseif(Auth::user() != null)
                         <li><a class="page-scroll noamarrillo" href="{{route('addspaces.index')}}">{{Lang::get('messages.addspaces')}}</a></li>
@@ -117,8 +117,6 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script type="application/javascript" src="{{asset('js/jquery.js')}}"></script>
-<script type="application/javascript" src="{{asset('js/jquery.scrollTo.js')}}"></script>
 @yield('custom-js')
 
 </body>

@@ -6,8 +6,10 @@ use App\Addspace;
 use App\Configuration;
 use App\Event;
 use App\EventThreads;
+use App\Mail\Rollbacked;
 use App\Mail\Withdrawal;
 use App\Transaction;
+use App\User;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
@@ -35,12 +37,6 @@ class WalletController extends Controller
         return view('wallet.index', compact('user'));
     }
 
-    public function showDepositForm()
-    {
-        return view('transaction.deposit');
-    }
-
-
     /**
      * Build the deposit Paypal request
      * @param $price
@@ -57,48 +53,46 @@ class WalletController extends Controller
                 'qty' => 1
                 ],
             ],
-            // return url is the url where PayPal returns after user confirmed the payment
-            'return_url' => url('/deposit-success'),
             // every invoice id must be unique, else you'll get an error from paypal
             'invoice_id' => config('paypal.invoice_prefix') . '_' . $id,
             'invoice_description' => "EMediaMarket Deposit #" . $id,
-            'cancel_url' => url('users'),
+            // return url is the url where PayPal returns after user confirmed the payment
+            'return_url' => route('deposit.accept', ['id' =>$id]),
+            'cancel_url' => route('deposit.cancel', ['id' =>$id]),
+            //Must declare Total
             'total' => $price,
 
         ];
     }
 
-    private function applyFee($price)
+    public function showDeposit()
     {
-        $fee = Configuration::where('key', 'transaction_fee')->first()->value;
-        $ratio = Configuration::where('key', 'credit_ratio')->first()->value;
-
-        $credits = ($price * $ratio) * (1 - $fee);
-        return $credits;
+        return view('transaction.deposit');
     }
-
 
     /**
      * Send a request to Paypal's service
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function deposit()
+    public function prepareDeposit()
     {
-        $price = Input::get('price');
+        $amount = Input::get('amount');
 
-        $wallet = Auth::user()->getWallet();
+        $system = User::find(1)->getWallet();
+        $editor = Auth::user()->getWallet();
 
         $transaction = Transaction::create([
-            'wallet_id' => $wallet->id,
+            'from_wallet' => $system->id,
+            'to_wallet' => $editor->id,
             'type' => 'DEPOSIT',
-            'credits' => $this->applyFee($price),
+            'amount' => $amount,
+            'event_id' => null
         ]);
 
-        $item = $this->buildDepositRequest($price, $transaction->id);
+        $item = $this->buildDepositRequest($amount, $transaction->id);
 
         $transaction->invoice_id = $item['invoice_id'];
         $transaction->invoice_description = $item['invoice_description'];
-        $transaction->price = $price;
         $transaction->save();
 
         $response = $this->provider->setExpressCheckout($item, false);
@@ -106,21 +100,26 @@ class WalletController extends Controller
         // if there is no link redirect back with error message
         $link = $response['paypal_link'];
         if (!$link) {
-            return redirect('users')->with(['code' => 'danger', 'message' => $response['L_LONGMESSAGE0']]);
+            return redirect('deposit-cancel/'.$transaction->id)
+                   ->with(['code' => 'danger',
+                           'message' => $response['L_LONGMESSAGE0']]);
         }
 
         return redirect($link);
     }
 
-    /**
-     * Paypal's payment acknowledge response
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function depositSuccess(Request $request)
+    public function cancelDeposit($id, Request $request)
+    {
+        $transaction = Transaction::find($id);
+        $transaction->delete();
+
+        Session::flash('errors', Lang::get('messages.failed_deposit'));
+        return redirect('users');
+    }
+
+    public function acceptDeposit($id, Request $request)
     {
         $token = $request->get('token');
-
         $PayerID = $request->get('PayerID');
 
         // Get checkout data from token
@@ -128,18 +127,12 @@ class WalletController extends Controller
 
         // Return back with error if response ACK is not SUCCESS or SUCCESSWITHWARNING
         if (!in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
-            return redirect('/users')->with(['code' => 'danger', 'message' => 'Error processing PayPal payment']);
+            return redirect('deposit-cancel/'.$id)->with(['code' => 'danger', 'message' => 'Error processing PayPal payment']);
         }
 
-        // invoice id is stored in INVNUM
-        // because we set our invoice to be xxxx_id
-        // we need to explode the string and get the second element of array
-        // witch will be the id of the invoice
-        $invoice_id = explode('_', $response['INVNUM'])[1];
+        $transaction = Transaction::find($id);
 
-        $transaction = Transaction::where('invoice_id', $response['INVNUM'])->first();
-
-        $item = $this->buildDepositRequest($transaction->price, $invoice_id);
+        $item = $this->buildDepositRequest($transaction->amount, $transaction->id);
 
         //Execute payment
         $payment_status = $this->provider->doExpressCheckoutPayment($item, $token, $PayerID);
@@ -152,44 +145,19 @@ class WalletController extends Controller
         // Return success or error according to Paypal's response
         if ($transaction->completed()) {
             // Update Wallet Balance
-            $wallet = $transaction->getWallet();
-            $wallet->balance = $wallet->balance + $transaction->credits;
+            $wallet = $transaction->getReceiver();
+            $wallet->balance = $wallet->balance + $transaction->amount;
             $wallet->save();
 
-            Session::flash('message', 'Order ' . $transaction->id . ' has been paid successfully!');
+            Session::flash('message',Lang::get('messages.paypal_success', ['transaction_id' => $transaction->id]));
             return redirect('users');
         }
 
         $transaction->delete();
-        Session::flash('error_message', 'Error processing PayPal payment for Order ' . $transaction->id . '!');
+        Session::flash('message',Lang::get('messages.paypal_failed', ['transaction_id' => $transaction->id]));
         return redirect('users');
 
     }
-
-    //TODO chequear si es necesario (pagos recurrentes php)
-    public function notifyIPN(Request $request)
-    {
-
-        // add _notify-validate cmd to request,
-        // we need that to validate with PayPal that it was realy
-        // PayPal who sent the request
-        $request->merge(['cmd' => '_notify-validate']);
-        $post = $request->all();
-
-        // send the data to PayPal for validation
-        $response = (string) $this->provider->verifyIPN($post);
-
-        //if PayPal responds with VERIFIED we are good to go
-        if ($response === 'VERIFIED') {
-
-            // I leave this code here so you can log IPN data if you want
-            // PayPal provides a lot of IPN data that you should save in real world scenarios
-
-            $logFile = 'ipn_log_'.Carbon::now()->format('Ymd_His').'.txt';
-            Storage::disk('local')->put($logFile, print_r($post, true));
-        }
-    }
-
 
     /**
      * Sends Mail request to Marketplace owner so as to send the money back to the Editor requesting the withdrawal
@@ -198,55 +166,89 @@ class WalletController extends Controller
     {
         $admin = env('MAIL_MANAGER_ACCOUNT');
 
-        $sender = Auth::user()->email;
+        $sender = Auth::user();
 
-        $paypal = Input::get('paypal');
+        // Get account withdrawal data
         $cbu = Input::get('cbu');
         $alias = Input::get('alias');
-        $comment = Input::get('comment');
+        $paypal = Input::get('paypal');
         $amount = Input::get('amount');
+        $comment = Input::get('comment');
 
-        $email = new Withdrawal($amount, $paypal, $cbu, $alias, $sender, $comment);
+        // Create associated Event
+        $system = User::find(1)->getWallet();
+
+        $event = Event::create([
+            'addspace_id' => null,
+            'state' => 'PENDING'
+        ]);
+
+        $transaction = Transaction::create([
+            'from_wallet' => $sender->getWallet()->id,
+            'to_wallet' => $system->id,
+            'type' => 'WITHDRAWAL',
+            'amount' => $amount,
+            'event_id' => $event->id
+        ]);
+
+        $url = route('withdrawal.show', ['transaction_id' => $transaction->id]);
+
+        // Create email
+        $email = new Withdrawal($amount, $paypal, $cbu, $alias, $sender->email, $comment, $url);
 
         Mail::to($admin)->send($email);
 
         return back();
     }
 
-    private function chargeAddspace(Event $event, Addspace $addspace)
+    public function withdrawals()
     {
-        $source = Auth::user()->getWallet();
-        $destination = $addspace->getEditor()->getWallet();
-
-        $cost = $addspace->cost;
-
-        // Analyze if Transaction can be made
-        if($source->balance < $cost){
-            Session::flash('error_message', Lang::get('messages.no_funds'));
-            return redirect()->route('addspaces.show', $addspace->id);
-        }
-
-        // Advertiser related transaction
-        Transaction::create([
-            'wallet_id' => $source->id,
-            'type' => 'PAYMENT',
-            'credits' => $cost,
-            'event_id' => $event->id
-        ]);
-        $source->balance = $source->balance - $cost;
-        $source->save();
-
-        // Editor related transaction
-        Transaction::create([
-            'wallet_id' => $destination->id,
-            'type' => 'CHARGE',
-            'credits' => $cost,
-            'event_id' => $event->id
-        ]);
-        $destination->balance = $destination->balance + $cost;
-        $destination->save();
+        $withdrawals = Transaction::where('type', 'WITHDRAWAL')->get();
+        return view('events.withdrawals_index', compact('withdrawals'));
     }
 
+    public function showWithdrawal($transaction_id)
+    {
+        $transaction = Transaction::find($transaction_id);
+        $event = $transaction->getEvent();
+
+        if($transaction->type != 'WITHDRAWAL'){
+            Session::flash('errors', Lang::get('messages.not_withdrawal'));
+            return redirect('home');
+        }
+        elseif (!$event->pending())
+        {
+            Session::flash('errors', Lang::get('messages.event_is_not_pending'));
+            return redirect('home');
+        }
+        else
+            return view('events.show',compact('transaction','event'));
+    }
+
+    public function authorizeWithdrawal($transaction_id)
+    {
+        $transaction = Transaction::find($transaction_id);
+        $event = $transaction->getEvent();
+
+        if(!$event->pending())
+        {
+            Session::flash('errors', Lang::get('messages.event_is_not_pending'));
+            return redirect('home');
+        }
+
+        $state = Input::get('state');
+        $event->state = $state;
+        $event->save();
+
+        if($event->accepted())
+        {
+            $editor = $transaction->getSender();
+            $editor->balance = $editor->balance - $transaction->amount;
+            $editor->save();
+        }
+
+        return $this->showWithdrawal($transaction_id);
+    }
 
     /**
      * Charge advertiser user the amount of credits corresponding to and addspace Transaction
@@ -254,19 +256,64 @@ class WalletController extends Controller
      */
     public function charge()
     {
-        try{
+        try
+        {
             $addspace = Addspace::findOrFail(Input::get('reference'));
-        } catch (ModelNotFoundException $e) {
-            Session::flash('error_message', 'No addspaces referenced');
+        }
+        catch (ModelNotFoundException $e)
+        {
+            Session::flash('errors', 'No addspaces referenced');
             return redirect('addspaces');
         }
+
+        if(!$addspace->isActive())
+        {
+            Session::flash('errors', Lang::get('messages.inactive'));
+            return redirect()->route('addspaces.show', $addspace->id);
+        }
+
+        $source = Auth::user()->getWallet();
+        $cost = $addspace->getCost();
+
+        if($source->balance < $cost)
+        {
+            Session::flash('errors', Lang::get('messages.without_funds'));
+            return redirect()->route('addspaces.show', $addspace->id);
+        }
+
+        // Get Wallets
+        $system_wallet = User::find(1)->getWallet();
+        $destination = $addspace->getEditor()->getWallet();
+
+        // Get Costs
+        $editor_cut = $addspace->cost;
+        $fee = $cost - $editor_cut;
 
         $event = Event::create([
             'addspace_id' => $addspace->id,
             'state' => 'PENDING'
         ]);
 
-        $this->chargeAddspace($event, $addspace);
+        // Editor Addspace cost
+        Transaction::create([
+            'from_wallet' => $source->id,
+            'to_wallet' => $destination->id,
+            'type' => 'PAYMENT',
+            'amount' => $editor_cut,
+            'event_id' => $event->id
+        ]);
+
+        // System Fee
+        Transaction::create([
+            'from_wallet' => $source->id,
+            'to_wallet' => $system_wallet->id,
+            'type' => 'PAYMENT',
+            'amount' => $fee,
+            'event_id' => $event->id
+        ]);
+
+        $source->balance = $source->balance - $cost;
+        $source->save();
 
         $thread = Thread::create([
             'subject' => Input::get('subject'),
@@ -285,16 +332,68 @@ class WalletController extends Controller
         ]);
 
         // Add Editor to messaging thread
-        if (Input::has('recipient')) {
+        if (Input::has('recipient'))
             $thread->addParticipant(Input::get('recipient'));
-        }
 
         Session::flash('message', Lang::get('messages.transaction'));
         return redirect()->route('messages');
     }
 
-    public function rollback()
+    public function acceptPayment($id)
     {
-        //TODO send admin email notifying the transaction to be rollbacked
+        $event = Event::find($id);
+
+        if($event->rejected() || $event->accepted())
+            return redirect()->route('addspaces.index');
+        else
+        {
+            $score = Input::get('score');
+            $event->state = 'ACCEPTED';
+            $event->score = $score;
+            $event->save();
+
+            $transactions = Transaction::where('event_id', $event->id)->get();
+
+            foreach($transactions as $transaction){
+                $recipient = $transaction->getReceiver();
+                $recipient->balance = $recipient->balance + $transaction->amount;
+                $recipient->save();
+            }
+
+            Session::flash('message', Lang::get('messages.attributed'));
+            return redirect()->route('addspaces.index');
+        }
+    }
+
+    public function rejectPayment($id)
+    {
+        $reason = Input::get('reason');
+
+        $event = Event::find($id);
+
+        if($event->rejected() || $event->accepted())
+            return redirect()->route('addspaces.index');
+        else
+        {
+            $event->state = 'REJECTED';
+            $event->score = 1;
+            $event->save();
+
+            $transactions = Transaction::where('event_id', $event->id)->get();
+
+            $email = new Rollbacked($reason, $transactions);
+
+            foreach($transactions as $transaction){
+                $sender = $transaction->getSender();
+                $sender->balance = $sender->balance + $transaction->amount;
+                $sender->save();
+
+                $to = $transaction->getReceiver()->getUser()->email;
+                Mail::to($to)->send($email);
+            }
+
+            Session::flash('message', Lang::get('messages.rollbacked'));
+            return redirect()->route('addspaces.index');
+        }
     }
 }

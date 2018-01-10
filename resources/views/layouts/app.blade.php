@@ -39,7 +39,7 @@
                     <ul class="nav navbar-nav">
                         @if(Auth::user() != null && Auth::user()->isManager())
                         <li><a href="{{route('config')}}">{{Lang::get('messages.config')}}</a></li>
-                        <li><a href="{{route('users')}}">{{Lang::get('messages.users')}}</a></li>
+                        <li><a href="{{route('users.index')}}">{{Lang::get('messages.users')}}</a></li>
                         @endif
                         <li><a href="{{url('/addspaces')}}">{{Lang::get('messages.addspaces')}}</a></li>
                         <li><a href="/messages">Messages @include('messaging.messenger.unread-count')</a></li>
