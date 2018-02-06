@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoryTableSeeder::class);
         $this->call(AddspaceTableSeeder::class);
         $this->call(TransactionTableSeeder::class);
+        $this->call(CreditPackageSeeder::class);
     }
 }

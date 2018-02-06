@@ -23,7 +23,7 @@ Auth::routes();
 # Token Verification route
 Route::get('/register/verify/{token}','Auth\RegisterController@verify');
 
-#TODO update login model
+# TODO update login model
 # Advertiser login routes
 Route::get('login-advertiser', ['as' => 'login.advertiser', 'uses' => 'Auth\LoginController@loginAdvertiser']);
 Route::get('register-advertiser', ['as' => 'register.advertiser', 'uses' => 'Auth\RegisterController@registerAdvertiser']);
@@ -42,10 +42,10 @@ Route::group(['middleware' => ['auth']], function(){
 
     # Users routes
     Route::group(['prefix' => 'users'], function (){
-        Route::get('/',['as' => 'users.index', 'uses' => 'UserController@index']);
-        Route::get('{id}',['as' => 'users.show', 'uses' => 'UserController@show']);
-        Route::get('{id}/edit',['as' => 'users.edit', 'uses' => 'UserController@edit']);
-        Route::post('{id}',['as' => 'users.update', 'uses' => 'UserController@update']);
+        Route::get('/', ['as' => 'users.index', 'uses' => 'UserController@index']);
+        Route::get('{id}', ['as' => 'users.show', 'uses' => 'UserController@show']);
+        Route::get('{id}/edit', ['as' => 'users.edit', 'uses' => 'UserController@edit']);
+        Route::post('{id}', ['as' => 'users.update', 'uses' => 'UserController@update']);
     });
 
     # Messaging routes
@@ -58,23 +58,27 @@ Route::group(['middleware' => ['auth']], function(){
     # Addspaces access for everyone
     Route::resource('addspaces', 'AddspaceController', ['only' => ['index', 'show']]);
 
+    Route::get('wallet', ['as' => 'wallet', 'uses' => 'WalletController@wallet']);
+
     # Manager specific routes
     Route::group(['middleware' => ['manager']], function(){
 
         # Addspaces routes
         Route::resource('addspaces', 'AddspaceController', ['except' => ['index', 'create' ,'show', 'delete']]);
-        Route::get('addspaces/{id}/activate', ['as' => 'addspaces.activate', 'uses' => 'AddspaceController@activate']);
         Route::get('addspaces/{id}/pause', ['as' => 'addspaces.pause', 'uses' => 'AddspaceController@pause']);
         Route::get('addspaces/{id}/close', ['as' => 'addspaces.close', 'uses' => 'AddspaceController@close']);
+        Route::get('addspaces/{id}/activate', ['as' => 'addspaces.activate', 'uses' => 'AddspaceController@activate']);
 
         # Configuration data route
         Route::get('/config',['as' => 'config', 'uses' => 'HomeController@config']);
 
         # User management routes
         Route::group(['prefix' => 'users'], function () {
-            Route::post('/',['as' => 'users.store', 'uses' => 'UserController@store']);
             Route::get('create',['as' => 'users.create', 'uses' => 'UserController@create']);
+            Route::post('/',['as' => 'users.store', 'uses' => 'UserController@store']);
         });
+
+        Route::get('revenues', ['as' => 'revenues', 'uses' => 'WalletController@revenues']);
 
         # Withdrawal flow routes
         Route::get('withdrawal', ['as' => 'withdrawal.index','uses' => 'WalletController@withdrawals',]);
@@ -87,9 +91,13 @@ Route::group(['middleware' => ['auth']], function(){
 
         # Addspaces routes
         Route::resource('addspaces', 'AddspaceController', ['except' => ['index', 'show']]);
-        Route::get('addspaces/{id}/activate', ['as' => 'addspaces.activate', 'uses' => 'AddspaceController@activate']);
         Route::get('addspaces/{id}/pause', ['as' => 'addspaces.pause', 'uses' => 'AddspaceController@pause']);
         Route::get('addspaces/{id}/close', ['as' => 'addspaces.close', 'uses' => 'AddspaceController@close']);
+        Route::get('addspaces/{id}/activate', ['as' => 'addspaces.activate', 'uses' => 'AddspaceController@activate']);
+
+        Route::get('sales', ['as' => 'sales', 'uses' => 'WalletController@sales']);
+
+        Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
 
         # Withdrawal request routes
         Route::post('withdraw', ['as' => 'withdraw','uses' => 'WalletController@withdraw']);
@@ -97,6 +105,12 @@ Route::group(['middleware' => ['auth']], function(){
 
     # Advertiser specific routes
     Route::group(['middleware' => ['advertiser']], function(){
+
+        Route::get('/addspace/search', ['as' => 'addspaces.search', 'uses' => 'AddspaceController@search']);
+        Route::post('/addspace/search', ['as' => 'addspaces.filter', 'uses' => 'AddspaceController@filter']);
+
+        Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
+        Route::get('payments', ['as' => 'payments', 'uses' => 'WalletController@payments']);
 
         # Payment routes
         Route::post('addspace/{id}/charge', ['as' => 'addspaces.charge', 'uses' => 'WalletController@charge']);

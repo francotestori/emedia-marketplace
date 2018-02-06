@@ -14,6 +14,8 @@ return [
     'cost' => 'Cost ($USD)',
     'categories' => 'Categories',
 
+    'addspace' => 'Addspace',
+
     'create' => 'Create',
     'edit' => 'Edit',
     'delete' => 'Delete',
@@ -21,6 +23,8 @@ return [
     'info' => 'Info',
 
     'buy' => 'Buy',
+
+    'post' => 'Post',
 
     'email' => 'Email',
     'send' => 'Send',

@@ -1,5 +1,9 @@
 @extends('layouts.insite-layout')
 
+@section('custom-css')
+    <link href="{{asset('css/bootstrap-slider.css')}}" rel="stylesheet">
+@endsection
+
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -13,8 +17,14 @@
                     {{ session('errors') }}
                 </div>
             @endif
-            @include('messaging.messenger.partials.flash')
-            @each('messaging.messenger.partials.thread', $threads, 'thread', 'messaging.messenger.partials.no-threads')
+            <div class="panel-titulo2">
+                <h3>{{Lang::get('messages.packages')}}</h3>
+            </div>
+            <br>
+            @each('wallet.package.package_cluster', $clusters, 'packages')
         </div>
     </div>
 @stop
+
+@section('custom-js')
+@endsection

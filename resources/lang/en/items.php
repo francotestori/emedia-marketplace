@@ -7,8 +7,27 @@
  */
 
 return [
+    'web_or_blog' => 'Web / Blog',
+
     'addspace' => 'Addspace',
     'addspaces' => 'Addspaces',
+
+    'detail' => 'Detail',
+
+    'from' => 'From:',
+
+    'price' => 'Price:',
+    'visits' => 'Visits:',
+    'language' => 'Language:',
+    'category' => 'Categories:',
+    'description' => 'Description:',
+
+    'categories' => 'Categories:',
+
+    'date' => 'Date',
+    'amount' => 'Amount',
+    'advertiser' => 'Advertiser:',
+    'state' => 'State',
 
     'user' => 'User',
     'users' => 'Users',
@@ -21,9 +40,16 @@ return [
     'withdrawal' => 'Withdrawal',
     'withdrawals' => 'Withdrawals',
 
+    'balance' => 'Balance',
+
     'deposit' => 'Deposit',
     'deposits' => 'Deposits',
 
     'payment' => 'Payment',
     'payments' => 'Payments',
+
+    'recipient' => 'Recipient',
+
+    'name' => 'Name:',
+    'emarket_value' => 'EMarketplace value:',
 ];

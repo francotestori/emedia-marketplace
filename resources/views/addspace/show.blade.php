@@ -1,7 +1,8 @@
 @extends('layouts.insite-layout')
 
 @section('content')
-    <div class="panel panel-info">
+
+    <div class="panel panel-default">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-6">
@@ -56,7 +57,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-12">
                     <h3>
@@ -67,8 +67,11 @@
                 </div>
             </div>
         </div>
-
-        <div class="panel-body formulario">
+        <br>
+        <div class="panel-titulo2">
+            <h3>{{Lang::get('items.detail')}}</h3>
+        </div>
+        <div class="panel-heading">
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -79,28 +82,22 @@
                     {{ session('errors') }}
                 </div>
             @endif
-            <div class="row">
-                <div class="col-md-12 pull-left">
-                    <div class="detalles-texto">Details</div>
-                    <div class="detalles">
-                        <p><strong>{{Lang::get('attributes.description')}}: </strong>{{$addspace->description}}</p>
-                        <p><strong>{{Lang::get('attributes.visits')}}: </strong>{{$addspace->visits}} {{Lang::get('attributes.day_periodicity')}}</p>
+                <p><strong>{{Lang::get('attributes.description')}}: </strong>{{$addspace->description}}</p>
+                <p><strong>{{Lang::get('attributes.visits')}}: </strong>{{$addspace->visits}} {{Lang::get('attributes.day_periodicity')}}</p>
+            @if(!Auth::user()->isAdvertiser())
+                <p><strong>{{Lang::get('attributes.cost')}}: </strong>{{Lang::get('attributes.currency')}} {{$addspace->cost}}</p>
+            @else
+                <p><strong>{{Lang::get('attributes.cost')}}: </strong>{{Lang::get('attributes.currency')}} {{$addspace->getCost()}}</p>
+            @endif
 
-                        @if(!Auth::user()->isAdvertiser())
-                            <p><strong>{{Lang::get('attributes.cost')}}: </strong>{{Lang::get('attributes.currency')}} {{$addspace->cost}}</p>
-                        @else
-                            <p><strong>{{Lang::get('attributes.cost')}}: </strong>{{Lang::get('attributes.currency')}} {{$addspace->getCost()}}</p>
-                        @endif
-                    </div>
-                    @if(!$threads->isEmpty())
-                        @include('messaging.messenger.partials.flash')
-                        <div class="detalles">
-                            @each('messaging.messenger.partials.thread', $threads, 'thread', 'messaging.messenger.partials.no-threads')
-                        </div>
-                    @endif
-                </div>
-            </div>
         </div>
+        <br>
+        @if(!$threads->isEmpty())
+            @include('messaging.messenger.partials.flash')
+            <div class="panel-heading">
+                @each('messaging.messenger.partials.thread', $threads, 'thread', 'messaging.messenger.partials.no-threads')
+            </div>
+        @endif
     </div>
 
     <div id="charge" class="modal fade" role="dialog">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Addspace;
 use App\Configuration;
+use App\CreditPackage;
 use App\Event;
 use App\EventThreads;
 use App\Mail\Rollbacked;
@@ -34,7 +35,7 @@ class WalletController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('wallet.index', compact('user'));
+        return view('wallet.show', compact('user'));
     }
 
     /**
@@ -205,6 +206,12 @@ class WalletController extends Controller
     {
         $withdrawals = Transaction::where('type', 'WITHDRAWAL')->get();
         return view('events.withdrawals_index', compact('withdrawals'));
+    }
+
+    public function wallet()
+    {
+        $user = Auth::user();
+        return view('wallet.show', compact('user'));
     }
 
     public function showWithdrawal($transaction_id)
@@ -395,5 +402,30 @@ class WalletController extends Controller
             Session::flash('message', Lang::get('messages.rollbacked'));
             return redirect()->route('addspaces.index');
         }
+    }
+
+    public function revenues()
+    {
+
+    }
+
+    public function sales()
+    {
+        $user = Auth::user();
+        return view('wallet.sales', compact('user'));
+    }
+
+    public function packages()
+    {
+        $user = Auth::user();
+        $packages = CreditPackage::all();
+        $clusters = array_chunk($packages->toArray(), 3);
+        return view('wallet.packages', compact('user', 'clusters'));
+    }
+
+    public function payments()
+    {
+        $user = Auth::user();
+        return view('wallet.payments', compact('user'));
     }
 }

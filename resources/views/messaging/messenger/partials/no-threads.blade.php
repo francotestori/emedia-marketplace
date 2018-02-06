@@ -1,1 +1,1 @@
-<p>Sorry, no threads.</p>
+<p>{{Lang::get('messages.no_messages')}}</p>

@@ -8,8 +8,10 @@
 
 return [
     'new' => 'New :item',
-    'edit' => 'Edit :item #:id',
+    'edit' => 'Edit :item',
     'link' => 'Link:',
+
+    'deposit' => 'Deposit',
 
     'reset' => 'Reset Password',
     '' => '',

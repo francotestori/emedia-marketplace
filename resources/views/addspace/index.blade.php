@@ -5,24 +5,22 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-info">
+    <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-6">
-                    <h3>
-                        <span>{{Lang::get('items.addspaces')}}</span>
-                    </h3>
-                </div>
-                <div class="col-md-6">
-                    @if(Auth::user()->isEditor())
-                        <div class="pull-right">
-                            <a href="{{route('addspaces.create')}}" class="btn btn-info btn-lg">{{Lang::get('forms.create')}}</a>
-                        </div>
-                    @endif
+            <div class="panel-titulo">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3>
+                            {{Lang::get('items.web_or_blog')}}
+                        </h3>
+                    </div>
+                    <div class="col-md-2">
+                        @if(Auth::user()->isEditor())
+                            <a href="{{route('addspaces.create')}}" class="btn btn-primary create pull-right">{{Lang::get('forms.create')}}</a>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -33,17 +31,15 @@
                     {{ session('errors') }}
                 </div>
             @endif
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>Filters: </h4>
-                    @foreach($categories as $category)
-                        <span>
-                            <a class="btn btn-primary" href="{{route('addspaces.index', ['category' => $category->name])}}">
+            <div class="filtros">
+                <h4>Filters: </h4>
+                @foreach($categories as $category)
+                    <span>
+                            <a class="btn btn-info" href="{{route('addspaces.index', ['category' => $category->name])}}">
                                 <span>{{$category->name}}</span>
                             </a>
                         </span>
-                    @endforeach
-                </div>
+                @endforeach
             </div>
             <hr>
             <div class="row">
@@ -71,12 +67,10 @@
                                     <td>{{$addspace->created_at}}</td>
                                     <td>
                                         <a data-original-title="Detail" class="btn btn-info" href="{{route('addspaces.show', ['id' => $addspace->id])}}">
-                                            <i class="fa fa-info"></i>
                                             {{Lang::get('forms.info')}}
                                         </a>
                                         @if(Auth::id() == $addspace->editor_id || Auth::user()->isManager())
                                             <a data-original-title="Detail" class="btn btn-info" href="{{route('addspaces.edit', ['id' => $addspace->id])}}">
-                                                <i class="fa fa-pencil"></i>
                                                 {{Lang::get('forms.edit')}}
                                             </a>
                                         @endif
@@ -92,6 +86,7 @@
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 @endsection

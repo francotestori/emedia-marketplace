@@ -1,19 +1,21 @@
 @extends('layouts.insite-layout')
 
 @section('content')
-    <div class="panel panel-info">
+    <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>
+            <div class="panel-titulo2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>
                         <span>
-                            {{Lang::get('titles.edit', ['item' => Lang::get('items.addspace'), 'id' => $addspace->id])}}
+                            {{Lang::get('titles.edit', ['item' => $addspace->url])}}
                         </span>
-                    </h3>
+                        </h3>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
+            <br>
+
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -25,6 +27,5 @@
                 </div>
             @endif
             @include('addspace.addspace_form', ['edit' => true, 'addspace' => $addspace])
-        </div>
     </div>
 @endsection

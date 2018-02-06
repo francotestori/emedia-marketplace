@@ -41,15 +41,22 @@
                     <li class="active"><a href="#"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
                     -->
                     @if(Auth::user() != null && Auth::user()->isManager())
-                    <li>
-                        <a href="{{url('/home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
-                    <li><a href="{{route('addspaces.index')}}"><i class="fa fa-tasks" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.addspaces')}}</span></a></li>
-                    <li><a href="{{route('users.index')}}"><i class="fa fa-users" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.users')}}</span></a></li>
-                    <li><a href="{{route('withdrawal.index')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.withdrawals')}}</span></a></li>
-                    <li><a href="{{route('config')}}"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.config')}}</span></a></li>
-                    @elseif(Auth::user() != null)
                         <li><a href="{{url('/home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
-                        <li><a href="{{route('addspaces.index')}}"><i class="fa fa-tasks" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.addspaces')}}</span></a></li>
+                        <li><a href="{{route('addspaces.index')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.web_or_blog')}}</span></a></li>
+                        <li><a href="{{route('users.index')}}"><i class="fa fa-users" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.users')}}</span></a></li>
+                        <li><a href="{{route('withdrawal.index')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.withdrawals')}}</span></a></li>
+                        <li><a href="{{route('config')}}"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.config')}}</span></a></li>
+                    @elseif(Auth::user() != null && Auth::user()->isEditor())
+                        <li><a href="{{url('/home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
+                        <li><a href="{{route('addspaces.index')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.web_or_blog')}}</span></a></li>
+                        <li><a href="{{route('sales')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.sales')}}</span></a></li>
+                        <li><a href="{{route('wallet')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.wallet')}}</span></a></li>
+                    @elseif(Auth::user() != null && Auth::user()->isAdvertiser())
+                        <li><a href="{{url('/home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
+                        <li><a href="{{route('addspaces.search')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.web_or_blog')}}</span></a></li>
+                        <li><a href="{{route('payments')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.purchases')}}</span></a></li>
+                        <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.packages')}}</span></a></li>
+                        <li><a href="{{route('wallet')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.wallet')}}</span></a></li>
                     @endif
                 </ul>
             </div>
@@ -69,27 +76,18 @@
                                 </button>
                             </div>
                         </nav>
-                        <!--
-                        <div class="search hidden-xs hidden-sm">
-                            <input type="text" placeholder="Search" id="search">
-                        </div>
-                        -->
                     </div>
                     <div class="col-md-5">
                         <div class="header-rightside">
                             <ul class="list-inline header-top pull-right">
                                 <li>
-                                    <a href="{{route('messages')}}"><i class="fa fa-envelope" aria-hidden="true"></i></a>
-                                    @include('messaging.messenger.unread-count')
-                                </li>
-                                <!--
-                                <li>
-                                    <a href="#" class="icon-info">
-                                        <i class="fa fa-bell" aria-hidden="true"></i>
-                                        <span class="label label-primary">3</span>
+                                    <a href="{{route('messages')}}" class="icon-info">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        @if(Auth::user()->newThreadsCount() > 0)
+                                            <span class="label label-primary">{{Auth::user()->newThreadsCount()}}</span>
+                                        @endif
                                     </a>
                                 </li>
-                                -->
                                 <li class="dropdown">
                                     <a href="user.html" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i>
                                         <b class="caret"></b></a>

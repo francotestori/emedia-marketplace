@@ -5,121 +5,130 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-info">
+    <div class="panel panel-default">
         <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>
+            <div class="panel-titulo2">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h3>
                                 <span>
                                     <strong>{{$user->name}}</strong>
                                 </span>
-                            </h3>
+                                </h3>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4>
                                 <span>
                                     {{$user->email}}
                                 </span>
-                            </h4>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 balance">
+                        <div class="pull-right">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if(Auth::user()->id == $user->id)
+                                        <a href="{{route('users.edit', $user->id)}}" class="btn btn-info btn-lg">{{Lang::get('messages.edit')}}</a>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="pull-right">
+            </div>
+            <br>
+            <div class="panel-titulo2">
+                <div class="row">
+                    <div class="col-md-8">
                         <div class="row">
-                            <div class="col-md-4">
-                                @if(Auth::user()->id == $user->id)
-                                    <a href="{{route('users.edit', $user->id)}}" class="btn btn-info btn-lg">{{Lang::get('messages.edit')}}</a>
-                                @endif
+                            <div class="col-md-10">
+                                <h3>{{Lang::get('messages.wallet')}}</h3>
                             </div>
-                            <div class="col-md-4">
-                                @if(Auth::user()->isEditor())
-                                    <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-warning btn-lg">{{Lang::get('messages.withdraw')}}</button>
-                                @elseif(Auth::user()->isAdvertiser())
-                                    <a href="{{route('deposit')}}" class="btn btn-warning btn-lg">{{Lang::get('messages.deposit')}}</a>
-                                @endif
-
+                            <div class="col-md-2 balance">
+                                <h4>{{Lang::get('items.balance')}}</h4>
+                                <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-2 balance pull-right">
+                        @if(Auth::user()->isEditor())
+                            <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-warning btn-lg">{{Lang::get('messages.withdraw')}}</button>
+                        @elseif(Auth::user()->isAdvertiser())
+                            <a href="{{route('deposit')}}" class="btn btn-warning btn-lg">{{Lang::get('messages.deposit')}}</a>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
-
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            @if (session('errors'))
-                <div class="alert alert-danger">
-                    {{ session('errors') }}
-                </div>
-            @endif
-
-            <div class="row">
-                <div class="col-md-12">
-                </div>
-            </div>
-
+            <br>
             @if(Auth::user()->id == $user->id || Auth::user()->isManager())
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="detalles-texto">Wallet Balance</div>
-                        <div class="detalles">
-                            <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="detalles-texto">TRANSACTIONS</div>
-                        <div class="detalles">
-                            <table class="table table-bordered" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
-                                <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Action</th>
-                                    <th>Amount</th>
-                                    <th>State</th>
-                                    <th>Date</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @if(count($user->getWallet()->getTransactions()))
-                                    @foreach($user->getWallet()->getTransactions() as $transaction)
-                                        <tr class="@if($transaction->getEvent() == null) alert-info @elseif($transaction->getEvent()->pending()) alert-warning @elseif($transaction->getEvent()->rejected()) alert-danger @else alert-success @endif">
+                        <table class="table table-bordered" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
+                            <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Action</th>
+                                <th>Date</th>
+                                <th>State</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(count($user->getWallet()->getTransactions()))
+                                @foreach($user->getWallet()->getTransactions() as $transaction)
+                                    @if(($transaction->getEvent() != null && !$transaction->getEvent()->rejected()) ||
+                                        $transaction->type == 'DEPOSIT' ||
+                                        $transaction->type == 'WITHDRAWAL')
+                                        <tr>
                                             <td>{{$transaction->from_wallet == $user->getWallet()->id ? 'DEBIT' : 'CREDIT'}}</td>
                                             <td>{{$transaction->type}}</td>
-                                            <td>{{$transaction->amount}}</td>
-                                            <td>{{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}</td>
                                             <td class="">
                                                 {{$transaction->created_at}}
                                             </td>
+                                            <td>{{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}</td>
+                                            <td>
+                                                    <span>
+                                                        <strong>{{Lang::get('attributes.currency')}}</strong>
+                                                        {{$transaction->amount}}
+                                                    </span>
+                                            </td>
                                         </tr>
-                                    @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan="4">No Companies Found</td>
-                                    </tr>
-                                @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5">{{Lang::get('messages.no_items_found')}}</td>
+                                </tr>
+                            @endif
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="4">Total</td>
+                                <td>{{$user->getWallet()->getTransactionsBalance()}}</td>
+                            </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             @endif
-
             @if($user->isEditor())
+                <br>
+                <div class="panel-titulo2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Editor's addspaces</h4>
+                        </div>
+                    </div>
+                </div>
+                <br>
                 <div class="row">
                     <div class="col-md-12">
-                        <h4>Editor's addspaces</h4>
                         <ul>
                             @foreach($user->addspaces()->get() as $addspace)
                                 <li>
@@ -132,16 +141,14 @@
                     </div>
                 </div>
             @endif
-
         </div>
-
     </div>
 @endsection
 
 @section('modals')
     <!-- Modal -->
     <div id="withdrawModal" class="modal fade" role="dialog" style="margin-top: -10%;">
-        <div class="modal-dialog">
+            <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">

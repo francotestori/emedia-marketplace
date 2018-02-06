@@ -102,10 +102,12 @@ class AddspaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         if("create" == $id)
             return $this->create();
+        elseif("search" == $id)
+            return $this->search($request);
 
         $user = Auth::user();
 
@@ -257,5 +259,44 @@ class AddspaceController extends Controller
 
         Session::flash('errors', Lang::get('messages.forbidden'));
         return redirect()->route('addspaces.show', $id);
+    }
+
+    public function search(Request $request)
+    {
+        $filter = $request->query('category');
+
+        $addspaces = Addspace::whereHas('categories', function($query) use ($filter) {
+                        is_null($filter) ? $query : $query->where('name', $filter);
+                     })->get();
+
+        $clusters = array_chunk($addspaces->toArray(), 3);
+        return view('addspace.search', compact('clusters'));
+    }
+
+    public function filter(Request $request)
+    {
+        $addspaces = Addspace::query();
+
+        if(Input::has('categories'))
+        {
+            $categories = Input::get('categories');
+            $addspaces->whereHas('categories', function($query) use ($categories) {
+                is_null($categories) ? $query : $query->whereIn('name', $categories);
+            });
+        }
+
+        if(Input::has('url') && !empty(Input::get('url')) )
+            $addspaces->where('url', 'like' , '%'.Input::get('url').'%');
+
+        if(Input::has('price')&& !empty(Input::get('price')) )
+            $addspaces->where('cost','>=', Input::get('price'));
+
+        if(Input::has('visits')&& !empty(Input::get('visits')) )
+            $addspaces->where('visits','>=', Input::get('visits'));
+
+
+        $clusters = array_chunk($addspaces->get()->toArray(), 3);
+        $request->flash();
+        return view('addspace.search', compact('clusters'));
     }
 }

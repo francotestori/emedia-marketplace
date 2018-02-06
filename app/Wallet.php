@@ -45,4 +45,23 @@ class Wallet extends Model
         return $this->user()->first();
     }
 
+    public function getTransactionsBalance()
+    {
+        $credit = 0;
+        $debit = 0;
+
+        foreach($this->getCredits() as $single_credit){
+            if($single_credit->getEvent() != null && $single_credit->getEvent()->accepted())
+                $credit += $single_credit->amount;
+        }
+
+        foreach($this->getDebits() as $single_debit){
+            if($single_debit->getEvent() != null && $single_debit->getEvent()->accepted())
+                $debit += $single_debit->amount;
+        }
+
+        return $credit - $debit;
+    }
+
+
 }

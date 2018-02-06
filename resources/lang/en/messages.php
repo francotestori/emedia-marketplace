@@ -28,9 +28,26 @@ return [
 
     'forbidden' => 'You are not allowed to access this resource!',
 
+    'no_messages' => 'There are no messages in your inbox!',
+    'new_message' => 'Add a new message',
+    'thread_close' => 'Thread has been closed by',
+    'thread_open' => 'Thread is still open.',
+
     'transaction' => 'Your transaction was successful!',
+    'remember_score' => 'Please remember to score editor\'s service',
+    'score' => 'Score editor\'s service:',
+    'rollback_transaction' => 'Do you want to rollback this transaction?',
+    'validate_transaction' => 'You are about to validate the transaction for this addspace.',
+    'describe_problem' => 'Describe your problem',
+
     'buy' => 'Buy Addspace!',
     'no_funds' => 'Insufficient funds!',
+
+    'sales' => 'Sales',
+    'sales_subtitle' => 'Here you can see your addspaces\' sales',
+
+    'purchases' => 'Purchases',
+    'purchases_subtitle' => 'Here you can see your purchases\' sales',
 
     'home' => 'Home',
     'login' => 'Sign in',
@@ -39,6 +56,13 @@ return [
     'addspaces' => 'Addspaces',
     'conversations' => 'Conversations',
     'wallet' => 'Wallet',
+    'packages' => 'Credit Packages',
+    'web_or_blog' => 'Web / Blog',
+
+    'more' => 'More Info',
+
+    'filter' => 'Filter',
+    'remove_filter' => 'Remove Filters',
 
     'url' => 'URL',
     'description' => 'Description',
