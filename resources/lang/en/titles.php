@@ -13,6 +13,13 @@ return [
 
     'deposit' => 'Deposit',
 
+    'users' => 'Users',
+    'advertisers' => 'Advertisers',
+    'editors' => 'Editors',
+
+    'withdrawal' => 'Withdrawals',
+    'config' => 'Config',
+
     'reset' => 'Reset Password',
     '' => '',
 ];

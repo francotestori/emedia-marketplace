@@ -2,10 +2,6 @@
 use App\CreditPackage;
 
 $package = CreditPackage::find($packageArray['id']);
-$package->id = $packageArray['id'];
-$package->name = $packageArray['name'];
-$package->cost = $packageArray['cost'];
-$package->amount = $packageArray['amount'];
 ?>
 <div class="col-md-4">
     <div class="ejemplo-webs">
@@ -26,10 +22,15 @@ $package->amount = $packageArray['amount'];
                 <strong>{{Lang::get('items.price')}}</strong>
                 {{Lang::get('attributes.currency').$package->cost}}
             </p>
+            @if(Auth::user()->isManager())
+            <a href="edit.html" type="button" class="btn btn-info">Modificar </a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Desactivar</button>
+            @elseif(Auth::user()->isAdvertiser())
             {{Form::open(['route' => 'deposit.prepare'])}}
             <input type="hidden" name="amount" value="{{(int) $package->cost}}">
             {{Form::submit(Lang::get('forms.buy'), ['class' => 'btn btn-info'])}}
             {{Form::close()}}
+            @endif
         </div>
     </div>
 </div>

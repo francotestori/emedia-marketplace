@@ -38,7 +38,7 @@ Route::get('reset-editor', ['as' => 'password.reset-editor', 'uses' => 'Auth\Res
 Route::group(['middleware' => ['auth']], function(){
 
     # Home
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 
     # Users routes
     Route::group(['prefix' => 'users'], function (){
@@ -78,6 +78,9 @@ Route::group(['middleware' => ['auth']], function(){
             Route::post('/',['as' => 'users.store', 'uses' => 'UserController@store']);
         });
 
+        Route::get('transactions', ['as' => 'transactions', 'uses' => 'WalletController@transactions']);
+        Route::get('profits', ['as' => 'profits', 'uses' => 'HomeController@profits']);
+        Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
         Route::get('revenues', ['as' => 'revenues', 'uses' => 'WalletController@revenues']);
 
         # Withdrawal flow routes
@@ -106,8 +109,8 @@ Route::group(['middleware' => ['auth']], function(){
     # Advertiser specific routes
     Route::group(['middleware' => ['advertiser']], function(){
 
-        Route::get('/addspace/search', ['as' => 'addspaces.search', 'uses' => 'AddspaceController@search']);
-        Route::post('/addspace/search', ['as' => 'addspaces.filter', 'uses' => 'AddspaceController@filter']);
+        Route::get('/addspaces/search', ['as' => 'addspaces.search', 'uses' => 'AddspaceController@search']);
+        Route::post('/addspaces/search', ['as' => 'addspaces.filter', 'uses' => 'AddspaceController@filter']);
 
         Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
         Route::get('payments', ['as' => 'payments', 'uses' => 'WalletController@payments']);

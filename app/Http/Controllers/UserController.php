@@ -23,6 +23,8 @@ class UserController extends Controller
         View::share('max', $withdrawal_config->max);
 
         View::share('users', User::all());
+        View::share('advertisers', User::where('role_id', 2)->get());
+        View::share('editors', User::where('role_id', 1)->get());
         View::share('roles', Role::all());
     }
 
@@ -34,8 +36,10 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->isManager())
-            return view('user.index');
+        if($user->isManager()){
+            $type = request('type');
+            return view('user.index', compact('type'));
+        }
         else
             return redirect()->route('users.show',[$user->id]);
     }

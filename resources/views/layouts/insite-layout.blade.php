@@ -41,18 +41,22 @@
                     <li class="active"><a href="#"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
                     -->
                     @if(Auth::user() != null && Auth::user()->isManager())
-                        <li><a href="{{url('/home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
-                        <li><a href="{{route('addspaces.index')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.web_or_blog')}}</span></a></li>
-                        <li><a href="{{route('users.index')}}"><i class="fa fa-users" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.users')}}</span></a></li>
+                        <li><a href="{{route('home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
+                        <li><a href="{{route('addspaces.search')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.web_or_blog')}}</span></a></li>
+                        <li><a href="{{url('users').'?type=editor'}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.editors')}}</span></a></li>
+                        <li><a href="{{url('users').'?type=advertiser'}}"><i class="fa fa-bullhorn" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.advertisers')}}</span></a></li>
+                        <li><a href="{{route('transactions')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.transactions')}}</span></a></li>
+                        <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.packages')}}</span></a></li>
+                        <li><a href="{{route('profits')}}"><i class="fa fa-percent" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.profits')}}</span></a></li>
+                        <li><a href="{{route('revenues')}}"><i class="fa fa-usd" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.revenues')}}</span></a></li>
                         <li><a href="{{route('withdrawal.index')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.withdrawals')}}</span></a></li>
-                        <li><a href="{{route('config')}}"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.config')}}</span></a></li>
                     @elseif(Auth::user() != null && Auth::user()->isEditor())
-                        <li><a href="{{url('/home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
+                        <li><a href="{{route('home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
                         <li><a href="{{route('addspaces.index')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.web_or_blog')}}</span></a></li>
                         <li><a href="{{route('sales')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.sales')}}</span></a></li>
                         <li><a href="{{route('wallet')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.wallet')}}</span></a></li>
                     @elseif(Auth::user() != null && Auth::user()->isAdvertiser())
-                        <li><a href="{{url('/home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
+                        <li><a href="{{route('home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.home')}}</span></a></li>
                         <li><a href="{{route('addspaces.search')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.web_or_blog')}}</span></a></li>
                         <li><a href="{{route('payments')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.purchases')}}</span></a></li>
                         <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.packages')}}</span></a></li>

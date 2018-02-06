@@ -107,4 +107,13 @@ return [
     'activated' => ':item has been activated!',
     'paused' => ':item has been paused!',
     'closed' => ':item has been closed!',
+
+    'editors' => 'Editors',
+    'advertisers' => 'Advertisers',
+    'transactions' => 'Transactions',
+    'transactions_subtitle' => 'Here you can see all system transactions',
+    'profits' => 'Profits',
+    'revenues' => 'Revenues',
+
+    'wish_password' => 'Do you wish to send password?',
 ];

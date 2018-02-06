@@ -18,6 +18,9 @@ return [
     'created_at' => 'Created At',
     'actions' => 'Actions',
 
+    'role' => 'Role',
+    'email' => 'Email',
+
     'currency' => 'u$s',
     'day_periodicity' => 'per day',
 ];

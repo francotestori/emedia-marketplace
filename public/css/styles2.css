@@ -4,7 +4,12 @@ body{
 }
 
 .servicios{
-    padding-top: 2%;
+    text-align: center;
+}
+
+.servicios h1{
+    font-size: 4em !important;
+    text-align: center;
 }
 
 .table-responsive{
@@ -1008,4 +1013,35 @@ a {
 .ejemplo-webs{
     background-color: #d4d4d4;
     padding: 2%;
+}
+
+.bloque{
+    margin-top: 3%;
+}
+
+.amarrillo{
+    background-color: #f3e353;
+    border-color: #f3e353;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #000;
+}
+
+.amarrillo:hover,
+
+.amarrillo:focus {
+    color: #000; border-color: #f3e353;
+    background-color: #d7c94c !important;
+}
+
+.azul{
+    background-color: #29abe1;
+    color:#000;
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+.azul:hover, .azul:focus{
+    color: #ccc;
+    background-color: #187aa2 !important;
 }

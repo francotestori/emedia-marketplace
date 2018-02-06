@@ -17,6 +17,7 @@ return [
     'addspace' => 'Addspace',
 
     'create' => 'Create',
+    'add' => 'Add',
     'edit' => 'Edit',
     'delete' => 'Delete',
     'cancel' => 'Cancel',
@@ -33,6 +34,9 @@ return [
     'reset' => 'Reset Password',
 
     'activate' => 'Activate',
+    'deactivate' => 'Deactivate',
     'pause' => 'Pause',
     'close' => 'Close',
+
+    'send_password' => 'Send Password',
 ];

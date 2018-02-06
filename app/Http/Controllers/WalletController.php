@@ -406,7 +406,14 @@ class WalletController extends Controller
 
     public function revenues()
     {
+        $user = Auth::user();
+        return view('wallet.revenues', compact('user'));
+    }
 
+    public function transactions()
+    {
+        $user = Auth::user();
+        return view('transaction.index', compact('user'));
     }
 
     public function sales()

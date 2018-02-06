@@ -5,7 +5,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h3>
                         <span>
                             <strong>{{Lang::get('titles.link')}}</strong>
@@ -14,8 +14,8 @@
                     </h3>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="pull-right">
+                <div class="col-md-8">
+                    <div class="pull-right balance">
                         @if(Auth::user()->isAdvertiser() && count($events) == 0)
                             <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#charge">
                                 <span>
@@ -25,32 +25,29 @@
                             </button>
                         @elseif(!Auth::user()->isAdvertiser())
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     @if(!$addspace->isActive())
-                                        <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-default btn-lg">
+                                        <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-default">
                                             <i class="fa fa-play-circle"></i>
                                             {{Lang::get('forms.activate')}}
                                         </a>
                                     @else
-                                        <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn btn-warning btn-lg">
+                                        <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn btn-warning">
                                             <i class="fa fa-pause-circle"></i>
                                             {{Lang::get('forms.pause')}}
                                         </a>
                                     @endif
-                                </div>
-                                <div class="col-md-4">
                                     @if(!$addspace->isClosed())
-                                        <a href="{{route('addspaces.close', $addspace->id)}}" class="btn btn-danger btn-lg">
+                                        <a href="{{route('addspaces.close', $addspace->id)}}" class="btn btn-danger">
                                             <i class="fa fa-close"></i>
-                                            {{Lang::get('forms.close')}}
+                                            {{Lang::get('forms.deactivate')}}
                                         </a>
                                     @endif
-                                </div>
-                                <div class="col-md-4">
-                                    <a href="{{route('addspaces.edit', $addspace->id)}}" class="btn btn-info btn-lg">
-                                        <i class="fa fa-pencil"></i>
-                                        {{Lang::get('forms.edit')}}
-                                    </a>
+                                        <a href="{{route('addspaces.edit', $addspace->id)}}" class="btn btn-info">
+                                            <i class="fa fa-pencil"></i>
+                                            {{Lang::get('forms.edit')}}
+                                        </a>
+
                                 </div>
                             </div>
                         @endif

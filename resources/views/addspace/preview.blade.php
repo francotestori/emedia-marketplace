@@ -32,7 +32,24 @@ $addspace = Addspace::find($addspaceArray['id']);
             <p><strong>{{Lang::get('items.language')}}</strong> </p>
             <p><strong>{{Lang::get('items.description')}}</strong> {{$addspace->description}}</p>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{'info-'.$addspace->id}}">{{Lang::get('messages.more')}}</button>
-            <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#charge">{{Lang::get('forms.buy')}}</button>
+            @if(Auth::user()->isAdvertiser())
+                <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#charge">{{Lang::get('forms.buy')}}</button>
+            @else
+                    @if(!$addspace->isActive())
+                        <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-default">
+                            {{Lang::get('forms.activate')}}
+                        </a>
+                    @else
+                        <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn btn-warning">
+                            {{Lang::get('forms.pause')}}
+                        </a>
+                    @endif
+                    @if(!$addspace->isClosed())
+                        <a href="{{route('addspaces.close', $addspace->id)}}" class="btn btn-danger">
+                            {{Lang::get('forms.deactivate')}}
+                        </a>
+                    @endif
+            @endif
         </div>
 
         <!-- Modal -->

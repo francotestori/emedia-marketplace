@@ -50,6 +50,10 @@ return [
 
     'recipient' => 'Recipient',
 
+    'buyer' => 'Buyer',
+    'seller' => 'Seller',
+    'advertiser_item' => 'Advertiser',
+
     'name' => 'Name:',
     'emarket_value' => 'EMarketplace value:',
 ];

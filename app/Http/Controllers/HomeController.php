@@ -32,4 +32,11 @@ class HomeController extends Controller
         $config = Configuration::all();
         return view('manager.config', compact('config'));
     }
+
+    public function profits()
+    {
+        $profits = Configuration::where('key', '<>', 'withdrawal')->get();
+        return view('manager.profits', compact('profits'));
+
+    }
 }

@@ -220,11 +220,11 @@ class AddspaceController extends Controller
             $addspace->save();
 
             Session::flash('status', Lang::get('messages.activated', ['item' =>'Addspace']));
-            return redirect()->route('addspaces.show', $id);
+            return redirect()->back();
         }
 
         Session::flash('errors', Lang::get('messages.forbidden'));
-        return redirect()->route('addspaces.show', $id);
+        return redirect()->back();
     }
 
     public function pause($id)
@@ -237,11 +237,11 @@ class AddspaceController extends Controller
             $addspace->save();
 
             Session::flash('status', Lang::get('messages.paused', ['item' =>'Addspace']));
-            return redirect()->route('addspaces.show', $id);
+            return redirect()->back();
         }
 
         Session::flash('errors', Lang::get('messages.forbidden'));
-        return redirect()->route('addspaces.show', $id);
+        return redirect()->back();
     }
 
     public function close($id)
@@ -254,11 +254,11 @@ class AddspaceController extends Controller
             $addspace->save();
 
             Session::flash('status', Lang::get('messages.closed', ['item' =>'Addspace']));
-            return redirect()->route('addspaces.show', $id);
+            return redirect()->back();
         }
 
         Session::flash('errors', Lang::get('messages.forbidden'));
-        return redirect()->route('addspaces.show', $id);
+        return redirect()->back();
     }
 
     public function search(Request $request)

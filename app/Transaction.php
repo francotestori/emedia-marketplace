@@ -60,4 +60,9 @@ class Transaction extends Model
         }
         return true;
     }
+
+    public function isSystem()
+    {
+        return $this->type == 'DEPOSIT' || $this->type == 'WITHDRAWAL';
+    }
 }
