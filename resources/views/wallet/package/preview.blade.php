@@ -23,8 +23,12 @@ $package = CreditPackage::find($packageArray['id']);
                 {{Lang::get('attributes.currency').$package->cost}}
             </p>
             @if(Auth::user()->isManager())
-            <a href="edit.html" type="button" class="btn btn-info">Modificar </a>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Desactivar</button>
+            <a href="{{route('package.edit', ['id' => $package->id])}}" type="button" class="btn btn-info">{{Lang::get('forms.edit')}} </a>
+            @if($package->active())
+                <a href="{{route('package.deactivate', ['id' => $package->id])}}" type="button" class="btn btn-danger">{{Lang::get('forms.deactivate')}} </a>
+            @else
+                <a href="{{route('package.activate', ['id' => $package->id])}}" type="button" class="btn btn-success">{{Lang::get('forms.activate')}} </a>
+            @endif
             @elseif(Auth::user()->isAdvertiser())
             {{Form::open(['route' => 'deposit.prepare'])}}
             <input type="hidden" name="amount" value="{{(int) $package->cost}}">

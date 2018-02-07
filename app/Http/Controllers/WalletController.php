@@ -425,7 +425,7 @@ class WalletController extends Controller
     public function packages()
     {
         $user = Auth::user();
-        $packages = CreditPackage::all();
+        $packages = $user->isManager() ? CreditPackage::all() : CreditPackage::where('active', true)->get();
         $clusters = array_chunk($packages->toArray(), 3);
         return view('wallet.packages', compact('user', 'clusters'));
     }

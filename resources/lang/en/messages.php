@@ -45,6 +45,7 @@ return [
 
     'sales' => 'Sales',
     'sales_subtitle' => 'Here you can see your addspaces\' sales',
+    'revenues_subtitle' => 'Here you can see your revenues',
 
     'purchases' => 'Purchases',
     'purchases_subtitle' => 'Here you can see your purchases\' sales',

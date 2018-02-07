@@ -10,4 +10,9 @@ class CreditPackage extends Model
         'name', 'amount', 'cost'
     ];
 
+    public function active()
+    {
+        return $this->active;
+    }
+
 }

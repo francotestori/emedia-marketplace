@@ -18,9 +18,54 @@
                 </div>
             @endif
             <div class="panel-titulo2">
-                <h3>{{Lang::get('messages.revenues')}}</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>{{Lang::get('messages.wallet')}}</h3>
+                        <p>{{Lang::get('messages.revenues_subtitle')}}</p>
+                    </div>
+                </div>
             </div>
             <br>
+                <table class="table table-bordered" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{Lang::get('items.web_or_blog')}}</th>
+                        <th>{{Lang::get('items.date')}}</th>
+                        <th>{{Lang::get('items.amount')}}</th>
+                        <th>{{Lang::get('items.state')}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if(count($user->getWallet()->getTransactions()))
+                        @foreach($user->getWallet()->getTransactions() as $transaction)
+                            <tr>
+                                <td>
+                                    <strong>{{$transaction->id}}</strong>
+                                </td>
+                                <td>{{$transaction->getAddspace() != null ? $transaction->getAddspace()->url : $transaction->type}}</td>
+                                <td>{{$transaction->created_at}}</td>
+                                <td>
+                                        <span>
+                                            <strong>{{Lang::get('attributes.currency')}}</strong>
+                                            {{$transaction->amount}}
+                                        </span>
+                                </td>
+                                <td>
+                                    <span class="@if($transaction->getEvent() == null) alert-info @elseif($transaction->getEvent()->pending()) alert-warning @elseif($transaction->getEvent()->rejected()) alert-danger @else alert-success @endif">
+                                        {{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="5">{{Lang::get('messages.no_items_found')}}</td>
+                        </tr>
+                    @endif
+                    </tbody>
+                </table>
+
         </div>
     </div>
 @stop

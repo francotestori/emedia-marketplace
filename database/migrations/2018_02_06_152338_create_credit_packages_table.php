@@ -18,6 +18,7 @@ class CreateCreditPackagesTable extends Migration
             $table->string('name');
             $table->double('cost', 8,2);
             $table->double('amount', 8,2);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

@@ -80,8 +80,15 @@ Route::group(['middleware' => ['auth']], function(){
 
         Route::get('transactions', ['as' => 'transactions', 'uses' => 'WalletController@transactions']);
         Route::get('profits', ['as' => 'profits', 'uses' => 'HomeController@profits']);
-        Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
         Route::get('revenues', ['as' => 'revenues', 'uses' => 'WalletController@revenues']);
+
+        Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
+        Route::get('packages/create', ['as' => 'package.create', 'uses' => 'CreditPackageController@create']);
+        Route::post('packages/create', ['as' => 'package.store', 'uses' => 'CreditPackageController@store']);
+        Route::get('packages/{id}/edit', ['as' => 'package.edit', 'uses' => 'CreditPackageController@edit']);
+        Route::post('packages/{id}/edit', ['as' => 'package.update', 'uses' => 'CreditPackageController@update']);
+        Route::get('packages/{id}/activate', ['as' => 'package.activate', 'uses' => 'CreditPackageController@activate']);
+        Route::get('packages/{id}/deactivate', ['as' => 'package.deactivate', 'uses' => 'CreditPackageController@deactivate']);
 
         # Withdrawal flow routes
         Route::get('withdrawal', ['as' => 'withdrawal.index','uses' => 'WalletController@withdrawals',]);

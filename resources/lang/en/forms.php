@@ -12,6 +12,8 @@ return [
     'description' => 'Description',
     'visits' => 'Visits',
     'cost' => 'Cost ($USD)',
+    'amount' => 'Amount ($USD)',
+    'name' => 'Name',
     'categories' => 'Categories',
 
     'addspace' => 'Addspace',
