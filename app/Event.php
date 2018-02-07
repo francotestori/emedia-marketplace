@@ -56,6 +56,11 @@ class Event extends Model
         return $this->state == 'REJECTED';
     }
 
+    public function rejectedByUser()
+    {
+        return $this->state == 'USER_REJECTED';
+    }
+
     public function pending()
     {
         return $this->state == 'PENDING';

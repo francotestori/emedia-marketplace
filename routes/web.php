@@ -69,6 +69,9 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('addspaces/{id}/close', ['as' => 'addspaces.close', 'uses' => 'AddspaceController@close']);
         Route::get('addspaces/{id}/activate', ['as' => 'addspaces.activate', 'uses' => 'AddspaceController@activate']);
 
+        Route::post('addspace/{id}/reject', ['as' => 'addspaces.reject', 'uses' => 'WalletController@rejectPayment']);
+        Route::post('addspace/{id}/accept', ['as' => 'addspaces.accept', 'uses' => 'WalletController@acceptPayment']);
+
         # Configuration data route
         Route::get('/config',['as' => 'config', 'uses' => 'HomeController@config']);
 
@@ -124,7 +127,7 @@ Route::group(['middleware' => ['auth']], function(){
 
         # Payment routes
         Route::post('addspace/{id}/charge', ['as' => 'addspaces.charge', 'uses' => 'WalletController@charge']);
-        Route::post('addspace/{id}/reject', ['as' => 'addspaces.reject', 'uses' => 'WalletController@rejectPayment']);
+        Route::post('addspace/{id}/user-reject', ['as' => 'addspaces.user_reject', 'uses' => 'WalletController@rejectPaymentByUser']);
         Route::post('addspace/{id}/accept', ['as' => 'addspaces.accept', 'uses' => 'WalletController@acceptPayment']);
 
         # Deposit request routes

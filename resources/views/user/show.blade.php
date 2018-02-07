@@ -52,7 +52,11 @@
                             </div>
                             <div class="col-md-2 balance">
                                 <h4>{{Lang::get('items.balance')}}</h4>
-                                <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
+                                @if($user->isManager())
+                                    <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getSystemBalance()}}</p>
+                                @else
+                                    <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
+                                @endif
                             </div>
                         </div>
                     </div>

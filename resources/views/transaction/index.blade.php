@@ -43,8 +43,13 @@ $transactions = Transaction::all();
                                     <td>{{$transaction->created_at}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getReceiver()->getUser()->name : $transaction->getSender()->getUser()->name}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getSender()->getUser()->name : $transaction->getReceiver()->getUser()->name}}</td>
+                                    <?php
+                                        $class = $transaction->getEvent() == null ? 'alert-info'
+                                                                                  : ($transaction->getEvent()->pending() ? 'alert-warning'
+                                                                                  : ($transaction->getEvent()->rejected() || $transaction->getEvent()->rejectedByUser()) ? 'alert-danger' : 'alert-success');
+                                    ?>
                                     <td>
-                                        <span class="@if($transaction->getEvent() == null) alert-info @elseif($transaction->getEvent()->pending()) alert-warning @elseif($transaction->getEvent()->rejected()) alert-danger @else alert-success @endif">
+                                        <span class="{{$class}}">
                                         {{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}
                                         </span>
                                     </td>
@@ -55,9 +60,11 @@ $transactions = Transaction::all();
                                         </span>
                                     </td>
                                     <td>
-                                        @if($transaction->getEvent() != null && $transaction->getEvent()->pending())
-                                            <button type="button" class="btn btn-danger">Rechazar</button>
-                                            <button type="button" class="btn btn-success">Confirmar</button>
+                                        @if($transaction->getEvent() != null && $transaction->getEvent()->rejectedByUser())
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="{{'#reject'.$transaction->getEvent()->id}}">{{Lang::get('forms.reject')}}</button>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="{{'#accept'.$transaction->getEvent()->id}}">{{Lang::get('forms.accept')}}</button>
+                                            @include('events.accept', ['event' => $transaction->getEvent()])
+                                            @include('events.reject', ['event' => $transaction->getEvent()])
                                         @endif
                                     </td>
                                 </tr>

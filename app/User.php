@@ -80,4 +80,29 @@ class User extends Authenticatable
     public function getWallet(){
         return $this->wallet()->first();
     }
+
+    public function getSystemBalance()
+    {
+        if($this->isManager())
+        {
+            $credit = 0;
+            $debit = 0;
+
+            $wallet = $this->getWallet();
+            $transactions = $wallet->getTransactions();
+
+            foreach ($transactions as $transaction){
+                if($transaction->type == 'WITHDRAWAL')
+                    $debit += $transaction->amount;
+                elseif ($transaction->getEvent() != null && $transaction->getEvent()->accepted())
+                    $credit += $transaction->amount;
+                elseif($transaction->getEvent() == null)
+                    $credit += $transaction->amount;
+            }
+
+            return $credit - $debit;
+        }
+        else
+            return 0;
+    }
 }

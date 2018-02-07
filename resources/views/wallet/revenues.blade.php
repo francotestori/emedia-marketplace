@@ -19,9 +19,13 @@
             @endif
             <div class="panel-titulo2">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3>{{Lang::get('messages.wallet')}}</h3>
+                    <div class="col-md-10">
+                        <h3>{{Lang::get('messages.revenues')}}</h3>
                         <p>{{Lang::get('messages.revenues_subtitle')}}</p>
+                    </div>
+                    <div class="col-md-2 balance">
+                        <h4>{{Lang::get('items.balance')}}</h4>
+                        <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getSystemBalance()}}</p>
                     </div>
                 </div>
             </div>

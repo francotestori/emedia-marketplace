@@ -25,6 +25,10 @@ return [
     'cancel' => 'Cancel',
     'info' => 'Info',
 
+    'accept' => 'Accept',
+    'reject' => 'Reject',
+    'confirm' => 'Confirm',
+
     'buy' => 'Buy',
 
     'post' => 'Post',

@@ -368,7 +368,35 @@ class WalletController extends Controller
             }
 
             Session::flash('message', Lang::get('messages.attributed'));
-            return redirect()->route('addspaces.index');
+            return redirect()->route('addspaces.search');
+        }
+    }
+
+    public function rejectPaymentByUser($id)
+    {
+        $reason = Input::get('reason');
+
+        $event = Event::find($id);
+
+        if($event->rejected() || $event->accepted() || $event->rejectedByUser())
+            return redirect()->route('addspaces.search');
+        else
+        {
+            $event->state = 'USER_REJECTED';
+            $event->score = 1;
+            $event->save();
+
+            $transactions = Transaction::where('event_id', $event->id)->get();
+
+            $email = new Rollbacked($reason, $transactions);
+
+            foreach($transactions as $transaction){
+                $to = $transaction->getReceiver()->getUser()->email;
+                Mail::to($to)->send($email);
+            }
+
+            Session::flash('message', Lang::get('messages.rollbacked'));
+            return redirect()->route('addspaces.search');
         }
     }
 
@@ -379,7 +407,7 @@ class WalletController extends Controller
         $event = Event::find($id);
 
         if($event->rejected() || $event->accepted())
-            return redirect()->route('addspaces.index');
+            return redirect()->route('addspaces.search');
         else
         {
             $event->state = 'REJECTED';
@@ -400,7 +428,7 @@ class WalletController extends Controller
             }
 
             Session::flash('message', Lang::get('messages.rollbacked'));
-            return redirect()->route('addspaces.index');
+            return redirect()->route('addspaces.search');
         }
     }
 

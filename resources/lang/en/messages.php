@@ -87,6 +87,7 @@ return [
 
     'withdraw' => 'Withdraw',
     'deposit' => 'Deposit',
+    'rollback_request' => 'A rollback request has been send. An EMarket administrator will review and approved or reject the operation.',
     'rollback' => 'Rollback',
 
     'users' => 'Users',
