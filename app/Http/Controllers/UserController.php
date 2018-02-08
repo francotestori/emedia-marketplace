@@ -19,8 +19,8 @@ class UserController extends Controller
     public function __construct()
     {
         $withdrawal_config = Configuration::where('key', 'withdrawal')->first();
-        View::share('min', $withdrawal_config->min);
-        View::share('max', $withdrawal_config->max);
+        View::share('withdraw_min', $withdrawal_config->min);
+        View::share('withdraw_max', $withdrawal_config->max);
 
         View::share('users', User::all());
         View::share('advertisers', User::where('role_id', 2)->get());
@@ -51,9 +51,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $request_role = request('role', 1);
         $user = Auth::user();
         if($user->isManager())
-            return view('user.create');
+            return view('user.create', compact('request_role'));
 
         return redirect()->route('users.show',[$user->id]);
     }

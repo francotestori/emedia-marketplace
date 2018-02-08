@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Configuration;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class HomeController extends Controller
 {
@@ -14,7 +17,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-
+        View::share('advertisers', User::where('role_id', 2)->get());
+        View::share('editors', User::where('role_id', 1)->get());
     }
 
     /**
@@ -24,7 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        return view('home', compact('user'));
     }
 
     public function config()

@@ -36,7 +36,7 @@ return [
     'email' => 'Email',
     'send' => 'Send',
     'password' => 'Password',
-    'confirm' => 'Confirm Password',
+    'update' => 'Update',
     'reset' => 'Reset Password',
 
     'activate' => 'Activate',

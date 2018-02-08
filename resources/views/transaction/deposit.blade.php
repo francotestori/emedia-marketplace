@@ -14,28 +14,27 @@
                 </div>
             @endif
             <div class="panel-titulo2">
-                <h3>{{Lang::get('titles.deposit')}}</h3>
+                <h3>{{Lang::get('titles.deposit')}} <strong>({{Lang::get('attributes.currency')}})</strong></h3>
             </div>
             <br>
-            <div class="detalles">
-                {{Form::open(['route' => 'deposit.prepare'])}}
-                <div class="form-group">
-                    {{Form::label('Amount', Lang::get('messages.amount'))}}
-                    {{Form::number('amount', null, ['class' => 'form-control','step'=>'any'])}}
+            {{Form::open(['route' => 'deposit.prepare'])}}
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8 form-group">
+                        {{Form::label('Amount', Lang::get('messages.amount'))}}
+                        {{Form::number('amount', null, ['class' => 'form-control','step'=>'any'])}}
+                    </div>
+                    <div class="col-md-2"></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <!--Buttons-->
-                        <div class="form-group">
-                            <a href="{{URL::previous()}}" class="btn btn-def">{{Lang::get('messages.cancel')}}</a>
-                            {{Form::submit(Lang::get('messages.deposit'), ['class' => 'btn btn-primary'])}}
-                        </div>
+                    <div class="col-md-6">
+                        <a href="{{URL::previous()}}" class="btn btn-def pull-right">{{Lang::get('messages.cancel')}}</a>
                     </div>
-                    <div class="col-md-4"></div>
+                    <div class="col-md-6">
+                        <button type="submit" class="bt btn-primary pull-left">{{Lang::get('messages.deposit')}}</button>
+                    </div>
                 </div>
-                {{Form::close()}}
-            </div>
+            {{Form::close()}}
         </div>
     </div>
 @endsection

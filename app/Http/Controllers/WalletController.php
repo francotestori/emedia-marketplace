@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use Srmklive\PayPal\Services\ExpressCheckout;
 
 class WalletController extends Controller
@@ -29,6 +30,10 @@ class WalletController extends Controller
     protected $provider;
 
     public function __construct() {
+        $withdrawal_config = Configuration::where('key', 'withdrawal')->first();
+        View::share('withdraw_min', $withdrawal_config->min);
+        View::share('withdraw_max', $withdrawal_config->max);
+
         $this->provider = new ExpressCheckout();
     }
 

@@ -150,58 +150,9 @@
 @endsection
 
 @section('modals')
-    <!-- Modal -->
-    <div id="withdrawModal" class="modal fade" role="dialog" style="margin-top: -10%;">
-            <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Withdrawal</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Insert your paypal of bank account details and specify desired withdrawal amount.</p>
-                    {{Form::open(['route' => 'withdraw'])}}
-
-                    <div class="form-group">
-                        {{Form::label('paypal', Lang::get('messages.paypal_account'))}}
-                        {{Form::text('paypal', Input::old('paypal'), ['class' => 'form-control'])}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('cbu', Lang::get('messages.cbu'))}}
-                        {{Form::text('cbu', Input::old('cbu'), ['class' => 'form-control'])}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('alias', Lang::get('messages.alias'))}}
-                        {{Form::text('alias', Input::old('alias'), ['class' => 'form-control'])}}
-                    </div>
-                    <div class="form-group">
-                        {{Form::label('comment', Lang::get('messages.comment'))}}
-                        {{Form::textarea('comment', Input::old('comment'), ['class' => 'form-control'])}}
-                    </div>
-
-                    <div class="form-group">
-                        {{Form::label('amount', Lang::get('messages.amount'))}}
-                        {{Form::number('amount', Input::old('amount'), ['class' => 'form-control', 'min' => $min, 'max' => $max])}}
-                    </div>
-
-                    <!--Buttons-->
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <a class="btn btn-def btn-lg" data-dismiss="modal">{{Lang::get('messages.cancel')}}</a>
-                        </div>
-                        <div class="col-md-6">
-                            {{Form::submit(Lang::get('messages.create'), ['class' => 'btn btn-primary  btn-lg'])}}
-                        </div>
-                    </div>
-
-                    {{Form::close()}}
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
+    @if($user->isEditor())
+        @include('wallet.modal.withdrawal')
+    @endif
 @endsection
 
 @section('custom-js')

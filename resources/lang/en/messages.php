@@ -16,7 +16,18 @@ return [
     |
     */
 
+    'emedia' => 'Emediamarket',
+
     'welcome' => 'Welcome :name',
+
+    'manage_web' => 'Here you can manage your web',
+    'user_activity' => 'Now you have the following active users: ',
+    'check_profile' => 'See full profile',
+    'contact' => 'Contact us:',
+    'add_services' => 'Add your services: ',
+
+    'withdrawal_action' => 'Insert your paypal of bank account details and specify desired withdrawal amount.',
+    '' => '',
 
     'no_items_found' => 'No items have been found.',
     'are_you_sure_buy' => 'Are you sure you want to buy the following addspace?',

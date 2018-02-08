@@ -21,5 +21,6 @@ return [
     'config' => 'Config',
 
     'reset' => 'Reset Password',
+    'profile' => 'User Profile',
     '' => '',
 ];

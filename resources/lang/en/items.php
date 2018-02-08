@@ -56,4 +56,7 @@ return [
 
     'name' => 'Name:',
     'emarket_value' => 'EMarketplace value:',
+
+    'advertisers' => 'Advertisers',
+    'editors' => 'Editors',
 ];
