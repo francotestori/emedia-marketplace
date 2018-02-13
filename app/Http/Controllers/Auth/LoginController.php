@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Role;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class LoginController extends Controller
 {
@@ -36,6 +38,12 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+
+        $advertiser = Role::where('name','Advertiser')->first();
+        $editor = Role::where('name','Editor')->first();
+
+        View::share('advertiser', $advertiser);
+        View::share('editor', $editor);
     }
 
     protected function credentials(Request $request)
@@ -47,15 +55,9 @@ class LoginController extends Controller
         ];
     }
 
-    public function loginAdvertiser()
+    public function showLoginForm(Request $request)
     {
-        return view('auth.login-advertiser');
+        $requested = $request->get('role');
+        return view('auth.login', compact('requested'));
     }
-
-    public function loginEditor()
-    {
-        return view('auth.login-editor');
-    }
-
-
 }

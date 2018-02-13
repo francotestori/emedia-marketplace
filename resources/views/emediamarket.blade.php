@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -45,10 +44,10 @@
                     <a class="page-scroll noamarrillo" href="javascript:void(0);" onclick="javascript:$.scrollTo('#contacto', 800);">Contacto</a>
                 </li>
                 <li>
-                    <a class="page-scroll amarrillo" href="{{route('login.advertiser')}}">Anunciantes</a>
+                    <a class="page-scroll amarrillo" href="{{route('login', ['role' => 'advertiser'])}}">Anunciantes</a>
                 </li>
                 <li>
-                    <a class="page-scroll azul extra" href="{{route('login.editor')}}">Editores</a>
+                    <a class="page-scroll azul extra" href="{{route('login', ['role' => 'editor'])}}">Editores</a>
                 </li>
             </ul>
         </div>
@@ -79,7 +78,7 @@
                     online referentes al nicho de tu producto
                     y al presupuesto que tengas asignado.</p>
                 <img src="{{asset('img/flecha.png')}}" class="img-responsive center-block">
-                <a href="{{route('register.advertiser')}}" class="btn btn-primary btn-lg center-block boton-hacemos" role="button">Registrate como <strong>Anunciante</strong></a>
+                <a href="{{route('register', ['role' => 'advertiser'])}}" class="btn btn-primary btn-lg center-block boton-hacemos" role="button">Registrate como <strong>Anunciante</strong></a>
             </div>
             <div class="col-md-6 editor">
                 <img src="{{asset('img/editor.png')}}" class="img-responsive center-block">
@@ -88,7 +87,7 @@
                 <p>Monetiza de forma más efectiva tu sitio
                     web o blog. El precio lo pones tu.<br></p>
                 <img src="{{asset('img/flecha.png')}}" class="img-responsive center-block">
-                <a href="{{route('register.editor')}}" class="btn btn-primary btn-lg center-block boton-hacemos azul2" role="button">Registrate como <strong>editor</strong></a>
+                <a href="{{route('register', ['role' => 'editor'])}}" class="btn btn-primary btn-lg center-block boton-hacemos azul2" role="button">Registrate como <strong>editor</strong></a>
             </div>
         </div>
     </div>
@@ -122,12 +121,12 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <h2><strong>Iniciar</strong> como:</h2>
+                <h2><strong>Registrate</strong> como:</h2>
                 <img src="{{asset('img/icono1.png')}}" class="img-responsive center-block">
-                <a href="{{route('login.advertiser')}}" class="btn btn-primary btn-lg center-block boton-hacemos" role="button"><strong>Anunciante</strong></a>
+                <a href="{{route('register', ['role' => 'advertiser'])}}" class="btn btn-primary btn-lg center-block boton-hacemos" role="button"><strong>Anunciante</strong></a>
                 <hr>
                 <img src="{{asset('img/icono2.png')}}" class="img-responsive center-block">
-                <a href="{{route('register.editor')}}" class="btn btn-primary btn-lg center-block boton-hacemos azul2 margin-2" role="button">Registrate como <strong>editor</strong></a></div>
+                <a href="{{route('register', ['role' => 'editor'])}}" class="btn btn-primary btn-lg center-block boton-hacemos azul2 margin-2" role="button">Registrate como <strong>editor</strong></a></div>
         </div>
     </div>
 </div>

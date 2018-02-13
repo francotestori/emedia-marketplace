@@ -56,8 +56,8 @@
                     @endif
                     <!-- Authentication Links -->
                         @guest
-                            <li><a class="noamarrillo" href="{{ route('login') }}">{{Lang::get('messages.login')}}</a></li>
-                            <li><a class="noamarrillo" href="{{ route('register') }}">{{Lang::get('messages.register')}}</a></li>
+                            <li><a class="noamarrillo" href="{{ route('login', ['role' => !isset($requested) || $requested  == null ? null : $requested]) }}">{{Lang::get('messages.login')}}</a></li>
+                            <li><a class="noamarrillo" href="{{ route('register', ['role' => !isset($requested) || $requested == null ? null : $requested]) }}">{{Lang::get('forms.register')}}</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

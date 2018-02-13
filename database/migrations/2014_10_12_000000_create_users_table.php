@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->boolean('activated')->default(false);
             $table->string('activation_code')->nullable();
             $table->rememberToken();
+            $table->string('country')->nullable();
             $table->timestamps();
         });
     }

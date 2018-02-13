@@ -13,26 +13,16 @@ Route::get('/', function () {
 # Logout route
 Route::get('/logout', function(){
    Auth::logout();
-
-   return redirect('/');
+   return view('emediamarket');
 });
 
 # Auth routes for all users
 Auth::routes();
+Route::get('password/reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
+Route::post('password/reset','Auth\ResetPasswordController@reset');
 
 # Token Verification route
 Route::get('/register/verify/{token}','Auth\RegisterController@verify');
-
-# TODO update login model
-# Advertiser login routes
-Route::get('login-advertiser', ['as' => 'login.advertiser', 'uses' => 'Auth\LoginController@loginAdvertiser']);
-Route::get('register-advertiser', ['as' => 'register.advertiser', 'uses' => 'Auth\RegisterController@registerAdvertiser']);
-Route::get('reset-advertiser', ['as' => 'password.reset-advertiser', 'uses' => 'Auth\ResetPasswordController@resetAdvertiser']);
-
-# Editor login routes
-Route::get('login-editor', ['as' => 'login.editor', 'uses' => 'Auth\LoginController@loginEditor']);
-Route::get('register-editor', ['as' => 'register.editor', 'uses' => 'Auth\RegisterController@registerEditor']);
-Route::get('reset-editor', ['as' => 'password.reset-editor', 'uses' => 'Auth\ResetPasswordController@resetEditor']);
 
 # Auth enabled routes
 Route::group(['middleware' => ['auth']], function(){

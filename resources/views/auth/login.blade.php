@@ -1,69 +1,33 @@
-@extends('layouts.app')
+@extends('layouts.emedia-layout')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <section class="login">
+        <div class="logo-anunciantes">
+            <img src="{{asset('img/login-anunciantes.png')}}" class="img-responsive center-block">
         </div>
-    </div>
-</div>
+        <div class="form-anunciantes center-block">
+            @include('auth.login.form')
+        </div>
+
+        @if($requested != null && strtolower($requested) == strtolower($advertiser->name))
+            <p>
+                ¿Eres anunciante?
+                <a href="{{route('login',['role' => 'advertiser'])}}">Inicia sesión</a>
+                y vende posts
+                <br>
+                patrocinados y menciones en redes socialess</p>
+        @elseif($requested != null && strtolower($requested) == strtolower($editor->name))
+            <p>
+                ¿Eres editor?
+                <a href="{{route('login',['role' => 'editor'])}}" class="login-editores">Inicia sesión</a>
+                y vende posts
+                <br>
+                patrocinados y menciones en redes sociales</p>
+        @else
+            <p>
+                <a href="{{route('login')}}" class="login-editores">Inicia sesión</a>
+                y conectate con nuestra red<br>
+                para expandir tus horizontes</p>
+        @endif
+    </section>
 @endsection

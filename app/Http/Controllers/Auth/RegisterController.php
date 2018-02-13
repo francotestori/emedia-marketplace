@@ -46,8 +46,13 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
 
-        $roles = Role::where('name','<>','Manager')->get();
+        $advertiser = Role::where('name','Advertiser')->first();
+        $editor = Role::where('name','Editor')->first();
+        $roles = [$advertiser->id => $advertiser->name, $editor->id => $editor->name,];
+
         View::share('roles', $roles);
+        View::share('advertiser', $advertiser);
+        View::share('editor', $editor);
     }
 
     /**
@@ -64,6 +69,13 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
+
+    public function showRegistrationForm(Request $request)
+    {
+        $requested = $request->get('role');
+        return view('auth.register', compact('requested'));
+    }
+
 
     public function register(Request $request)
     {
@@ -93,7 +105,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'activation_code' => $activation_code,
-            'role_id' => $role->id
+            'role_id' => $role->id,
+            'country' => $data['country']
         ]);
 
         Wallet::create([
@@ -114,15 +127,5 @@ class RegisterController extends Controller
         // for better readability
         User::where('activation_code',$token)->firstOrFail()->verified();
         return redirect('login');
-    }
-
-    public function registerAdvertiser(){
-        $role = Role::where('name', 'Advertiser')->first();
-        return view('auth.register-advertiser', compact('role'));
-    }
-
-    public function registerEditor(){
-        $role = Role::where('name', 'Editor')->first();
-        return view('auth.register-editor',  compact('role'));
     }
 }

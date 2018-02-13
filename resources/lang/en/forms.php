@@ -36,6 +36,11 @@ return [
     'email' => 'Email',
     'send' => 'Send',
     'password' => 'Password',
+    'confirm_password' => 'Confirm Password',
+    'country' => 'Country',
+    'roles' => 'Role',
+    'register' => 'Register',
+    'login' => 'Login',
     'update' => 'Update',
     'reset' => 'Reset Password',
 
