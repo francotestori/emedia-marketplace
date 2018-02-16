@@ -7,7 +7,7 @@
         <h5 class="media-heading  {{$message->user->id == Auth::id() ? 'pull-left' : 'pull-right'}}">
             <strong>{{ $message->user->name }}</strong>
             <div class="text-muted right">
-                <small>Posted {{ $message->created_at->diffForHumans() }}</small>
+                <small>Posted {{Carbon\Carbon::parse($message->created_at->diffForHumans())}}</small>
             </div>
         </h5>
         <br>

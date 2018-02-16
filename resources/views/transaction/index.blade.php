@@ -40,7 +40,7 @@ $transactions = Transaction::all();
                                 <tr>
                                     <td><strong>{{$transaction->id}}</strong></td>
                                     <td>{{$transaction->getEvent() == null ? $transaction->type : $transaction->getAddspace()->url}}</td>
-                                    <td>{{$transaction->created_at}}</td>
+                                    <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getReceiver()->getUser()->name : $transaction->getSender()->getUser()->name}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getSender()->getUser()->name : $transaction->getReceiver()->getUser()->name}}</td>
                                     <?php

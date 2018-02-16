@@ -48,7 +48,7 @@
                                     <strong>{{$transaction->id}}</strong>
                                 </td>
                                 <td>{{$transaction->getAddspace() != null ? $transaction->getAddspace()->url : $transaction->type}}</td>
-                                <td>{{$transaction->created_at}}</td>
+                                <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
                                 <td>
                                         <span>
                                             <strong>{{Lang::get('attributes.currency')}}</strong>

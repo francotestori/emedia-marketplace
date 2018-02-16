@@ -25,7 +25,7 @@ $addspace = Addspace::find($addspaceArray['id']);
     <div class="ejemplo-webs">
         <img src="{{asset('img/example.png')}}" class="img-responsive center-block">
         <div class="ejemplo-titular">
-            <p>{{Lang::get('items.price').' '.$addspace->cost}}</p>
+            <p>{{Lang::get('items.price').' '.Lang::get('attributes.currency').' '.$addspace->getCost()}}</p>
         </div>
         <div>
             <p><strong>{{Lang::get('items.visits')}}</strong> {{$addspace->visits}} + {{Lang::get('attributes.day_periodicity')}}</p>
@@ -33,7 +33,7 @@ $addspace = Addspace::find($addspaceArray['id']);
             <p><strong>{{Lang::get('items.description')}}</strong> {{$addspace->description}}</p>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{'info-'.$addspace->id}}">{{Lang::get('messages.more')}}</button>
             @if(Auth::user()->isAdvertiser())
-                <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#charge">{{Lang::get('forms.buy')}}</button>
+                <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#{{'charge-'.$addspace->id}}">{{Lang::get('forms.buy')}}</button>
             @else
                     @if(!$addspace->isActive())
                         <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-default">
@@ -80,7 +80,7 @@ $addspace = Addspace::find($addspaceArray['id']);
             </div>
         </div>
 
-        <div id="charge" class="modal fade" role="dialog">
+        <div id="{{'charge-'.$addspace->id}}" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->

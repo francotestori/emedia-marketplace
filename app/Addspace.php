@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Addspace extends Model
 {
     protected $fillable = [
-        'url', 'description', 'visits', 'cost','editor_id'
+        'url',
+        'description',
+        'visits',
+        'cost',
+        'profit',
+        'editor_id'
     ];
 
     public function categories()
@@ -74,11 +79,12 @@ class Addspace extends Model
 
     public function getCost()
     {
-        $config = Configuration::where('key', '<>', 'withdrawal')
-                                 ->where('min', '<=', $this->cost)
-                                 ->where('max', '>=', $this->cost)
-                                 ->first();
-        return $this->cost * (1 + $config->value);
+        return $this->cost * (1 + ($this->profit / 100));
+    }
+
+    public function getSystemRevenue()
+    {
+        return $this->getCost() - $this->cost;
     }
 
     public function isActive()

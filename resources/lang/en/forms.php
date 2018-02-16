@@ -18,6 +18,13 @@ return [
 
     'addspace' => 'Addspace',
 
+    'change' => 'Change',
+    'apply' => 'Apply',
+    'default' => 'Apply default',
+    'profit' => 'Profit %',
+    'from' => 'From',
+    'to' => 'To',
+
     'create' => 'Create',
     'add' => 'Add',
     'edit' => 'Edit',

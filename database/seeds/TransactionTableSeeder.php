@@ -31,8 +31,10 @@ class TransactionTableSeeder extends Seeder
             'type' => 'DEPOSIT',
             'amount' => 1000,
         ]);
+
         $deposit->payment_status = 'Completed';
         $deposit->save();
+
         $a_wallet->balance = $a_wallet->balance + $deposit->amount;
         $a_wallet->save();
     }

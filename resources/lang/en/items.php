@@ -14,6 +14,9 @@ return [
 
     'detail' => 'Detail',
 
+    'profit' => 'Profit',
+    'revenue' => 'Revenue',
+
     'from' => 'From:',
 
     'price' => 'Price:',

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Configuration;
+use App\Addspace;
+use App\Profit;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
@@ -32,16 +32,13 @@ class HomeController extends Controller
         return view('home', compact('user'));
     }
 
-    public function config()
-    {
-        $config = Configuration::all();
-        return view('manager.config', compact('config'));
-    }
-
     public function profits()
     {
-        $profits = Configuration::where('key', '<>', 'withdrawal')->get();
-        return view('manager.profits', compact('profits'));
+        $profits = Profit::all();
+
+        $clusters = array_chunk(Addspace::all()->toArray(), 3);
+
+        return view('profits.index', compact('profits', 'clusters'));
 
     }
 }

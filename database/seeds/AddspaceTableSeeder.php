@@ -1,5 +1,6 @@
 <?php
 
+use App\Profit;
 use Illuminate\Database\Seeder;
 use App\Addspace;
 use App\Category;
@@ -16,16 +17,25 @@ class AddspaceTableSeeder extends Seeder
     {
         $user = User::where('email','it@editor.com')->first();
 
-        $addspace = new Addspace();
-        $addspace->url = 'http://www.example.com';
-        $addspace->description = 'Example Addspace';
-        $addspace->visits = 1200;
-        $addspace->cost = 350.00;
-        $addspace->editor_id = $user->id;
-        $addspace->save();
+        $price = 350.00;
+
+        $profit = Profit::where([
+            ['from_range', '<', $price],
+            ['to_range', '>=', $price],
+        ])->first();
+
+        $addspace = Addspace::create([
+            'url' =>'http://www.example.com',
+            'description' => 'Example Addspace',
+            'visits' => 1200,
+            'cost' => $price,
+            'profit' => $profit->value,
+            'editor_id' => $user->id,
+        ]);
 
         $category = Category::where('name','Example')->first();
         $category1 = Category::where('name','Sports')->first();
+
         $addspace->categories()->attach($category);
         $addspace->categories()->attach($category1);
 

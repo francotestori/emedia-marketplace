@@ -33,6 +33,8 @@ return [
     'are_you_sure_buy' => 'Are you sure you want to buy the following addspace?',
     'charge' => ':amount will be charged',
 
+    'apply_default' => 'Do you want to apply regular profit?',
+
     'created' => 'Your :item has been created successfully!',
     'edited' => 'Your :item has been edited successfully!',
     'deleted' => 'Your :item has been deleted successfully!',

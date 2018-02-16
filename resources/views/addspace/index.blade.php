@@ -64,7 +64,7 @@
                                         <strong>{{Lang::get('attributes.currency')}}</strong>
                                         {{$addspace->cost}}
                                     </td>
-                                    <td>{{$addspace->created_at}}</td>
+                                    <td>{{Carbon\Carbon::parse($addspace->created_at)}}</td>
                                     <td>
                                         <a data-original-title="Detail" class="btn btn-info" href="{{route('addspaces.show', ['id' => $addspace->id])}}">
                                             {{Lang::get('forms.info')}}

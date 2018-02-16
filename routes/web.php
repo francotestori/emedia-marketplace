@@ -62,9 +62,6 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('addspace/{id}/reject', ['as' => 'addspaces.reject', 'uses' => 'WalletController@rejectPayment']);
         Route::post('addspace/{id}/accept', ['as' => 'addspaces.accept', 'uses' => 'WalletController@acceptPayment']);
 
-        # Configuration data route
-        Route::get('/config',['as' => 'config', 'uses' => 'HomeController@config']);
-
         # User management routes
         Route::group(['prefix' => 'users'], function () {
             Route::get('create',['as' => 'users.create', 'uses' => 'UserController@create']);
@@ -72,8 +69,12 @@ Route::group(['middleware' => ['auth']], function(){
         });
 
         Route::get('transactions', ['as' => 'transactions', 'uses' => 'WalletController@transactions']);
-        Route::get('profits', ['as' => 'profits', 'uses' => 'HomeController@profits']);
         Route::get('revenues', ['as' => 'revenues', 'uses' => 'WalletController@revenues']);
+
+        Route::get('profits', ['as' => 'profits.index', 'uses' => 'ProfitController@index']);
+        Route::post('profits/change/{id}', ['as' => 'profits.change', 'uses' => 'ProfitController@change']);
+        Route::post('profits/default/{id}', ['as' => 'profits.default', 'uses' => 'ProfitController@applyDefault']);
+        Route::post('profits', ['as' => 'profits.store', 'uses' => 'ProfitController@store']);
 
         Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
         Route::get('packages/create', ['as' => 'package.create', 'uses' => 'CreditPackageController@create']);

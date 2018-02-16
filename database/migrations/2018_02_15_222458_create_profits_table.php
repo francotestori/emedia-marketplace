@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConfigurationsTable extends Migration
+class CreateProfitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateConfigurationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('configurations', function (Blueprint $table) {
+        Schema::create('profits', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key');
-            $table->double('min',8,2);
-            $table->double('max',8,2);
-            $table->double('value', 4, 3);
+            $table->integer('from_range');
+            $table->integer('to_range');
+            $table->integer('value');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateConfigurationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('configurations');
+        Schema::dropIfExists('profits');
     }
 }

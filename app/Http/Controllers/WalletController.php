@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Addspace;
-use App\Configuration;
 use App\CreditPackage;
 use App\Event;
 use App\EventThreads;
@@ -29,10 +28,10 @@ class WalletController extends Controller
 {
     protected $provider;
 
-    public function __construct() {
-        $withdrawal_config = Configuration::where('key', 'withdrawal')->first();
-        View::share('withdraw_min', $withdrawal_config->min);
-        View::share('withdraw_max', $withdrawal_config->max);
+    public function __construct()
+    {
+        View::share('withdraw_min', config('marketplace.withdrawal.min'));
+        View::share('withdraw_max', config('marketplace.withdrawal.max'));
 
         $this->provider = new ExpressCheckout();
     }
@@ -105,7 +104,8 @@ class WalletController extends Controller
 
         // if there is no link redirect back with error message
         $link = $response['paypal_link'];
-        if (!$link) {
+        if (!$link)
+        {
             return redirect('deposit-cancel/'.$transaction->id)
                    ->with(['code' => 'danger',
                            'message' => $response['L_LONGMESSAGE0']]);

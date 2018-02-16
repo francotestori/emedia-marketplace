@@ -19,6 +19,8 @@ class CreateAddspacesTable extends Migration
             $table->string('description', 800);
             $table->integer('visits');
             $table->double('cost', 8,2);
+            $table->integer('profit');
+            $table->boolean('admin_profit')->default(false);
             $table->integer('editor_id');
             $table->enum('status', ['ACTIVE','PAUSED','CLOSED'])->default('ACTIVE');
             $table->timestamps();

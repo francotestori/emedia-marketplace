@@ -47,7 +47,7 @@
                         <li><a href="{{url('users').'?type=advertiser'}}"><i class="fa fa-bullhorn" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.advertisers')}}</span></a></li>
                         <li><a href="{{route('transactions')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.transactions')}}</span></a></li>
                         <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.packages')}}</span></a></li>
-                        <li><a href="{{route('profits')}}"><i class="fa fa-percent" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.profits')}}</span></a></li>
+                        <li><a href="{{route('profits.index')}}"><i class="fa fa-percent" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.profits')}}</span></a></li>
                         <li><a href="{{route('revenues')}}"><i class="fa fa-usd" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.revenues')}}</span></a></li>
                         <li><a href="{{route('withdrawal.index')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('messages.withdrawals')}}</span></a></li>
                     @elseif(Auth::user() != null && Auth::user()->isEditor())

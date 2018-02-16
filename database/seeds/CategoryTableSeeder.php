@@ -12,21 +12,21 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        $category = new Category();
-        $category->name = 'Sports';
-        $category->save();
 
-        $category1 = new Category();
-        $category1->name = 'Camping';
-        $category1->save();
+        Category::create([
+            'name' => 'Sports'
+        ]);
 
-        $category2 = new Category();
-        $category2->name = 'Entertainment';
-        $category2->save();
+        Category::create([
+            'name' => 'Camping'
+        ]);
 
-        $category3 = new Category();
-        $category3->name = 'Example';
-        $category3->save();
+        Category::create([
+            'name' => 'Entertainment'
+        ]);
 
+        Category::create([
+            'name' => 'Example'
+        ]);
     }
 }

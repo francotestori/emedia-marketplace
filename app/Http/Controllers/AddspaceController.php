@@ -6,6 +6,7 @@ use App\Addspace;
 use App\Category;
 use App\Event;
 use App\EventThreads;
+use App\Profit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Yajra\DataTables\DataTables;
 
 class AddspaceController extends Controller
 {
@@ -53,6 +53,16 @@ class AddspaceController extends Controller
         return view('addspace.create');
     }
 
+    private function getProfit($price)
+    {
+        $profit = Profit::where([
+            ['from_range', '<', $price],
+            ['to_range', '>=', $price]
+        ])->first();
+
+        return empty($profit) ? 0 : $profit->value;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -70,17 +80,22 @@ class AddspaceController extends Controller
 
         $validator = Validator::make(Input::all(), $rules);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return redirect('addspaces/create')
                 ->withErrors($validator)
                 ->withInput(Input::all());
         }
-        else {
+        else
+        {
+            $profit = $this->getProfit(Input::get('cost'));
+
             $addspace = Addspace::create([
                 'url' => Input::get('url'),
                 'description' => Input::get('description'),
                 'visits' => Input::get('visits'),
                 'cost' => Input::get('cost'),
+                'profit' => $profit,
                 'editor_id' => Auth::user()->id,
             ]);
 
@@ -174,10 +189,18 @@ class AddspaceController extends Controller
                     ->withInput(Input::all());
             }
 
+
             $addspace->url = Input::get('url');
             $addspace->description = Input::get('description');
             $addspace->visits = Input::get('visits');
             $addspace->cost = Input::get('cost');
+
+            if(!$addspace->admin_profit)
+            {
+                $profit = $this->getProfit(Input::get('cost'));
+                $addspace->profit = $profit;
+            }
+
             $addspace->save();
 
             Session::flash('message', Lang::get('messages.edited', ['item' =>'Addspace']));

@@ -38,9 +38,9 @@
                 <h3>{{Lang::get('messages.add_services')}}</h3>
             </div>
             <div class="col-md-6">
-                <a href="#">
+                <a href="{{Auth::user()->isEditor() ? route('addspaces.index') : route('addspaces.search')}}">
                     <i class="fa fa-desktop centrar redes" aria-hidden="true"></i>
-                    <p>Web</p>
+                    <span class="centrar">{{Lang::get('messages.web_or_blog')}}</span>
                 </a>
             </div>
         </div>

@@ -49,7 +49,7 @@
                                             <td>{{$transaction->from_wallet == $user->getWallet()->id ? 'DEBIT'  : 'CREDIT'}}</td>
                                             <td>{{$transaction->type}}</td>
                                             <td class="">
-                                                {{$transaction->created_at}}
+                                                {{Carbon\Carbon::parse($transaction->created_at)}}
                                             </td>
                                             <td>{{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}</td>
                                             <td>
