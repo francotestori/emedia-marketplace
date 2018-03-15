@@ -11,7 +11,7 @@
             <h3>{{Lang::get('titles.reset')}}</h3>
 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                {{Form::label('email', Lang::get('forms.email'), ['class' => 'control-label'])}}
+                {{Form::label('email', Lang::get('forms.login.email'), ['class' => 'control-label'])}}
                 {{Form::email('email', Input::old('email'), ['class' => 'form-control',  'required' => true])}}
                 @if ($errors->has('email'))
                     <span class="help-block">
@@ -21,7 +21,7 @@
             </div>
 
             <div class="form-group">
-                <button class="btn btn-primary boton-funciona editores-boton"><strong>{{Lang::get('forms.reset')}}</strong></button>
+                <button class="btn btn-primary boton-funciona editores-boton"><strong>{{Lang::get('forms.basic.reset')}}</strong></button>
             </div>
             {{Form::close()}}
         </div>

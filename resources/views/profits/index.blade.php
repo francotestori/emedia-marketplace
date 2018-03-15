@@ -18,16 +18,16 @@
                 </div>
             @endif
             <div class="panel-titulo2">
-                <h3>{{Lang::get('messages.packages')}}</h3>
+                <h3>{{Lang::get('titles.profits.index')}}</h3>
             </div>
             <br>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Precio desde</th>
-                        <th>Precio hasta</th>
-                        <th>Profit</th>
+                        <th>{{Lang::get('tables.profits.from')}}</th>
+                        <th>{{Lang::get('tables.profits.to')}}</th>
+                        <th>{{Lang::get('tables.profits.value')}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,39 +42,44 @@
                 </table>
             </div>
             <hr>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#add-profit">{{Lang::get('forms.add')}}</button>
-            <a class="btn btn-info" href="#">{{Lang::get('forms.edit')}}</a>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#add-profit">{{Lang::get('forms.basic.add')}}</button>
+            <a class="btn btn-info" href="{{route('profits.edit')}}">{{Lang::get('forms.basic.edit')}}</a>
             <hr>
             @each('profits.group', $clusters, 'addspaces')
-
-                <!-- Modal -->
+            <!-- Modal -->
                 <div class="modal fade" id="add-profit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">{{Lang::get('messages.add_profit')}}</h4>
+                                <h4 class="modal-title">{{Lang::get('forms.profits.creating')}}</h4>
                             </div>
                             {{Form::open(['route' => 'profits.store', 'class' => 'formulario'])}}
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="form-group">
-                                        {{Form::label('from', Lang::get('forms.from'))}}
+                                        {{Form::label('from', Lang::get('forms.profits.from'))}}
                                         {{Form::number('from', old('from'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
                                     </div>
                                     <div class="form-group">
-                                        {{Form::label('to', Lang::get('forms.to'))}}
+                                        {{Form::label('to', Lang::get('forms.profits.to'))}}
                                         {{Form::number('to', old('to'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
                                     </div>
                                     <div class="form-group">
-                                        {{Form::label('profit', Lang::get('forms.profit'))}}
+                                        {{Form::label('profit', Lang::get('forms.profits.value'))}}
                                         {{Form::number('profit', old('profit'), ['class' => 'form-control','step'=>'1', 'min' => 0, 'max' => 100])}}
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <a class="btn btn-default" data-dismiss="modal">{{Lang::get('forms.close')}}</a>
-                                <button class="btn btn-info">{{Lang::get('forms.add')}}</button>
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <a class="btn btn-default pull-right" data-dismiss="modal">{{Lang::get('forms.basic.cancel')}}</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-info pull-left">{{Lang::get('forms.basic.create')}}</button>
+                                    </div>
+                                </div>
                             </div>
                             {{Form::close()}}
                         </div>

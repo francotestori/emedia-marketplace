@@ -11,28 +11,28 @@ $package = CreditPackage::find($packageArray['id']);
         </div>
         <div>
             <p>
-                <strong>{{Lang::get('items.name')}}</strong>
+                <strong>{{Lang::get('forms.packages.name')}}</strong>
                 {{$package->name}}
             </p>
             <p>
-                <strong>{{Lang::get('items.emarket_value')}}</strong>
+                <strong>{{Lang::get('forms.packages.value.emarketplace')}}</strong>
                 {{Lang::get('attributes.currency').$package->amount}}
             </p>
             <p>
-                <strong>{{Lang::get('items.price')}}</strong>
+                <strong>{{Lang::get('forms.packages.value.price')}}</strong>
                 {{Lang::get('attributes.currency').$package->cost}}
             </p>
             @if(Auth::user()->isManager())
-            <a href="{{route('package.edit', ['id' => $package->id])}}" type="button" class="btn btn-info">{{Lang::get('forms.edit')}} </a>
+                <a href="{{route('package.edit', ['id' => $package->id])}}" type="button" class="btn btn-info">{{Lang::get('forms.basic.edit')}} </a>
             @if($package->active())
-                <a href="{{route('package.deactivate', ['id' => $package->id])}}" type="button" class="btn btn-danger">{{Lang::get('forms.deactivate')}} </a>
+                <a href="{{route('package.deactivate', ['id' => $package->id])}}" type="button" class="btn btn-danger">{{Lang::get('forms.packages.deactivate')}} </a>
             @else
-                <a href="{{route('package.activate', ['id' => $package->id])}}" type="button" class="btn btn-success">{{Lang::get('forms.activate')}} </a>
+                <a href="{{route('package.activate', ['id' => $package->id])}}" type="button" class="btn btn-success">{{Lang::get('forms.packages.activate')}} </a>
             @endif
             @elseif(Auth::user()->isAdvertiser())
             {{Form::open(['route' => 'deposit.prepare'])}}
             <input type="hidden" name="amount" value="{{(int) $package->cost}}">
-            {{Form::submit(Lang::get('forms.buy'), ['class' => 'btn btn-info'])}}
+            {{Form::submit(Lang::get('forms.basic.buy'), ['class' => 'btn btn-info'])}}
             {{Form::close()}}
             @endif
         </div>

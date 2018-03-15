@@ -22,7 +22,7 @@ class AddspaceController extends Controller
 
     public function __construct()
     {
-        $this->categories = Category::all();
+        $this->categories = Category::orderBy('name', 'asc')->get();
         View::share('categories', $this->categories);
     }
 
@@ -94,6 +94,7 @@ class AddspaceController extends Controller
                 'url' => Input::get('url'),
                 'description' => Input::get('description'),
                 'visits' => Input::get('visits'),
+                'periodicity' => Input::get('periodicity'),
                 'cost' => Input::get('cost'),
                 'profit' => $profit,
                 'editor_id' => Auth::user()->id,
@@ -106,7 +107,7 @@ class AddspaceController extends Controller
             }
 
             // redirect
-            Session::flash('message', Lang::get('messages.created', ['item' =>'Addspace']));
+            Session::flash('status', Lang::get('messages.created', ['item' =>'Addspace']));
             return redirect('addspaces');
         }
     }
@@ -157,7 +158,7 @@ class AddspaceController extends Controller
         if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
             return view('addspace.edit', compact('addspace', 'categories'));
 
-        Session::flash('message', Lang::get('messages.forbidden'));
+        Session::flash('status', Lang::get('messages.forbidden'));
         return redirect('addspaces');
     }
 
@@ -193,6 +194,7 @@ class AddspaceController extends Controller
             $addspace->url = Input::get('url');
             $addspace->description = Input::get('description');
             $addspace->visits = Input::get('visits');
+            $addspace->periodicity = Input::get('periodicity');
             $addspace->cost = Input::get('cost');
 
             if(!$addspace->admin_profit)
@@ -203,11 +205,11 @@ class AddspaceController extends Controller
 
             $addspace->save();
 
-            Session::flash('message', Lang::get('messages.edited', ['item' =>'Addspace']));
+            Session::flash('status', Lang::get('messages.edited', ['item' =>'Addspace']));
             return redirect('addspaces');
         }
 
-        Session::flash('message', Lang::get('messages.forbidden'));
+        Session::flash('status', Lang::get('messages.forbidden'));
         return redirect('addspaces');
     }
 
@@ -225,11 +227,11 @@ class AddspaceController extends Controller
         {
             $addspace->delete();
 
-            Session::flash('message', Lang::get('messages.deleted', ['item' =>'Addspace']));
+            Session::flash('status', Lang::get('messages.deleted', ['item' =>'Addspace']));
             return redirect('addspaces');
         }
 
-        Session::flash('message', Lang::get('messages.forbidden'));
+        Session::flash('status', Lang::get('messages.forbidden'));
         return redirect('addspaces');
     }
 
@@ -286,14 +288,12 @@ class AddspaceController extends Controller
 
     public function search(Request $request)
     {
-        $filter = $request->query('category');
+        $request->flush();
 
-        $addspaces = Addspace::whereHas('categories', function($query) use ($filter) {
-                        is_null($filter) ? $query : $query->where('name', $filter);
-                     })->get();
+        $addspaces = Addspace::all();
 
         $clusters = array_chunk($addspaces->toArray(), 3);
-        return view('addspace.search', compact('clusters'));
+        return view('addspace.search.index', compact('clusters'));
     }
 
     public function filter(Request $request)
@@ -308,18 +308,18 @@ class AddspaceController extends Controller
             });
         }
 
-        if(Input::has('url') && !empty(Input::get('url')) )
+        if(Input::filled('url'))
             $addspaces->where('url', 'like' , '%'.Input::get('url').'%');
 
-        if(Input::has('price')&& !empty(Input::get('price')) )
+        if(Input::filled('price'))
             $addspaces->where('cost','>=', Input::get('price'));
 
-        if(Input::has('visits')&& !empty(Input::get('visits')) )
+        if(Input::filled('visits'))
             $addspaces->where('visits','>=', Input::get('visits'));
 
 
         $clusters = array_chunk($addspaces->get()->toArray(), 3);
         $request->flash();
-        return view('addspace.search', compact('clusters'));
+        return view('addspace.search.index', compact('clusters'));
     }
 }

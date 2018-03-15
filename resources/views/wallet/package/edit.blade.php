@@ -18,30 +18,30 @@
                 </div>
             @endif
             <div class="panel-titulo2">
-                <h3>{{Lang::get('messages.edit').$package->name}}</h3>
+                <h3>{{Lang::get('titles.packages.edit').$package->name}}</h3>
             </div>
             <br>
             {{Form::open(['route' => ['package.update', $package->id]])}}
                 <div class="form-group">
-                    {{Form::label('name', Lang::get('forms.name'))}}
+                    {{Form::label('name', Lang::get('forms.packages.name'))}}
                     {{Form::text('name', $package->name, ['class' => 'form-control'])}}
                 </div>
                 <div class="form-group">
-                    {{Form::label('amount', Lang::get('forms.amount'))}}
+                    {{Form::label('amount', Lang::get('forms.packages.value.emarketplace'))}}
                     {{Form::number('amount', $package->amount, ['class' => 'form-control'])}}
                 </div>
                 <div class="form-group">
-                    {{Form::label('cost', Lang::get('forms.cost'))}}
+                    {{Form::label('cost', Lang::get('forms.packages.value.price'))}}
                     {{Form::number('cost', $package->cost, ['class' => 'form-control'])}}
                 </div>
                 <!--Buttons-->
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.cancel')}}</a>
+                            <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
                         </div>
                         <div class="col-md-6">
-                            {{Form::submit(Lang::get('forms.edit'), ['class' => 'btn btn-info pull-left'])}}
+                            {{Form::submit(Lang::get('forms.basic.update'), ['class' => 'btn btn-info pull-left'])}}
                         </div>
                     </div>
                 </div>

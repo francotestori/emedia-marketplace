@@ -11,23 +11,26 @@
 
         @if($requested != null && strtolower($requested) == strtolower($advertiser->name))
             <p>
-                ¿Eres anunciante?
-                <a href="{{route('login',['role' => 'advertiser'])}}">Inicia sesión</a>
-                y vende posts
+                {{Lang::get('titles.tufts.login.advertiser.who')}}
+                <a href="{{route('login',['role' => 'advertiser'])}}">{{Lang::get('titles.tufts.login.advertiser.action')}}</a>
+                {{Lang::get('titles.tufts.login.advertiser.activity')}}
                 <br>
-                patrocinados y menciones en redes socialess</p>
+                {{Lang::get('titles.tufts.login.advertiser.decorator')}}
+            </p>
         @elseif($requested != null && strtolower($requested) == strtolower($editor->name))
             <p>
-                ¿Eres editor?
-                <a href="{{route('login',['role' => 'editor'])}}" class="login-editores">Inicia sesión</a>
-                y vende posts
+                {{Lang::get('titles.tufts.login.editor.who')}}
+                <a href="{{route('login',['role' => 'editor'])}}">{{Lang::get('titles.tufts.login.editor.action')}}</a>
+                {{Lang::get('titles.tufts.login.editor.activity')}}
                 <br>
-                patrocinados y menciones en redes sociales</p>
+                {{Lang::get('titles.tufts.login.editor.decorator')}}
+            </p>
         @else
             <p>
-                <a href="{{route('login')}}" class="login-editores">Inicia sesión</a>
-                y conectate con nuestra red<br>
-                para expandir tus horizontes</p>
+                <a href="{{route('login')}}" class="login-editores">{{Lang::get('titles.tufts.login.common.action')}}</a>
+                {{Lang::get('titles.tufts.login.common.activity')}}<br>
+                {{Lang::get('titles.tufts.login.common.decorator')}}
+            </p>
         @endif
     </section>
 @endsection

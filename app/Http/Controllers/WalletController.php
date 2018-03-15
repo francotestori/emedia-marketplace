@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Srmklive\PayPal\Services\ExpressCheckout;
 
@@ -39,16 +38,55 @@ class WalletController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('wallet.show', compact('user'));
+
+        $system_transaction = $user->getWallet()->getTransactions()
+            ->filter(function($transaction){
+                return $transaction->getEvent() == null;
+            })
+            ->map(function($transaction) use ($user){
+                return [
+                    'type' => $transaction['from_wallet'] == $user->getWallet()->id ? 'DEBIT'  : 'CREDIT',
+                    'action' => $transaction->type,
+                    'date' => Carbon::parse($transaction->created_at),
+                    'state' => 'SYSTEM',
+                    'url' => '',
+                    'amount' => $transaction->amount,
+                ];
+            });
+
+        $event_transaction = collect($user->getWallet()->getTransactions())
+            ->filter(function($transaction){
+                return $transaction->getEvent() != null && !$transaction->getEvent()->rejected();
+            })
+            ->groupBy('event_id')
+            ->map(function ($group) use ($user){
+                $data = $group[0];
+                $event_id = $data['event_id'];
+                $event = Event::find($event_id);
+                $amount = collect($group)->reduce(function($sum, $transaction){return $sum + $transaction['amount'];});
+                return [
+                    'type' => $data['from_wallet'] == $user->getWallet()->id ? 'DEBIT'  : 'CREDIT',
+                    'action' => $data->type,
+                    'date' => Carbon::parse($data->created_at),
+                    'state' => $event->state,
+                    'url' => $event->getAddspace() == null ? '' : $event->getAddspace()->url,
+                    'amount' => $amount,
+                ];
+            });
+
+        $transactions = collect($system_transaction)->merge(collect($event_transaction));
+
+        return view('wallet.show', compact('user', 'transactions'));
     }
 
-    /**
-     * Build the deposit Paypal request
-     * @param $price
-     * @param $id
-     * @return array
-     */
-    private function buildDepositRequest($price, $id)
+    private function genPaypalId($transaction_id, $invoice_id)
+    {
+        return $invoice_id != null
+                ? $invoice_id
+                : uniqid().'_'.config('paypal.invoice_prefix').'_'.$transaction_id;
+    }
+
+    private function buildDepositRequest($price, $transaction_id, $invoice_id = null)
     {
         return [
             'items' => [
@@ -59,18 +97,17 @@ class WalletController extends Controller
                 ],
             ],
             // every invoice id must be unique, else you'll get an error from paypal
-            'invoice_id' => config('paypal.invoice_prefix') . '_' . $id,
-            'invoice_description' => "EMediaMarket Deposit #" . $id,
+            'invoice_id' => $this->genPaypalId($transaction_id, $invoice_id) ,
+            'invoice_description' => "EMediaMarket Deposit #".$transaction_id,
             // return url is the url where PayPal returns after user confirmed the payment
-            'return_url' => route('deposit.accept', ['id' =>$id]),
-            'cancel_url' => route('deposit.cancel', ['id' =>$id]),
+            'return_url' => route('deposit.accept', ['id' => $transaction_id]),
+            'cancel_url' => route('deposit.cancel', ['id' => $transaction_id]),
             //Must declare Total
             'total' => $price,
-
         ];
     }
 
-    public function showDeposit()
+    public function showDepositForm()
     {
         return view('transaction.deposit');
     }
@@ -84,11 +121,11 @@ class WalletController extends Controller
         $amount = Input::get('amount');
 
         $system = User::find(1)->getWallet();
-        $editor = Auth::user()->getWallet();
+        $advertiser = Auth::user()->getWallet();
 
         $transaction = Transaction::create([
             'from_wallet' => $system->id,
-            'to_wallet' => $editor->id,
+            'to_wallet' => $advertiser->id,
             'type' => 'DEPOSIT',
             'amount' => $amount,
             'event_id' => null
@@ -103,15 +140,14 @@ class WalletController extends Controller
         $response = $this->provider->setExpressCheckout($item, false);
 
         // if there is no link redirect back with error message
-        $link = $response['paypal_link'];
-        if (!$link)
-        {
-            return redirect('deposit-cancel/'.$transaction->id)
-                   ->with(['code' => 'danger',
-                           'message' => $response['L_LONGMESSAGE0']]);
-        }
+        $paypal_link = $response['paypal_link'];
 
-        return redirect($link);
+        if (!$paypal_link)
+            return redirect()
+                    ->route('deposit.cancel',[$transaction->id])
+                    ->with(['status' => $response['L_LONGMESSAGE0']]);
+
+        return redirect($paypal_link);
     }
 
     public function cancelDeposit($id, Request $request)
@@ -132,13 +168,14 @@ class WalletController extends Controller
         $response = $this->provider->getExpressCheckoutDetails($token);
 
         // Return back with error if response ACK is not SUCCESS or SUCCESSWITHWARNING
-        if (!in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
-            return redirect('deposit-cancel/'.$id)->with(['code' => 'danger', 'message' => 'Error processing PayPal payment']);
-        }
+        if (!in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING']))
+            return redirect()
+                ->route('deposit.cancel',[$id])
+                ->with(['status' => 'Error processing PayPal payment']);
 
         $transaction = Transaction::find($id);
 
-        $item = $this->buildDepositRequest($transaction->amount, $transaction->id);
+        $item = $this->buildDepositRequest($transaction->amount, $transaction->id, $transaction->invoice_id);
 
         //Execute payment
         $payment_status = $this->provider->doExpressCheckoutPayment($item, $token, $PayerID);
@@ -155,14 +192,13 @@ class WalletController extends Controller
             $wallet->balance = $wallet->balance + $transaction->amount;
             $wallet->save();
 
-            Session::flash('message',Lang::get('messages.paypal_success', ['transaction_id' => $transaction->id]));
+            Session::flash('status',Lang::get('messages.paypal_success', ['transaction_id' => $transaction->id]));
             return redirect('users');
         }
 
         $transaction->delete();
-        Session::flash('message',Lang::get('messages.paypal_failed', ['transaction_id' => $transaction->id]));
+        Session::flash('errors',Lang::get('messages.paypal_failed', ['transaction_id' => $transaction->id]));
         return redirect('users');
-
     }
 
     /**
@@ -210,31 +246,7 @@ class WalletController extends Controller
     public function withdrawals()
     {
         $withdrawals = Transaction::where('type', 'WITHDRAWAL')->get();
-        return view('events.withdrawals_index', compact('withdrawals'));
-    }
-
-    public function wallet()
-    {
-        $user = Auth::user();
-        return view('wallet.show', compact('user'));
-    }
-
-    public function showWithdrawal($transaction_id)
-    {
-        $transaction = Transaction::find($transaction_id);
-        $event = $transaction->getEvent();
-
-        if($transaction->type != 'WITHDRAWAL'){
-            Session::flash('errors', Lang::get('messages.not_withdrawal'));
-            return redirect('home');
-        }
-        elseif (!$event->pending())
-        {
-            Session::flash('errors', Lang::get('messages.event_is_not_pending'));
-            return redirect('home');
-        }
-        else
-            return view('events.show',compact('transaction','event'));
+        return view('events.withdrawals.index', compact('withdrawals'));
     }
 
     public function authorizeWithdrawal($transaction_id)
@@ -245,7 +257,7 @@ class WalletController extends Controller
         if(!$event->pending())
         {
             Session::flash('errors', Lang::get('messages.event_is_not_pending'));
-            return redirect('home');
+            return redirect()->back();
         }
 
         $state = Input::get('state');
@@ -257,9 +269,12 @@ class WalletController extends Controller
             $editor = $transaction->getSender();
             $editor->balance = $editor->balance - $transaction->amount;
             $editor->save();
+            Session::flash('status', 'Withdrawal was accepted ! Remember to send the payment');
         }
+        else
+            Session::flash('status', 'Withdrawal was rejected !');
 
-        return $this->showWithdrawal($transaction_id);
+        return $this->withdrawals();
     }
 
     /**
@@ -347,7 +362,7 @@ class WalletController extends Controller
         if (Input::has('recipient'))
             $thread->addParticipant(Input::get('recipient'));
 
-        Session::flash('message', Lang::get('messages.transaction'));
+        Session::flash('status', Lang::get('messages.transaction'));
         return redirect()->route('messages');
     }
 
@@ -372,7 +387,7 @@ class WalletController extends Controller
                 $recipient->save();
             }
 
-            Session::flash('message', Lang::get('messages.attributed'));
+            Session::flash('status', Lang::get('messages.attributed'));
             return redirect()->route('addspaces.search');
         }
     }
@@ -400,7 +415,7 @@ class WalletController extends Controller
                 Mail::to($to)->send($email);
             }
 
-            Session::flash('message', Lang::get('messages.rollbacked'));
+            Session::flash('status', Lang::get('messages.rollbacked'));
             return redirect()->route('addspaces.search');
         }
     }
@@ -432,7 +447,7 @@ class WalletController extends Controller
                 Mail::to($to)->send($email);
             }
 
-            Session::flash('message', Lang::get('messages.rollbacked'));
+            Session::flash('status', Lang::get('messages.rollbacked'));
             return redirect()->route('addspaces.search');
         }
     }
@@ -446,7 +461,8 @@ class WalletController extends Controller
     public function transactions()
     {
         $user = Auth::user();
-        return view('transaction.index', compact('user'));
+        $transactions = Transaction::all();
+        return view('transaction.index', compact('user', 'transactions'));
     }
 
     public function sales()
@@ -466,6 +482,25 @@ class WalletController extends Controller
     public function payments()
     {
         $user = Auth::user();
-        return view('wallet.payments', compact('user'));
+
+        $transactions = $user->getWallet()->getDebits()
+            ->filter(function($transaction){return $transaction->getEvent() != null && !$transaction->getEvent()->rejected();})
+            ->groupBy('event_id')
+            ->map(function ($group) use ($user){
+                $data = $group[0];
+                $event_id = $data['event_id'];
+                $event = Event::find($event_id);
+                $amount = collect($group)->reduce(function($sum, $transaction){return $sum + $transaction['amount'];});
+                return [
+                    'id' =>$data['id'],
+                    'url' => $event->getAddspace()->url,
+                    'date' => Carbon::parse($data->created_at),
+                    'amount' => $amount,
+                    'owner' => $event->getAddspace()->getEditor()->name,
+                    'state' => $event->state,
+                ];
+            });
+
+        return view('wallet.payments', compact('user', 'transactions'));
     }
 }

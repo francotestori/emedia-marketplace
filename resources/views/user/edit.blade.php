@@ -16,78 +16,73 @@
             <div class="panel-titulo2">
                 <div class="row">
                     <div class="col-md-10">
-                        <h3>{{Lang::get('messages.edit')}}</h3>
+                        <h3>{{Lang::get('titles.users.edit')}}</h3>
                     </div>
-                    <div class="col-md-2 pull-right">
+                    <div class="col-md-2">
                         @if(Auth::user()->isManager())
-                            <a href="{{route('package.create')}}" class="btn btn-info btn-lg">{{Lang::get('forms.create')}}</a>
+                            <a class="btn btn-primary pull-right" href="{{route('users.create')}}" >
+                                {{Lang::get('forms.basic.create')}}
+                            </a>
                         @endif
                     </div>
                 </div>
             </div>
             <br>
-                <form class="form-horizontal" method="POST" action="{{ route('users.store') }}">
-                    {{ csrf_field() }}
+                {{Form::open(['route' => ['users.update',$user->id], 'class' => 'form-horizontal'])}}
 
-                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                        <label for="name" class="col-md-4 control-label">Name</label>
-
-                        <div class="col-md-6">
-                            <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}" required autofocus>
-
-                            @if ($errors->has('name'))
-                                <span class="help-block">
+                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                    {{Form::label('name', Lang::get('forms.users.name'), ['class' => 'control-label col-md-4'])}}
+                    <div class="col-md-6">
+                        <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}" required autofocus>
+                        @if ($errors->has('name'))
+                            <span class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
                             </span>
-                            @endif
-                        </div>
+                        @endif
                     </div>
+                </div>
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                    {{Form::label('name', Lang::get('forms.users.email'), ['class' => 'control-label col-md-4'])}}
+                    <div class="col-md-6">
+                        <input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
 
-                        <div class="col-md-6">
-                            <input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
-
-                            @if ($errors->has('email'))
-                                <span class="help-block">
+                        @if ($errors->has('email'))
+                            <span class="help-block">
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span>
-                            @endif
-                        </div>
+                        @endif
                     </div>
+                </div>
 
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <label for="password" class="col-md-4 control-label">Password</label>
-
-                        <div class="col-md-6">
-                            <input id="password" type="password" class="form-control" name="password" required>
-
-                            @if ($errors->has('password'))
-                                <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
+                <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                    {{Form::label('country', Lang::get('forms.users.country'), ['class' => 'control-label col-md-4'])}}
+                    <div class="col-md-6">
+                        <select name="country" class="form-control">
+                            @foreach($countries as $key=>$value)
+                                <option value="{{$key}}" @if($key == $user->country) selected @endif>
+                                    {{Lang::get('countries.'.$value)}}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('country'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('country') }}</strong>
                             </span>
-                            @endif
-                        </div>
+                        @endif
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                        <div class="col-md-6">
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
                     </div>
-
-                    <div class="form-group">
-                        <div class="col-md-6 col-md-offset-4">
-                            <a href="{{URL::previous()}}" class="btn btn-def">{{Lang::get('messages.cancel')}}</a>
-                            <button type="submit" class="btn btn-primary">
-                                {{Lang::get('forms.update')}}
-                            </button>
-                        </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-info pull-left">{{Lang::get('forms.basic.update')}}</button>
                     </div>
-                </form>
+                </div>
+
+                {{Form::close()}}
         </div>
     </div>
 @endsection

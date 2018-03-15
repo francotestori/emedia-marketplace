@@ -18,12 +18,12 @@
                 </div>
             @endif
                 <div class="panel-titulo2">
-                    <h3>{{Lang::get('messages.web_or_blog')}}</h3>
+                    <h3>{{Lang::get('titles.addspaces.search')}}</h3>
                 </div>
                 <br>
-                @include('addspace.search_form')
+                @include('addspace.search.form')
                 <hr>
-                @each('addspace.preview_group', $clusters, 'addspaces')
+                @each('addspace.search.cluster', $clusters, 'addspaces')
         </div>
     </div>
 @stop

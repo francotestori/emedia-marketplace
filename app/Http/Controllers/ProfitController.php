@@ -78,4 +78,25 @@ class ProfitController extends Controller
         return redirect()->back();
     }
 
+    function edit()
+    {
+        $profits = Profit::all();
+        return view('profits.edit', compact('profits'));
+    }
+
+    function update()
+    {
+        $profits = Profit::all();
+
+        foreach ($profits as $profit){
+            $profit->from_range = Input::get('from-'.$profit->id, 0);
+            $profit->to_range = Input::get('to-'.$profit->id, 0);
+            $profit->value = Input::get('value-'.$profit->id, 0);
+            $profit->save();
+        }
+
+        Session::flash('status', 'Default profits updated!');
+        return redirect()->route('profits.index');
+    }
+
 }

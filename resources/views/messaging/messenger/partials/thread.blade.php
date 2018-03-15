@@ -22,18 +22,18 @@ $class = $thread->isUnread(Auth::id()) ? 'alert-info' : $state_class;
                 </span>
             </h4>
             <span>
-                <strong>{{Lang::get('items.from')}}</strong> {{ $thread->participantsString(Auth::id()) }}
+                <strong>{{Lang::get('items.messenger.from')}}</strong> {{ $thread->participantsString(Auth::id()) }}
             </span>
             @if(!$event->pending())
                 <h4>
                     <span>
-                        {{Lang::get('messages.thread_close')}} <strong>{{$event->state}}</strong>
+                        {{Lang::get('messages.threads.close')}} <strong>{{$event->state}}</strong>
                     </span>
                 </h4>
             @else
                 <h4>
                     <span>
-                        {{Lang::get('messages.thread_open')}} <strong>{{$event->state}}</strong>
+                        {{Lang::get('messages.threads.open')}} <strong>{{$event->state}}</strong>
                     </span>
                 </h4>
             @endif

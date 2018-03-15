@@ -11,12 +11,12 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h3>
-                            {{Lang::get('items.web_or_blog')}}
+                            {{Lang::get('titles.addspaces.web')}}
                         </h3>
                     </div>
                     <div class="col-md-2">
                         @if(Auth::user()->isEditor())
-                            <a href="{{route('addspaces.create')}}" class="btn btn-primary create pull-right">{{Lang::get('forms.create')}}</a>
+                            <a href="{{route('addspaces.create')}}" class="btn btn-primary create pull-right">{{Lang::get('forms.basic.create')}}</a>
                         @endif
                     </div>
                 </div>
@@ -32,13 +32,14 @@
                 </div>
             @endif
             <div class="filtros">
-                <h4>Filters: </h4>
+                <h4>{{Lang::get('titles.addspaces.filters')}} </h4>
                 @foreach($categories as $category)
-                    <span>
-                            <a class="btn btn-info" href="{{route('addspaces.index', ['category' => $category->name])}}">
-                                <span>{{$category->name}}</span>
-                            </a>
-                        </span>
+                    <span style="display: inline-block; margin-top: 10px;">
+                        <a class="btn @if(request('category') == $category->name) btn-warning @else btn-info @endif"
+                           href="{{route('addspaces.index', ['category' => $category->name])}}">
+                            <span>{{$category->name}}</span>
+                        </a>
+                    </span>
                 @endforeach
             </div>
             <hr>
@@ -47,11 +48,11 @@
                     <table class="table table-bordered" id="addspaces-table" @if(count($addspaces)) data-ride="datatables" @endif>
                         <thead>
                         <tr>
-                            <th>{{Lang::get('attributes.id')}}</th>
-                            <th>{{Lang::get('attributes.url')}}</th>
-                            <th>{{Lang::get('attributes.cost')}}</th>
-                            <th>{{Lang::get('attributes.created_at')}}</th>
-                            <th>{{Lang::get('attributes.actions')}}</th>
+                            <th>{{Lang::get('tables.addspaces.id')}}</th>
+                            <th>{{Lang::get('tables.addspaces.url')}}</th>
+                            <th>{{Lang::get('tables.addspaces.cost')}}</th>
+                            <th>{{Lang::get('tables.addspaces.created_at')}}</th>
+                            <th>{{Lang::get('tables.addspaces.actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -67,11 +68,11 @@
                                     <td>{{Carbon\Carbon::parse($addspace->created_at)}}</td>
                                     <td>
                                         <a data-original-title="Detail" class="btn btn-info" href="{{route('addspaces.show', ['id' => $addspace->id])}}">
-                                            {{Lang::get('forms.info')}}
+                                            {{Lang::get('forms.addspaces.info')}}
                                         </a>
                                         @if(Auth::id() == $addspace->editor_id || Auth::user()->isManager())
                                             <a data-original-title="Detail" class="btn btn-info" href="{{route('addspaces.edit', ['id' => $addspace->id])}}">
-                                                {{Lang::get('forms.edit')}}
+                                                {{Lang::get('forms.basic.edit')}}
                                             </a>
                                         @endif
                                     </td>

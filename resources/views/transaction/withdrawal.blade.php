@@ -31,7 +31,7 @@
             <input name="amount" class="form-control" value="{{$amount}}" readonly>
         </div>
 
-        <a class="btn btn-success btn-lg" href="{{$url}}">Authorize Withdrawal</a>
+        <a class="btn btn-success" href="{{$url}}">Authorize Withdrawal</a>
 
         <h4>Comments</h4>
         <p>{{$comment}}</p>

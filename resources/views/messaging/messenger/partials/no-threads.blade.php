@@ -1,1 +1,1 @@
-<p>{{Lang::get('messages.no_messages')}}</p>
+<p>{{Lang::get('messages.messenger.empty')}}</p>

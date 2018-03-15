@@ -8,13 +8,13 @@
                     <div class="col-md-10">
                         <h4>{{ $thread->subject }}</h4>
                         @if(!$event->pending())
-                            <span> {{Lang::get('messages.thread_close')}} <strong>{{$event->state}}</strong></span>
+                            <span> {{Lang::get('messages.threads.close')}} <strong>{{$event->state}}</strong></span>
                         @endif
                     </div>
                     <div class="col-md-2 pull-right">
                         @if(Auth::user()->isAdvertiser() && $event->pending())
-                            <button class="btn btn-danger" data-toggle="modal" data-target="{{'#reject'.$event->id}}">{{Lang::get('forms.reject')}}</button>
-                            <button class="btn btn-success" data-toggle="modal" data-target="{{'#accept'.$event->id}}">{{Lang::get('forms.accept')}}</button>
+                            <button class="btn btn-danger" data-toggle="modal" data-target="{{'#reject'.$event->id}}">{{Lang::get('forms.messenger.reject')}}</button>
+                            <button class="btn btn-success" data-toggle="modal" data-target="{{'#accept'.$event->id}}">{{Lang::get('forms.messenger.accept')}}</button>
                         @endif
                     </div>
                 </div>

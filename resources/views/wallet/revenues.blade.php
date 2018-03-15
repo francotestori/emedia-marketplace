@@ -20,12 +20,12 @@
             <div class="panel-titulo2">
                 <div class="row">
                     <div class="col-md-10">
-                        <h3>{{Lang::get('messages.revenues')}}</h3>
-                        <p>{{Lang::get('messages.revenues_subtitle')}}</p>
+                        <h3>{{Lang::get('titles.wallet.revenues.main')}}</h3>
+                        <p>{{Lang::get('titles.wallet.revenues.subtitle')}}</p>
                     </div>
                     <div class="col-md-2 balance">
-                        <h4>{{Lang::get('items.balance')}}</h4>
-                        <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getSystemBalance()}}</p>
+                        <h4>{{Lang::get('titles.wallet.revenues.item')}}</h4>
+                        <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
                     </div>
                 </div>
             </div>
@@ -33,16 +33,16 @@
                 <table class="table table-bordered" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>{{Lang::get('items.web_or_blog')}}</th>
-                        <th>{{Lang::get('items.date')}}</th>
-                        <th>{{Lang::get('items.amount')}}</th>
-                        <th>{{Lang::get('items.state')}}</th>
+                        <th>{{Lang::get('tables.wallet.id')}}</th>
+                        <th>{{Lang::get('tables.wallet.web')}}</th>
+                        <th>{{Lang::get('tables.wallet.date')}}</th>
+                        <th>{{Lang::get('tables.wallet.amount')}}</th>
+                        <th>{{Lang::get('tables.wallet.state')}}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if(count($user->getWallet()->getTransactions()))
-                        @foreach($user->getWallet()->getTransactions() as $transaction)
+                    @if(count($user->getWallet()->getRevenues()))
+                        @foreach($user->getWallet()->getRevenues() as $transaction)
                             <tr>
                                 <td>
                                     <strong>{{$transaction->id}}</strong>

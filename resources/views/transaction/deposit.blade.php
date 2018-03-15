@@ -14,24 +14,24 @@
                 </div>
             @endif
             <div class="panel-titulo2">
-                <h3>{{Lang::get('titles.deposit')}} <strong>({{Lang::get('attributes.currency')}})</strong></h3>
+                <h3>{{Lang::get('titles.wallet.deposit')}}</h3>
             </div>
             <br>
             {{Form::open(['route' => 'deposit.prepare'])}}
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-8 form-group">
-                        {{Form::label('Amount', Lang::get('messages.amount'))}}
+                        {{Form::label('amount', Lang::get('forms.transactions.deposit.amount'))}}
                         {{Form::number('amount', null, ['class' => 'form-control','step'=>'any'])}}
                     </div>
                     <div class="col-md-2"></div>
                 </div>
-                <div class="row">
+                <div class="row form-group">
                     <div class="col-md-6">
-                        <a href="{{URL::previous()}}" class="btn btn-def pull-right">{{Lang::get('messages.cancel')}}</a>
+                        <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
                     </div>
                     <div class="col-md-6">
-                        <button type="submit" class="bt btn-primary pull-left">{{Lang::get('messages.deposit')}}</button>
+                        <button class="btn btn-info pull-left">{{Lang::get('forms.basic.apply')}}</button>
                     </div>
                 </div>
             {{Form::close()}}

@@ -102,4 +102,9 @@ class Addspace extends Model
         return $this->status == 'CLOSED';
     }
 
+    public function visits()
+    {
+        return $this->visits.' per '.$this->periodicity;
+    }
+
 }

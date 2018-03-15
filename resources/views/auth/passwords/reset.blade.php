@@ -12,7 +12,7 @@
             <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                {{Form::label('email', Lang::get('forms.email'), ['class' => 'control-label'])}}
+                {{Form::label('email', Lang::get('forms.register.email'), ['class' => 'control-label'])}}
                 {{Form::email('email', $email, ['class' => 'form-control'])}}
                 @if ($errors->has('email'))
                     <span class="help-block">
@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                <label for="password" class="control-label">{{Lang::get('forms.password')}}</label>
+                <label for="password" class="control-label">{{Lang::get('forms.register.password')}}</label>
                 <input id="password" type="password" class="form-control" name="password" required autofocus>
                 @if ($errors->has('password'))
                     <span class="help-block">
@@ -32,7 +32,7 @@
             </div>
 
             <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                <label for="password_confirmation" class="control-label">{{Lang::get('forms.confirm_password')}}</label>
+                <label for="password_confirmation" class="control-label">{{Lang::get('forms.register.confirmation')}}</label>
                 <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required autofocus>
                 @if ($errors->has('password_confirmation'))
                     <span class="help-block">
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group">
-                <button class="btn btn-primary boton-funciona editores-boton"><strong>{{Lang::get('forms.reset')}}</strong></button>
+                <button class="btn btn-primary boton-funciona editores-boton"><strong>{{Lang::get('forms.basic.reset')}}</strong></button>
             </div>
             {{Form::close()}}
 

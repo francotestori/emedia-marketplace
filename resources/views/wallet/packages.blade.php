@@ -20,11 +20,11 @@
             <div class="panel-titulo2">
                 <div class="row">
                     <div class="col-md-10">
-                        <h3>{{Lang::get('messages.packages')}}</h3>
+                        <h3>{{Lang::get('titles.packages.index')}}</h3>
                     </div>
                     <div class="col-md-2 pull-right">
                         @if(Auth::user()->isManager())
-                            <a href="{{route('package.create')}}" class="btn btn-info btn-lg">{{Lang::get('forms.create')}}</a>
+                            <a href="{{route('package.create')}}" class="btn btn-info">{{Lang::get('forms.basic.create')}}</a>
                         @endif
                     </div>
                 </div>

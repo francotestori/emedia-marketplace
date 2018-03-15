@@ -23,7 +23,8 @@ class UserTableSeeder extends Seeder
             'name' => 'Manager',
             'email' => 'it@manager.com',
             'password' => bcrypt('secret'),
-            'role_id' => $role_manager->id
+            'role_id' => $role_manager->id,
+            'country' => 'ARG'
         ]);
         $manager->activated = true;
         $manager->save();
@@ -32,7 +33,8 @@ class UserTableSeeder extends Seeder
             'name' => 'Editor',
             'email' => 'it@editor.com',
             'password' => bcrypt('secret'),
-            'role_id' => $role_editor->id
+            'role_id' => $role_editor->id,
+            'country' => 'ARG'
         ]);
         $editor->activated = true;
         $editor->save();
@@ -41,7 +43,8 @@ class UserTableSeeder extends Seeder
             'name' => 'Advertiser',
             'email' => 'it@advertiser.com',
             'password' => bcrypt('secret'),
-            'role_id' => $role_advertiser->id
+            'role_id' => $role_advertiser->id,
+            'country' => 'ARG'
         ]);
         $advertiser->activated = true;
         $advertiser->save();
@@ -50,7 +53,8 @@ class UserTableSeeder extends Seeder
             'name' => 'Advertiser 2',
             'email' => 'it@advertiser2.com',
             'password' => bcrypt('secret'),
-            'role_id' => $role_advertiser->id
+            'role_id' => $role_advertiser->id,
+            'country' => 'ARG'
         ]);
         $advertiser2->activated = true;
         $advertiser2->save();

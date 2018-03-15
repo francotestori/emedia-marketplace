@@ -19,7 +19,7 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>{{Lang::get('items.web_or_blog')}}</th>
+                            <th>{{Lang::get('items.web')}}</th>
                             <th>{{Lang::get('items.date')}}</th>
                             <th>{{Lang::get('items.amount')}}</th>
                             <th>{{Lang::get('items.advertiser')}}</th>
@@ -73,7 +73,22 @@
     <script>
         // datatable
         $('[data-ride="datatables"]').each(function() {
-            var oTable = $(this).dataTable();
+            var oTable = $(this).dataTable(
+                {
+                    "language": {
+                        "paginate": {
+                            "previous": "{{Lang::get('tables.previous')}}",
+                            "next": "{{Lang::get('tables.next')}}",
+                            "first": "{{Lang::get('tables.first')}}",
+                            "last": "{{Lang::get('tables.last')}}"
+                        },
+                        "emptyTables": "{{Lang::get('tables.empty')}}",
+                        "lengthMenu": "{{Lang::get('tables.lengthMenu')}}",
+                        "info": "{{Lang::get('tables.info')}}",
+                        "search": "{{Lang::get('tables.search')}}"
+                    }
+                }
+            );
         });
     </script>
 @endsection

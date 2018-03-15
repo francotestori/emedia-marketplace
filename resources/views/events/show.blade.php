@@ -1,4 +1,4 @@
-@extends('layouts.emedia-layout')
+@extends('layouts.insite-layout')
 @section('content')
     <div class="container">
         <div class="row">
@@ -7,14 +7,12 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h3>
-                                    <span>Withdrawal</span>
-                                </h3>
+                                <h3>{{Lang::get('titles.wallet.withdrawal')}}</h3>
                             </div>
                             <div class="col-lg-6">
                                 @if(Auth::user()->isManager())
                                     <div class="pull-right">
-                                        <button data-toggle="modal" data-target="#authorize-modal" class="btn btn-warning btn-lg">{{Lang::get('messages.authorize')}}</button>
+                                        <button data-toggle="modal" data-target="#authorize-modal" class="btn btn-warning">{{Lang::get('messages.authorize')}}</button>
                                     </div>
                                 @endif
                             </div>
@@ -43,29 +41,29 @@
             </div>
         </div>
     </div>
+
     <!-- Modal -->
     <div id="authorize-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Authorize Withdrawal</h4>
+                    <h3 class="modal-title">{{Lang::get('titles.withdrawal.authorize')}}</h3>
+                    <h4>{{Lang::get('forms.withdrawals.authorizing')}}</h4>
                 </div>
                 <div class="modal-body formulario">
-                    <p>Are you willing to authorize and execute the following withdrawal request?.</p>
                     {{Form::open(['route' => ['withdrawal.authorize', $transaction->id]])}}
 
                     <div class="form-group">
-                        {{Form::label('state', Lang::get('messages.state'))}}
+                        {{Form::label('state', Lang::get('forms.withdrawals.action'))}}
                         {{Form::select('state', ['ACCEPTED' => 'ACCEPT','REJECTED' => 'REJECT',], 'ACCEPTED', ['class' => 'form-control'])}}
                     </div>
 
                     <!--Buttons-->
                     <div class="form-group">
-                        <a href="" class="btn btn-def" data-dismiss="modal">{{Lang::get('messages.cancel')}}</a>
-                        {{Form::submit(Lang::get('messages.accept'), ['class' => 'btn btn-primary'])}}
+                        <a href="" class="btn btn-def" data-dismiss="modal">{{Lang::get('forms.basic.cancel')}}</a>
+                        {{Form::submit(Lang::get('forms.basic.apply'), ['class' => 'btn btn-primary'])}}
                     </div>
 
                     {{Form::close()}}

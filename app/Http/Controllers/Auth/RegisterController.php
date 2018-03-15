@@ -53,6 +53,8 @@ class RegisterController extends Controller
         View::share('roles', $roles);
         View::share('advertiser', $advertiser);
         View::share('editor', $editor);
+
+        View::share('countries', config('countries.enabled'));
     }
 
     /**
@@ -83,7 +85,7 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        Session::flash('message', "Verify your email");
+        Session::flash('status', "Verify your email");
         return back();
     }
 

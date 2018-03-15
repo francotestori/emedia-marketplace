@@ -6,8 +6,8 @@
             <div class="panel-titulo2">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>{{Lang::get('messages.purchases')}}</h3>
-                        <p>{{Lang::get('messages.purchases_subtitle')}}</p>
+                        <h3>{{Lang::get('titles.purchases.index')}}</h3>
+                        <p>{{Lang::get('titles.purchases.subtitle.index')}}</p>
                     </div>
                 </div>
             </div>
@@ -19,37 +19,35 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>{{Lang::get('items.web_or_blog')}}</th>
-                            <th>{{Lang::get('items.date')}}</th>
-                            <th>{{Lang::get('items.amount')}}</th>
-                            <th>{{Lang::get('items.recipient')}}</th>
-                            <th>{{Lang::get('items.state')}}</th>
+                            <th>{{Lang::get('tables.purchases.web')}}</th>
+                            <th>{{Lang::get('tables.purchases.date')}}</th>
+                            <th>{{Lang::get('tables.purchases.amount')}}</th>
+                            <th>{{Lang::get('tables.purchases.recipient')}}</th>
+                            <th>{{Lang::get('tables.purchases.state')}}</th>
                         </tr>
                         </thead>
                         <tbody>
                         @if(count($user->getWallet()->getDebits()) > 0)
-                            @foreach($user->getWallet()->getDebits() as $transaction)
-                                @if($transaction->getEvent() != null && $transaction->getEvent()->accepted())
+                            @foreach($transactions as $transaction)
                                 <tr>
                                     <td>
-                                        <strong>{{$transaction->id}}</strong>
+                                        <strong>{{$transaction['id']}}</strong>
                                     </td>
-                                    <td>{{$transaction->getAddspace()->url}}</td>
-                                    <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
+                                    <td>{{$transaction['url']}}</td>
+                                    <td>{{$transaction['date']}}</td>
                                     <td>
                                         <span>
                                             <strong>{{Lang::get('attributes.currency')}}</strong>
-                                            {{$transaction->amount}}
+                                            {{$transaction['amount']}}
                                         </span>
                                     </td>
-                                    <td>{{$transaction->getReceiver()->getUser()->name}}</td>
+                                    <td>{{$transaction['owner']}}</td>
                                     <td>
-                                        <span class="@if($transaction->getEvent() == null) alert-info @elseif($transaction->getEvent()->pending()) alert-warning @elseif($transaction->getEvent()->rejected()) alert-danger @else alert-success @endif">
-                                        {{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}
+                                        <span class="@if($transaction['state'] == 'PENDING') alert-warning @elseif($transaction['state'] == 'REJECTED' || $transaction['state'] == 'REJECTED') alert-danger @else alert-success @endif">
+                                        {{$transaction['state']}}
                                         </span>
                                     </td>
                                 </tr>
-                                @endif
                             @endforeach
                         @else
                             <tr>
@@ -75,7 +73,22 @@
     <script>
         // datatable
         $('[data-ride="datatables"]').each(function() {
-            var oTable = $(this).dataTable();
+            var oTable = $(this).dataTable(
+                {
+                    "language": {
+                        "paginate": {
+                            "previous": "{{Lang::get('tables.previous')}}",
+                            "next": "{{Lang::get('tables.next')}}",
+                            "first": "{{Lang::get('tables.first')}}",
+                            "last": "{{Lang::get('tables.last')}}"
+                        },
+                        "emptyTables": "{{Lang::get('tables.empty')}}",
+                        "lengthMenu": "{{Lang::get('tables.lengthMenu')}}",
+                        "info": "{{Lang::get('tables.info')}}",
+                        "search": "{{Lang::get('tables.search')}}"
+                    }
+                }
+            );
         });
     </script>
 @endsection

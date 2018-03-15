@@ -32,10 +32,12 @@ Route::group(['middleware' => ['auth']], function(){
 
     # Users routes
     Route::group(['prefix' => 'users'], function (){
-        Route::get('/', ['as' => 'users.index', 'uses' => 'UserController@index']);
+        Route::get('', ['as' => 'users.index', 'uses' => 'UserController@index']);
         Route::get('{id}', ['as' => 'users.show', 'uses' => 'UserController@show']);
         Route::get('{id}/edit', ['as' => 'users.edit', 'uses' => 'UserController@edit']);
         Route::post('{id}', ['as' => 'users.update', 'uses' => 'UserController@update']);
+        Route::get('{id}/password', ['as' => 'users.password', 'uses' => 'UserController@showPasswordForm']);
+        Route::post('{id}/change-password', ['as' => 'password.change', 'uses' => 'UserController@changePassword']);
     });
 
     # Messaging routes
@@ -48,7 +50,7 @@ Route::group(['middleware' => ['auth']], function(){
     # Addspaces access for everyone
     Route::resource('addspaces', 'AddspaceController', ['only' => ['index', 'show']]);
 
-    Route::get('wallet', ['as' => 'wallet', 'uses' => 'WalletController@wallet']);
+    Route::get('wallet', ['as' => 'wallet', 'uses' => 'WalletController@index']);
 
     # Manager specific routes
     Route::group(['middleware' => ['manager']], function(){
@@ -66,7 +68,11 @@ Route::group(['middleware' => ['auth']], function(){
         Route::group(['prefix' => 'users'], function () {
             Route::get('create',['as' => 'users.create', 'uses' => 'UserController@create']);
             Route::post('/',['as' => 'users.store', 'uses' => 'UserController@store']);
+            Route::get('{id}/activate',['as' => 'users.activate', 'uses' => 'UserController@activate']);
+            Route::get('{id}/deactivate',['as' => 'users.deactivate', 'uses' => 'UserController@deactivate']);
+            Route::post('{id}/password',['as' => 'users.sendpassword', 'uses' => 'UserController@sendPassword']);
         });
+
 
         Route::get('transactions', ['as' => 'transactions', 'uses' => 'WalletController@transactions']);
         Route::get('revenues', ['as' => 'revenues', 'uses' => 'WalletController@revenues']);
@@ -75,19 +81,21 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('profits/change/{id}', ['as' => 'profits.change', 'uses' => 'ProfitController@change']);
         Route::post('profits/default/{id}', ['as' => 'profits.default', 'uses' => 'ProfitController@applyDefault']);
         Route::post('profits', ['as' => 'profits.store', 'uses' => 'ProfitController@store']);
+        Route::get('profits/edit', ['as' => 'profits.edit', 'uses' => 'ProfitController@edit']);
+        Route::post('profits/edit', ['as' => 'profits.update', 'uses' => 'ProfitController@update']);
 
         Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
         Route::get('packages/create', ['as' => 'package.create', 'uses' => 'CreditPackageController@create']);
-        Route::post('packages/create', ['as' => 'package.store', 'uses' => 'CreditPackageController@store']);
+        Route::post('packages', ['as' => 'package.store', 'uses' => 'CreditPackageController@store']);
         Route::get('packages/{id}/edit', ['as' => 'package.edit', 'uses' => 'CreditPackageController@edit']);
-        Route::post('packages/{id}/edit', ['as' => 'package.update', 'uses' => 'CreditPackageController@update']);
+        Route::post('packages/{id}', ['as' => 'package.update', 'uses' => 'CreditPackageController@update']);
         Route::get('packages/{id}/activate', ['as' => 'package.activate', 'uses' => 'CreditPackageController@activate']);
         Route::get('packages/{id}/deactivate', ['as' => 'package.deactivate', 'uses' => 'CreditPackageController@deactivate']);
 
         # Withdrawal flow routes
         Route::get('withdrawal', ['as' => 'withdrawal.index','uses' => 'WalletController@withdrawals',]);
         Route::get('withdrawal/{transaction_id}/authorize', ['as' => 'withdrawal.show','uses' => 'WalletController@showWithdrawal',]);
-        Route::post('withdrawal/{transaction_id}/authorize', ['as' => 'withdrawal.authorize','uses' => 'WalletController@authorizeWithdrawal',]);
+        Route::post('withdrawal/{transaction_id}', ['as' => 'withdrawal.authorize','uses' => 'WalletController@authorizeWithdrawal',]);
     });
 
     # Editor specific routes
@@ -122,12 +130,13 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('addspace/{id}/accept', ['as' => 'addspaces.accept', 'uses' => 'WalletController@acceptPayment']);
 
         # Deposit request routes
-        Route::get('deposit', ['as' => 'deposit', 'uses' => 'WalletController@showDeposit']);
+        Route::get('deposit', ['as' => 'deposit', 'uses' => 'WalletController@showDepositForm']);
         Route::post('deposit', ['as' => 'deposit.prepare', 'uses' => 'WalletController@prepareDeposit']);
 
         # Deposit flow routes
         Route::get('deposit-cancel/{id}', ['as' => 'deposit.cancel', 'uses' => 'WalletController@cancelDeposit']);
         Route::get('deposit-accept/{id}', ['as' => 'deposit.accept', 'uses' => 'WalletController@acceptDeposit']);
+
     });
 });
 

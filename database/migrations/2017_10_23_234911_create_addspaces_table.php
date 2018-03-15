@@ -17,7 +17,8 @@ class CreateAddspacesTable extends Migration
             $table->increments('id');
             $table->string('url')->index();
             $table->string('description', 800);
-            $table->integer('visits');
+            $table->integer('visits', false, true);
+            $table->enum('periodicity',['day', 'week' ,'month'])->default('day');
             $table->double('cost', 8,2);
             $table->integer('profit');
             $table->boolean('admin_profit')->default(false);

@@ -13,7 +13,13 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'from_wallet', 'to_wallet' , 'amount', 'type', 'event_id', 'invoice_id', 'invoice_description'
+        'from_wallet',
+        'to_wallet' ,
+        'amount',
+        'type',
+        'event_id',
+        'invoice_id',
+        'invoice_description'
     ];
 
     public function sender()

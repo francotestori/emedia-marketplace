@@ -4,36 +4,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">
-                    <span>{{Lang::get('messages.validate_transaction')}}</span>
-                    <br>
-                    <span>{{Lang::get('messages.remember_score')}}</span>
-                </h4>
+                <h3 class="modal-title"><span>{{Lang::get('forms.payments.accepting')}}</span></h3>
+                <h5 class="modal-title"><span>{{Lang::get('forms.payments.scoring')}}</span></h5>
             </div>
+            {{Form::open(['route' => ['addspaces.accept', $event->id]])}}
             <div class="modal-body">
-                <form action="{{ route('addspaces.accept', $event->id) }}" method="post">
-                    {{ csrf_field() }}
-                    <!-- Message Form Input -->
-                    <p>{{Lang::get('messages.sure')}}</p>
-
-                    <div class="form-group">
-                        <label for="score">{{Lang::get('messages.score')}}</label>
-                        <input name="score" type="number" step="1" max="10" min="1">
-                    </div>
-
-                    <!-- Submit Form Input -->
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <a class="btn btn-default pull-right" data-dismiss="modal">{{Lang::get('forms.accept')}}</a>
-                            </div>
-                            <div class="col-lg-6">
-                                <button type="submit" class="btn btn-info pull-left">{{Lang::get('forms.accept')}}</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <p>
+                    <span class="alert-warning">{{Lang::get('forms.basic.sure')}}</span>
+                </p>
+                <div class="form-group">
+                    {{Form::label('score', Lang::get('forms.payments.score'))}}
+                    {{Form::number('score', Input::old('score'), ['class' => 'form-control', 'step' => 1, 'max' => 10, 'min' => 1,])}}
+                </div>
             </div>
+            <div class="modal-footer">
+                <div class="row form-group">
+                    <div class="col-lg-6">
+                        <a class="btn btn-default pull-right" data-dismiss="modal">{{Lang::get('forms.basic.cancel')}}</a>
+                    </div>
+                    <div class="col-lg-6">
+                        <button type="submit" class="btn btn-success pull-left">{{Lang::get('forms.payments.accept')}}</button>
+                    </div>
+                </div>
+            </div>
+            {{Form::close()}}
         </div>
     </div>
 </div>

@@ -13,20 +13,33 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
 
-        Category::create([
-            'name' => 'Sports'
-        ]);
+        $items = [
+            'Diarios, Periodicos y Revistas','Animales',
+            'Apuestas y Casino','Belleza',
+            'Bodas, Parejas','Celebrities',
+            'Cine y Television','Gastronomia',
+            'Construccion y Reformas','Crianza y Niños',
+            'Dating','Decoración',
+            'Manualidades y Bricolage','Erotico',
+            'Economía','Paranormal',
+            'Fotografía','Diseño',
+            'Hogar y Jardin','Humor',
+            'Informatica y Programación','Juegos',
+            'Legales','Literatura y Cultura',
+            'Musica y Espectaculos','Marketing y SEO',
+            'Moda','Motor, Automoviles y Motos',
+            'Naturaleza y Ecología','Nutrición y Fitness',
+            'Tiempo Libre','Politica',
+            'Psicología','Religión',
+            'Salud','Tecnología',
+            'Moviles y Aplicaciones','Viajes y Turismo'
+        ];
 
-        Category::create([
-            'name' => 'Camping'
-        ]);
-
-        Category::create([
-            'name' => 'Entertainment'
-        ]);
-
-        Category::create([
-            'name' => 'Example'
-        ]);
+        foreach ($items as $item){
+            Category::create([
+                'name' => $item
+            ]);
+        }
     }
 }
+

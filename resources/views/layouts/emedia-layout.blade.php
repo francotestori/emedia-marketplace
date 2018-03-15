@@ -45,39 +45,10 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    @if(Auth::user() != null && Auth::user()->isManager())
-                        <li><a class="page-scroll noamarrillo" href="{{route('config')}}">{{Lang::get('messages.config')}}</a></li>
-                        <li><a class="page-scroll noamarrillo" href="{{route('withdrawal.index')}}">{{Lang::get('messages.withdrawals')}}</a></li>
-                        <li><a class="page-scroll noamarrillo" href="{{route('users.index')}}">{{Lang::get('messages.users')}}</a></li>
-                        <li><a class="page-scroll noamarrillo" href="{{route('addspaces.index')}}">{{Lang::get('messages.addspaces')}}</a></li>
-                    @elseif(Auth::user() != null)
-                        <li><a class="page-scroll noamarrillo" href="{{route('addspaces.index')}}">{{Lang::get('messages.addspaces')}}</a></li>
-                        <li><a class="page-scroll noamarrillo" href="{{route('messages')}}">Messages @include('messaging.messenger.unread-count')</a></li>
-                    @endif
                     <!-- Authentication Links -->
                         @guest
-                            <li><a class="noamarrillo" href="{{ route('login', ['role' => !isset($requested) || $requested  == null ? null : $requested]) }}">{{Lang::get('messages.login')}}</a></li>
-                            <li><a class="noamarrillo" href="{{ route('register', ['role' => !isset($requested) || $requested == null ? null : $requested]) }}">{{Lang::get('forms.register')}}</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{route('users.show', Auth::user()->id)}}">Profile</a></li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                            {{Lang::get('messages.logout')}}
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
+                            <li><a class="noamarrillo" href="{{ route('login', ['role' => !isset($requested) || $requested  == null ? null : $requested]) }}">{{Lang::get('menu.login')}}</a></li>
+                            <li><a class="noamarrillo" href="{{ route('register', ['role' => !isset($requested) || $requested == null ? null : $requested]) }}">{{Lang::get('menu.register')}}</a></li>
                         @endguest
                 </ul>
 

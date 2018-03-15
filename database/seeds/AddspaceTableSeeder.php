@@ -33,8 +33,8 @@ class AddspaceTableSeeder extends Seeder
             'editor_id' => $user->id,
         ]);
 
-        $category = Category::where('name','Example')->first();
-        $category1 = Category::where('name','Sports')->first();
+        $category = Category::find(3);
+        $category1 = Category::find(15);
 
         $addspace->categories()->attach($category);
         $addspace->categories()->attach($category1);

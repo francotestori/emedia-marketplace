@@ -1,9 +1,3 @@
-<?php
-use App\Transaction;
-
-$transactions = Transaction::all();
-?>
-
 @extends('layouts.insite-layout')
 
 @section('content')
@@ -12,8 +6,8 @@ $transactions = Transaction::all();
             <div class="panel-titulo2">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>{{Lang::get('messages.transactions')}}</h3>
-                        <p>{{Lang::get('messages.transactions_subtitle')}}</p>
+                        <h3>{{Lang::get('titles.wallet.transactions.main')}}</h3>
+                        <p>{{Lang::get('titles.wallet.transactions.subtitle')}}</p>
                     </div>
                 </div>
             </div>
@@ -24,14 +18,14 @@ $transactions = Transaction::all();
                     <table class="table table-bordered" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>{{Lang::get('items.web_or_blog')}}</th>
-                            <th>{{Lang::get('items.date')}}</th>
-                            <th>{{Lang::get('items.buyer')}}</th>
-                            <th>{{Lang::get('items.seller')}}</th>
-                            <th>{{Lang::get('items.state')}}</th>
-                            <th>{{Lang::get('items.amount')}}</th>
-                            <th>{{Lang::get('attributes.actions')}}</th>
+                            <th>{{Lang::get('tables.wallet.id')}}</th>
+                            <th>{{Lang::get('tables.wallet.web')}}</th>
+                            <th>{{Lang::get('tables.wallet.date')}}</th>
+                            <th>{{Lang::get('tables.wallet.buyer')}}</th>
+                            <th>{{Lang::get('tables.wallet.seller')}}</th>
+                            <th>{{Lang::get('tables.wallet.state')}}</th>
+                            <th>{{Lang::get('tables.wallet.amount')}}</th>
+                            <th>{{Lang::get('tables.wallet.actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,17 +33,22 @@ $transactions = Transaction::all();
                             @foreach($transactions as $transaction)
                                 <tr>
                                     <td><strong>{{$transaction->id}}</strong></td>
-                                    <td>{{$transaction->getEvent() == null ? $transaction->type : $transaction->getAddspace()->url}}</td>
+                                    <td>
+                                        @if($transaction->isSystem())
+                                            <span>{{$transaction->type}}</span>
+                                        @else
+                                            <a href="{{$transaction->getAddspace()->url}}">{{$transaction->getAddspace()->url}}</a>
+                                        @endif
+                                    </td>
                                     <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getReceiver()->getUser()->name : $transaction->getSender()->getUser()->name}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getSender()->getUser()->name : $transaction->getReceiver()->getUser()->name}}</td>
-                                    <?php
-                                        $class = $transaction->getEvent() == null ? 'alert-info'
-                                                                                  : ($transaction->getEvent()->pending() ? 'alert-warning'
-                                                                                  : ($transaction->getEvent()->rejected() || $transaction->getEvent()->rejectedByUser()) ? 'alert-danger' : 'alert-success');
-                                    ?>
                                     <td>
-                                        <span class="{{$class}}">
+                                        <span class="@if($transaction->getEvent() == null) alert-info
+                                                     @elseif($transaction->getEvent()->pending()) alert-warning
+                                                     @elseif($transaction->getEvent()->rejected() || $transaction->getEvent()->rejectedByUser()) alert-danger
+                                                     @else alert-success
+                                                     @endif">
                                         {{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}
                                         </span>
                                     </td>
@@ -61,8 +60,8 @@ $transactions = Transaction::all();
                                     </td>
                                     <td>
                                         @if($transaction->getEvent() != null && $transaction->getEvent()->rejectedByUser())
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="{{'#reject'.$transaction->getEvent()->id}}">{{Lang::get('forms.reject')}}</button>
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="{{'#accept'.$transaction->getEvent()->id}}">{{Lang::get('forms.accept')}}</button>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="{{'#reject'.$transaction->getEvent()->id}}">{{Lang::get('forms.transactions.reject')}}</button>
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="{{'#accept'.$transaction->getEvent()->id}}">{{Lang::get('forms.transactions.accept')}}</button>
                                             @include('events.accept', ['event' => $transaction->getEvent()])
                                             @include('events.reject', ['event' => $transaction->getEvent()])
                                         @endif
@@ -93,7 +92,22 @@ $transactions = Transaction::all();
     <script>
         // datatable
         $('[data-ride="datatables"]').each(function() {
-            var oTable = $(this).dataTable();
+            var oTable = $(this).dataTable(
+                {
+                    "language": {
+                        "paginate": {
+                            "previous": "{{Lang::get('tables.previous')}}",
+                            "next": "{{Lang::get('tables.next')}}",
+                            "first": "{{Lang::get('tables.first')}}",
+                            "last": "{{Lang::get('tables.last')}}"
+                        },
+                        "emptyTables": "{{Lang::get('tables.empty')}}",
+                        "lengthMenu": "{{Lang::get('tables.lengthMenu')}}",
+                        "info": "{{Lang::get('tables.info')}}",
+                        "search": "{{Lang::get('tables.search')}}"
+                    }
+                }
+            );
         });
     </script>
 @endsection

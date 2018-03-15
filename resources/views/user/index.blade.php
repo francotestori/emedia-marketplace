@@ -25,14 +25,12 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
                 <div class="row">
                     <div class="col-md-6">
                         <h3>
-                            {{Lang::get('titles.users')}}
+                            {{Lang::get('titles.users.index')}}
                         </h3>
                     </div>
                     <div class="col-md-6">
                         @if(Auth::user()->isManager())
-                            <div class="pull-right">
-                                <a href="{{route('users.create')}}" class="btn btn-info btn-lg">{{Lang::get('messages.create_users')}}</a>
-                            </div>
+                            <a href="{{route('users.create')}}" class="btn btn-info pull-right">{{Lang::get('forms.basic.create')}}</a>
                         @endif
                     </div>
                 </div>
@@ -43,11 +41,11 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
                     <table class="table table-bordered" id="addspaces-table" @if(count($users_to_show)) data-ride="datatables" @endif>
                         <thead>
                             <tr>
-                                <th>{{Lang::get('attributes.id')}}</th>
-                                <th>{{Lang::get('attributes.name')}}</th>
-                                <th>{{Lang::get('attributes.email')}}</th>
-                                <th>{{Lang::get('attributes.role')}}</th>
-                                <th>{{Lang::get('attributes.actions')}}</th>
+                                <th>{{Lang::get('tables.users.id')}}</th>
+                                <th>{{Lang::get('tables.users.name')}}</th>
+                                <th>{{Lang::get('tables.users.email')}}</th>
+                                <th>{{Lang::get('tables.users.role')}}</th>
+                                <th>{{Lang::get('tables.users.actions')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,24 +56,45 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->getRole()}}</td>
-                                        <td class="">
-                                            <a type="button" class="btn btn-info" href="{{route('users.edit', ['id' => $user->id])}}">{{Lang::get('messages.edit')}}</a>
-                                            <a type="button" class="btn btn-danger" href="#">{{Lang::get('forms.deactivate')}}</a>
-                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="{{'#password'.$user->id}}">{{Lang::get('forms.send_password')}}</button>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-info" href="{{route('users.edit', ['id' => $user->id])}}">
+                                                    {{Lang::get('forms.basic.edit')}}
+                                                </a>
+                                                @if($user->activated)
+                                                    <a class="btn btn-danger" href="{{route('users.deactivate',[$user->id])}}">
+                                                        {{Lang::get('forms.users.deactivate')}}
+                                                    </a>
+                                                @else
+                                                    <a class="btn btn-primary" href="{{route('users.activate',[$user->id])}}">
+                                                        {{Lang::get('forms.users.activate')}}
+                                                    </a>
+                                                @endif
+                                                <a href="{{route('users.password', $user->id)}}" class="btn btn-success">{{Lang::get('forms.users.change')}}</a>
+                                                <button class="btn btn-warning" data-toggle="modal" data-target="{{'#password'.$user->id}}">{{Lang::get('forms.users.send')}}</button>
+                                            </div>
                                         </td>
                                         <!-- Modal de enviar password -->
                                         <div class="modal fade" id="{{'password'.$user->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
+                                                        <h3>{{Lang::get('forms.users.sending')}}</h3>
                                                     </div>
                                                     <div class="modal-body">
-                                                        {{Lang::get('messages.wish_password')}}
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{{Lang::get('forms.close')}}</button>
-                                                        <button type="button" class="btn btn-primary">{{Lang::get('forms.send')}}</button>
-                                                    </div>
+                                                    {{Form::open(['route' => ['users.sendpassword', $user->id]])}}
+                                                        <div class="modal-footer">
+                                                            <div class="row form-group">
+                                                                <div class="col-md-6">
+                                                                    <a class="btn btn-default pull-right" data-dismiss="modal">{{Lang::get('forms.basic.cancel')}}</a>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <button class="btn btn-info pull-left">{{Lang::get('forms.users.send')}}</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {{Form::close()}}
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +120,22 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
     <script>
         // datatable
         $('[data-ride="datatables"]').each(function() {
-            var oTable = $(this).dataTable();
+            var oTable = $(this).dataTable(
+                {
+                    "language": {
+                        "paginate": {
+                            "previous": "{{Lang::get('tables.previous')}}",
+                            "next": "{{Lang::get('tables.next')}}",
+                            "first": "{{Lang::get('tables.first')}}",
+                            "last": "{{Lang::get('tables.last')}}"
+                        },
+                        "emptyTables": "{{Lang::get('tables.empty')}}",
+                        "lengthMenu": "{{Lang::get('tables.lengthMenu')}}",
+                        "info": "{{Lang::get('tables.info')}}",
+                        "search": "{{Lang::get('tables.search')}}"
+                    }
+                }
+            );
         });
     </script>
 @endsection
