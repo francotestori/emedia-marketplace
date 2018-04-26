@@ -16,6 +16,8 @@ Route::get('/logout', function(){
    return view('emediamarket');
 });
 
+Route::get('lang/{lang}', ['as'=>'lang.switch', 'uses'=>'LanguageController@switchLang']);
+
 # Auth routes for all users
 Auth::routes();
 Route::get('password/reset/{token}', ['as' => 'password.reset', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
@@ -103,9 +105,13 @@ Route::group(['middleware' => ['auth']], function(){
 
         # Addspaces routes
         Route::resource('addspaces', 'AddspaceController', ['except' => ['index', 'show']]);
+        Route::post('addspaces/store', ['as' => 'addspaces.store', 'uses' => 'AddspaceController@store']);
+
         Route::get('addspaces/{id}/pause', ['as' => 'addspaces.pause', 'uses' => 'AddspaceController@pause']);
         Route::get('addspaces/{id}/close', ['as' => 'addspaces.close', 'uses' => 'AddspaceController@close']);
         Route::get('addspaces/{id}/activate', ['as' => 'addspaces.activate', 'uses' => 'AddspaceController@activate']);
+
+        Route::post('addspaces', ['as' => 'addspaces.indexFilter', 'uses' => 'AddspaceController@indexFilter']);
 
         Route::get('sales', ['as' => 'sales', 'uses' => 'WalletController@sales']);
 

@@ -13,7 +13,7 @@ return [
         'posted' => 'Posteado',
     ],
 
-    'web' => 'Web / Blog',
+    'web' => 'Mis webs',
 
     'profit' => 'Ganancia',
     'revenue' => 'Renta',

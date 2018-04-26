@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <table class="table table-bordered" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
+            <table class="table" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
                 <thead>
                 <tr>
                     <th>Transaction ID</th>

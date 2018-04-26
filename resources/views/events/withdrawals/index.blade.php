@@ -6,28 +6,30 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
-            <div class="panel-titulo2">
-                <h3>{{Lang::get('titles.wallet.withdrawals')}}</h3>
+        <div class="panel-title">
+            <h3>{{Lang::get('titles.wallet.withdrawals')}}</h3>
+        </div>
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
             </div>
-            <br>
+        @endif
+        @if (session('errors'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('errors') }}
+            </div>
+        @endif
+
+        <br>
+
+        <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-bordered" id="addspaces-table" @if(count($withdrawals)) data-ride="datatables" @endif>
+                        <table class="table" id="addspaces-table" @if(count($withdrawals)) data-ride="datatables" @endif>
                             <thead>
                             <tr>
                                 <th>{{Lang::get('tables.wallet.id')}}</th>
-                                <th>{{Lang::get('tables.wallet.from')}}</th>
+                                <th>{{Lang::get('tables.wallet.requester')}}</th>
                                 <th>{{Lang::get('tables.wallet.state')}}</th>
                                 <th>{{Lang::get('tables.wallet.amount')}}</th>
                                 <th>{{Lang::get('tables.wallet.authorize')}}</th>
@@ -40,11 +42,12 @@
                                         <td>{{$withdrawal->id}}</td>
                                         <td>{{$withdrawal->getSender()->getUser()->email}}</td>
                                         <td>
-                                            <span class="@if($withdrawal->getEvent()->pending()) alert-warning
-                                                         @elseif($withdrawal->getEvent()->accepted()) alert-success
-                                                         @else alert-danger
-                                                         @endif">
-                                                {{$withdrawal->getEvent()->state}}
+                                            <span class="btn btn-block btn-table-border
+                                                                       @if($withdrawal->getEvent()->pending()) btn-warning
+                                                                       @elseif($withdrawal->getEvent()->accepted()) btn-success
+                                                                       @else btn-danger
+                                                                       @endif" disabled>
+                                                {{Lang::get('tables.'.$withdrawal->getEvent()->state)}}
                                             </span>
                                         </td>
                                         <td>

@@ -6,21 +6,23 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
-            <div class="panel-titulo2">
-                <h3>{{Lang::get('titles.profits.index')}}</h3>
+        <div class="panel-title">
+            <h3>{{Lang::get('titles.profits.index')}}</h3>
+        </div>
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
             </div>
-            <br>
+        @endif
+        @if (session('errors'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('errors') }}
+            </div>
+        @endif
+
+        <br>
+
+        <div class="panel-heading">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -54,21 +56,34 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title">{{Lang::get('forms.profits.creating')}}</h4>
                             </div>
-                            {{Form::open(['route' => 'profits.store', 'class' => 'formulario'])}}
+                            {{Form::open(['route' => 'profits.store'])}}
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="form-group">
-                                        {{Form::label('from', Lang::get('forms.profits.from'))}}
-                                        {{Form::number('from', old('from'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
-                                    </div>
-                                    <div class="form-group">
-                                        {{Form::label('to', Lang::get('forms.profits.to'))}}
-                                        {{Form::number('to', old('to'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
-                                    </div>
-                                    <div class="form-group">
-                                        {{Form::label('profit', Lang::get('forms.profits.value'))}}
-                                        {{Form::number('profit', old('profit'), ['class' => 'form-control','step'=>'1', 'min' => 0, 'max' => 100])}}
-                                    </div>
+                                    <div class="col-md-8 col-md-offset-2">
+                                        <div class="form-group">
+                                            {{Form::label('from', Lang::get('forms.profits.from'))}}
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="from-addon">USD</span>
+                                                {{Form::number('from', old('from'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            {{Form::label('to', Lang::get('forms.profits.to'))}}
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="to-addon">USD</span>
+                                                {{Form::number('to', old('to'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            {{Form::label('profit', Lang::get('forms.profits.value'))}}
+                                            <div class="input-group">
+                                                <span class="input-group-addon" id="profit-addon">%</span>
+                                                {{Form::number('profit', old('profit'), ['class' => 'form-control','step'=>'1', 'min' => 0, 'max' => 100])}}
+                                            </div>
+                                        </div>
+                                        </div>
                                 </div>
                             </div>
                             <div class="modal-footer">

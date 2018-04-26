@@ -45,6 +45,11 @@ class Wallet extends Model
         return $this->user()->first();
     }
 
+    private function isEventlessCreditCompleted($credit)
+    {
+        return $credit->getEvent() == null && $credit->payment_status == 'Completed';
+    }
+
     public function getTransactionsBalance()
     {
         if($this->getUser()->isManager())
@@ -52,22 +57,23 @@ class Wallet extends Model
                 return $transaction['amount'];
             });
 
-        $credit = 0;
-        $debit = 0;
+        $credit_balance = 0;
+        $debit_balance = 0;
 
-        foreach($this->getCredits() as $single_credit){
-            if($single_credit->getEvent() == null ||
-                ($single_credit->getEvent() != null && $single_credit->getEvent()->accepted()))
-                $credit += $single_credit->amount;
+        foreach($this->getCredits() as $credit)
+        {
+            if($this->isEventlessCreditCompleted($credit) ||
+               ($credit->getEvent() != null && $credit->getEvent()->accepted()))
+                $credit_balance += $credit->amount;
         }
 
         foreach($this->getDebits() as $single_debit){
             if($single_debit->getEvent() == null ||
                 ($single_debit->getEvent() != null && $single_debit->getEvent()->accepted()))
-                $debit += $single_debit->amount;
+                $debit_balance += $single_debit->amount;
         }
 
-        return $credit - $debit;
+        return $credit_balance - $debit_balance;
     }
 
     public function getRevenues()

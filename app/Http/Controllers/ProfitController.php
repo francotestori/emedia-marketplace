@@ -27,7 +27,7 @@ class ProfitController extends Controller
     {
         $profits = Profit::all();
 
-        $clusters = array_chunk(Addspace::all()->toArray(), 3);
+        $clusters = array_chunk(Addspace::where('status', '<>', 'CLOSED')->get()->toArray(), 3);
 
         return view('profits.index', compact('profits', 'clusters'));
     }

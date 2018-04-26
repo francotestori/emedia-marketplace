@@ -1,4 +1,4 @@
-<table class="table table-bordered" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
+<table class="table" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
     <thead>
     <tr>
         <th>{{Lang::get('tables.wallet.type')}}</th>
@@ -15,15 +15,33 @@
             <tr>
                 <td>{{Lang::get('tables.'.$transaction['type'])}}</td>
                 <td>{{Lang::get('tables.'.$transaction['action'])}}</td>
-                <td class="">{{$transaction['date']}}</td>
-                <td>{{Lang::get('tables.'.$transaction['state'])}}</td>
+                <td>{{$transaction['date']}}</td>
+                <td align="center">
+                    <?php
+                    switch($transaction['state'])
+                    {
+                        case 'SYSTEM':
+                            $class = "btn-info btn-table-border";
+                            break;
+                        case 'ACCEPTED':
+                            $class = "btn-success btn-table-border";
+                            break;
+                        case 'PENDING':
+                            $class = "btn-warning btn-table-border";
+                            break;
+                        default:
+                            $class = "btn-danger btn-table-border";
+                            break;
+                    }
+                    ?>
+                    <span class="btn btn-block {{$class}}">{{Lang::get('tables.'.$transaction['state'])}}</span>
+                </td>
                 <td>
-                    <a href="{{$transaction['url']}}">{{$transaction['url']}}</a>
+                    <a target="_blank" href="{{$transaction['url']}}">{{$transaction['url']}}</a>
                 </td>
                 <td>
                     <span>
-                        <strong>{{Lang::get('attributes.currency')}}</strong>
-                        {{$transaction['amount']}}
+                        <strong>{{Lang::get('attributes.currency').' '.$transaction['amount']}}</strong>
                     </span>
                 </td>
             </tr>
@@ -36,8 +54,14 @@
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="5">Total</td>
-        <td>{{$user->getWallet()->getTransactionsBalance()}}</td>
+        <td colspan="5"><strong>Total</strong></td>
+
+        <td>
+            <span class="money-total">
+                <strong>{{Lang::get('attributes.currency')}}</strong>
+                {{$user->getWallet()->getTransactionsBalance()}}
+            </span>
+        </td>
     </tr>
     </tfoot>
 </table>

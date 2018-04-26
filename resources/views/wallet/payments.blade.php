@@ -2,20 +2,21 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>{{Lang::get('titles.purchases.index')}}</h3>
-                        <p>{{Lang::get('titles.purchases.subtitle.index')}}</p>
-                    </div>
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>{{Lang::get('titles.purchases.index')}}</h3>
+                    <p>{{Lang::get('titles.purchases.subtitle.index')}}</p>
                 </div>
             </div>
-            <br>
+        </div>
+        <br>
+
+        <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
 
-                    <table class="table table-bordered" id="payments-table" @if(count($user->getWallet()->getDebits())) data-ride="datatables" @endif>
+                    <table class="table" id="payments-table" @if(count($user->getWallet()->getDebits())) data-ride="datatables" @endif>
                         <thead>
                         <tr>
                             <th>#</th>
@@ -24,6 +25,7 @@
                             <th>{{Lang::get('tables.purchases.amount')}}</th>
                             <th>{{Lang::get('tables.purchases.recipient')}}</th>
                             <th>{{Lang::get('tables.purchases.state')}}</th>
+                            <th>{{Lang::get('tables.purchases.message')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -43,10 +45,23 @@
                                     </td>
                                     <td>{{$transaction['owner']}}</td>
                                     <td>
-                                        <span class="@if($transaction['state'] == 'PENDING') alert-warning @elseif($transaction['state'] == 'REJECTED' || $transaction['state'] == 'REJECTED') alert-danger @else alert-success @endif">
-                                        {{$transaction['state']}}
-                                        </span>
+                                        <?php
+                                        switch($transaction['state'])
+                                        {
+                                            case 'ACCEPTED':
+                                                $class = "btn-success";
+                                                break;
+                                            case 'PENDING':
+                                                $class = "btn-warning";
+                                                break;
+                                            default:
+                                                $class = "btn-danger";
+                                                break;
+                                        }
+                                        ?>
+                                        <span class="btn btn-block btn-table-border {{$class}}">{{Lang::get('tables.'.$transaction['state'])}}</span>
                                     </td>
+                                    <td><a href="{{route('messages.show', $transaction['thread_id'])}}"><i class="fa fa-inbox"></i></a></td>
                                 </tr>
                             @endforeach
                         @else

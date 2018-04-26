@@ -17,12 +17,16 @@ return [
     'search' => 'Buscar',
     'lengthMenu' => 'Mostrando _MENU_ elementos',
 
+    'status' => 'Estado',
+
     'purchases' => [
-        'web' => 'Web / Blog',
+        'web' => 'Mis Webs',
         'date' => 'Fecha',
         'amount' => 'Cantidad',
         'recipient' => 'Receptor',
         'state' => 'Estado',
+        'advertiser' => 'Anunciante',
+        'message' => 'Mensajes',
     ],
 
     'wallet' => [
@@ -38,6 +42,7 @@ return [
         'seller' => 'Vendedor',
         'actions' => 'Acciones',
         'from' => 'De',
+        'requester' => 'Solicitante',
         'authorize' => 'Autorizar',
     ],
 
@@ -47,6 +52,7 @@ return [
         'cost' => 'Costo',
         'created_at' => 'Creado',
         'actions' => 'Acciones',
+        'status' => 'Estado',
     ],
 
     'users' => [
@@ -63,11 +69,20 @@ return [
         'value' => 'Valor de Ganancia (%)',
     ],
 
-    'CREDIT' => 'ACREDITACIÓN',
-    'DEBIT' => 'DEBITO',
-    'DEPOSIT' => 'DEPOSITO',
-    'PAYMENT' => 'PAGO',
-    'ACCEPTED' => 'ACEPTADA',
-    'REJECTED' => 'RECHAZADA',
-    'SYSTEM' => 'TRANSACCION CON SISTEMA',
+    'CREDIT' => 'Acreditación',
+    'DEBIT' => 'Debito',
+    'DEPOSIT' => 'Deposito',
+    'PAYMENT' => 'Pago',
+    'ACCEPTED' => 'Aceptada',
+    'REJECTED' => 'Rechazada',
+    'USER_REJECTED' => 'Rechazada por anunciante',
+    'PENDING' => 'Pendiente',
+    'WITHDRAWAL' => 'Retiro',
+    'SYSTEM' => 'Transacción con sistema',
+
+    'all' => ' Todos',
+    'active' => ' Activos',
+    'paused' => ' Pausados',
+    'closed' => ' Cerrados',
+
 ];

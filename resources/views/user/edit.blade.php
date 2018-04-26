@@ -2,6 +2,21 @@
 
 @section('content')
     <div class="panel panel-default">
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>{{Lang::get('titles.users.edit')}}</h1>
+                </div>
+                <div class="col-md-2">
+                    @if(Auth::user()->isManager())
+                        <a class="btn btn-primary pull-right" href="{{route('users.create')}}" >
+                            {{Lang::get('forms.basic.create')}}
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <br>
         <div class="panel-heading">
             @if (session('status'))
                 <div class="alert alert-success">
@@ -13,21 +28,6 @@
                     {{ session('errors') }}
                 </div>
             @endif
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-10">
-                        <h3>{{Lang::get('titles.users.edit')}}</h3>
-                    </div>
-                    <div class="col-md-2">
-                        @if(Auth::user()->isManager())
-                            <a class="btn btn-primary pull-right" href="{{route('users.create')}}" >
-                                {{Lang::get('forms.basic.create')}}
-                            </a>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <br>
                 {{Form::open(['route' => ['users.update',$user->id], 'class' => 'form-horizontal'])}}
 
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -73,12 +73,17 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
-                    </div>
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-info pull-left">{{Lang::get('forms.basic.update')}}</button>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-4">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <a href="{{URL::previous()}}" class="btn btn-block btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-block btn-simple-emedia pull-left">{{Lang::get('forms.basic.update')}}</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

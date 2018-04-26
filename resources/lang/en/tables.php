@@ -17,12 +17,16 @@ return [
     'search' => 'Search',
     'lengthMenu' => 'Showing _MENU_ entries',
 
+    'status' => 'Status',
+
     'purchases' => [
-        'web' => 'Web / Blog',
+        'web' => 'My webs',
         'date' => 'Date',
         'amount' => 'Amount',
         'recipient' => 'Recipient',
         'state' => 'State',
+        'advertiser' => 'Advertiser',
+        'message' => 'Messages',
     ],
 
     'wallet' => [
@@ -38,6 +42,7 @@ return [
         'seller' => 'Seller',
         'actions' => 'Actions',
         'from' => 'From',
+        'requester' => 'Requester',
         'authorize' => 'Authorize',
     ],
 
@@ -47,6 +52,7 @@ return [
         'cost' => 'Cost',
         'created_at' => 'Created At',
         'actions' => 'Actions',
+        'status' => 'Status',
     ],
 
     'users' => [
@@ -69,5 +75,13 @@ return [
     'PAYMENT' => 'PAYMENT',
     'ACCEPTED' => 'ACCEPTED',
     'REJECTED' => 'REJECTED',
+    'USER_REJECTED' => 'REJECTED BY USER',
+    'PENDING' => 'PENDING',
+    'WITHDRAWAL' => 'WITHDRAWAL',
     'SYSTEM' => 'SYSTEM',
+
+    'all' => ' All',
+    'active' => ' Active',
+    'paused' => ' Paused',
+    'closed' => ' Closed',
 ];

@@ -3,15 +3,12 @@
 @section('content')
 
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-title">
             <div class="row">
                 <div class="col-md-4">
-                    <h3>
-                        <span>
-                            <strong>{{Lang::get('titles.addspaces.web')}}</strong>
-                            <a href="{{$addspace->url}}">{{$addspace->url}}</a>
-                        </span>
-                    </h3>
+                    <h1>
+                        <a target="_blank" href="{{$addspace->url}}">{{$addspace->url}}</a>
+                    </h1>
                 </div>
 
                 <div class="col-md-8">
@@ -26,28 +23,29 @@
                         @elseif(!Auth::user()->isAdvertiser())
                             <div class="row">
                                 <div class="col-md-12">
-                                    @if(!$addspace->isActive())
+                                    @if(!$addspace->isClosed())
+                                        <a href="{{route('addspaces.edit', $addspace->id)}}" class="btn btn-info">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    @endif
+                                    @if($addspace->isPaused())
                                         <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-default">
                                             <i class="fa fa-play-circle"></i>
-                                            {{Lang::get('forms.addspaces.activate')}}
                                         </a>
-                                    @else
+                                    @elseif($addspace->isActive())
                                         <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn btn-warning">
                                             <i class="fa fa-pause-circle"></i>
-                                            {{Lang::get('forms.addspaces.pause')}}
+                                        </a>
+                                    @elseif($addspace->isClosed())
+                                        <a class="btn btn-danger" disabled>
+                                            {{Lang::get('forms.addspaces.deactivated')}}
                                         </a>
                                     @endif
                                     @if(!$addspace->isClosed())
                                         <a href="{{route('addspaces.close', $addspace->id)}}" class="btn btn-danger">
                                             <i class="fa fa-close"></i>
-                                            {{Lang::get('forms.addspaces.deactivate')}}
                                         </a>
                                     @endif
-                                        <a href="{{route('addspaces.edit', $addspace->id)}}" class="btn btn-info">
-                                            <i class="fa fa-pencil"></i>
-                                            {{Lang::get('forms.basic.edit')}}
-                                        </a>
-
                                 </div>
                             </div>
                         @endif
@@ -58,40 +56,61 @@
                 <div class="col-md-12">
                     <h3>
                         @foreach($addspace->getCategories() as $category)
-                            <span class="btn btn-primary disabled">{{$category->name}}</span>
+                            <span class="btn btn-category disabled">{{'#'.$category->name}}</span>
                         @endforeach
                     </h3>
                 </div>
             </div>
         </div>
         <br>
-        <div class="panel-titulo2">
-            <h3>{{Lang::get('titles.addspaces.detail')}}</h3>
-        </div>
-        <div class="panel-heading">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
-                <p><strong>{{Lang::get('forms.addspaces.item.description')}}: </strong>{{$addspace->description}}</p>
-                <p><strong>{{Lang::get('attributes.visits')}}: </strong>{{$addspace->visits}} {{Lang::get('forms.addspaces.item.frequency')}}</p>
-            @if(!Auth::user()->isAdvertiser())
-                <p><strong>{{Lang::get('forms.addspaces.item.price')}}: </strong>{{Lang::get('attributes.currency')}} {{$addspace->cost}}</p>
-            @else
-                <p><strong>{{Lang::get('forms.addspaces.item.price')}}: </strong>{{Lang::get('attributes.currency')}} {{$addspace->getCost()}}</p>
-            @endif
 
+        <div class="row">
+            <div class="panel-heading col-md-6">
+                <h3>{{Lang::get('titles.addspaces.detail')}}</h3>
+                <p>{{$addspace->description}}</p>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="panel-heading col-md-5">
+                <div class="col-md-4">
+                    <h3>{{Lang::get('forms.addspaces.item.language')}}</h3>
+                    <p>
+                    <span>
+                        {{Lang::get('attributes.language.'.$addspace->language)}}
+                    </span>
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>{{Lang::get('attributes.visits')}}</h3>
+                        <p>
+                            <span>
+                                <strong>{{$addspace->visits}}</strong> {{Lang::get('attributes.frequency.'.$addspace->periodicity)}}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>{{Lang::get('forms.addspaces.item.price')}}</h3>
+                        <p>
+                            @if(!Auth::user()->isAdvertiser())
+                                <span class="money-total">
+                                    <strong>{{Lang::get('attributes.currency')}}</strong> {{$addspace->cost}}
+                                </span>
+                            @else
+                                <span class="money-total">
+                                    <strong>{{Lang::get('attributes.currency')}}</strong> {{$addspace->getCost()}}
+                                </span>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <br>
         @if(!$threads->isEmpty())
             @include('messaging.messenger.partials.flash')
             <div class="panel-heading">
+                <br>
                 @each('messaging.messenger.partials.thread', $threads, 'thread', 'messaging.messenger.partials.no-threads')
             </div>
         @endif

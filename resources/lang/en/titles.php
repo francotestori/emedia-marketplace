@@ -15,6 +15,10 @@ return [
     'check' => 'Check your email',
     'reset' => 'Reset your password',
 
+    'mail' => [
+        'reset' => 'Reset password',
+    ],
+
     'tufts' => [
         'login' => [
             'advertiser' => [
@@ -34,7 +38,13 @@ return [
                 'activity' => 'and connect in our network',
                 'decorator' => 'to expand your horizon',
             ],
-        ]
+        ],
+        'home' => [
+            'help' => 'Contact our support team and we will guide you through your first campaign.',
+            'faq' => 'Remember that if you have any doubt, we got a section for you.',
+            'faq2' => 'See questions.',
+        ],
+
     ],
 
     'home' => [
@@ -52,6 +62,8 @@ return [
             "check" => 'See full profile',
             "services" => 'Check our services : ',
             "us" => 'Contact us : ',
+            "help" => 'In need of help ?',
+            "faq" => 'Preguntas frecuentes',
         ],
     ],
 
@@ -88,10 +100,10 @@ return [
     ],
 
     'addspaces' => [
-        'search' => 'Search Web / Blog',
-        'edit' => 'Edit Web / Blog',
-        'create' => 'Create Web / Blog',
-        'web' => 'Web / Blog',
+        'search' => 'Search webs',
+        'edit' => 'Edit webs',
+        'create' => 'Create webs',
+        'web' => 'My webs',
         'filters' => 'Filters: ',
         'detail' => 'Detail ',
     ],
@@ -117,4 +129,5 @@ return [
     ],
 
     'messages' => 'Messages',
+    'subject' => '#:id SUBJECT: :subject',
 ];

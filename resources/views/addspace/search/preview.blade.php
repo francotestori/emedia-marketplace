@@ -8,33 +8,44 @@ $addspace = Addspace::find($addspaceArray['id']);
     <div class="ejemplo-webs">
         <img src="{{asset('img/example.png')}}" class="img-responsive center-block">
 
-        <div class="ejemplo-titular">
-            <p>
-                <a href="{{$addspace->url}}">{{$addspace->url}}</a>
+        <div class="row">
+            <div class="col-md-12">
+                <a target="_blank" class="ejemplo-titular" href="{{$addspace->url}}">
+                    {{substr(str_replace_first('www.','',str_replace_first('http://', '', $addspace->url)),0,27)}}
+                </a>
+            </div>
+        </div>
+        <p>
+            @if(count($addspace->getCategories()))
                 @foreach($addspace->getCategories() as $category)
                     <span class="btn btn-primary disabled">{{$category->name}}</span>
                 @endforeach
-            </p>
-        </div>
+            @else
+                <span class="btn btn-default disabled">{{Lang::get('attributes.categories.empty')}}</span>
+            @endif
+        </p>
         <div>
-            <h3>
+            <div class="row"></div>
+            <h4>
                 <strong>{{Lang::get('items.price').' '.Lang::get('attributes.currency').' '.$addspace->getCost()}}</strong>
-            </h3>
-            <p><strong>{{Lang::get('items.visits')}}</strong> {{$addspace->visits}} + {{Lang::get('attributes.day_periodicity')}}</p>
-            <p><strong>{{Lang::get('items.language')}}</strong> </p>
+            </h4>
+            <p><strong>{{Lang::get('items.visits')}}</strong> {{$addspace->visits}} + {{Lang::get('attributes.frequency.'.$addspace->periodicity)}}</p>
+            <p><strong>{{Lang::get('items.language')}}</strong> {{Lang::get('attributes.language.'.$addspace->language)}}</p>
             <p><strong>{{Lang::get('items.description')}}</strong>
-                @if(strlen($addspace->description) > 45)
-                    {{substr($addspace->description,0,45).'...'}}
+                @if(strlen($addspace->description) > 60)
+                    {{substr($addspace->description,0,60).'...'}}
                 @else
-                    {{substr($addspace->description,0,45)}}
+                    {{substr($addspace->description,0,60)}}
                 @endif
             </p>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{'info-'.$addspace->id}}">{{Lang::get('forms.basic.more')}}</button>
-            @if(Auth::user()->isAdvertiser())
-                <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#{{'charge-'.$addspace->id}}">{{Lang::get('forms.basic.buy')}}</button>
-            @else
+            <div class="btn-group">
+                <a href="{{route('addspaces.show',[$addspace->id])}}" class="btn btn-info">{{Lang::get('forms.basic.more')}}</a>
+{{--                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{'info-'.$addspace->id}}">{{Lang::get('forms.basic.more')}}</button>--}}
+                @if(Auth::user()->isAdvertiser())
+                    <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#{{'charge-'.$addspace->id}}">{{Lang::get('forms.basic.buy')}}</button>
+                @else
                     @if(!$addspace->isActive())
-                        <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-default">
+                        <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-success">
                             {{Lang::get('forms.addspaces.activate')}}
                         </a>
                     @else
@@ -47,7 +58,8 @@ $addspace = Addspace::find($addspaceArray['id']);
                             {{Lang::get('forms.addspaces.deactivate')}}
                         </a>
                     @endif
-            @endif
+                @endif
+            </div>
         </div>
 
         <!-- Modal -->
@@ -77,7 +89,7 @@ $addspace = Addspace::find($addspaceArray['id']);
                         </div>
                         <div class="form-group">
                             {{Form::label('description', Lang::get('forms.addspaces.item.description'))}}
-                            {{Form::text('description', $addspace->description, ['readonly' => true, 'class' => 'form-control'])}}
+                            {{Form::textarea('description', $addspace->description, ['readonly' => true, 'class' => 'form-control'])}}
                         </div>
                     </div>
                     <div class="modal-footer">

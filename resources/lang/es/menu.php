@@ -9,7 +9,7 @@
 return [
     'sidebar' => [
         'home' => 'Home',
-        'web' => 'Web / Blog',
+        'web' => 'Mis webs',
         'editors' => 'Editores',
         'advertisers' => 'Anunciantes',
         'transactions' => 'Transacciones',
@@ -18,7 +18,7 @@ return [
         'revenues' => 'Rentas',
         'withdrawals' => 'Retiros',
         'sales' => 'Ventas',
-        'wallet' => 'Billetera',
+        'wallet' => 'Monedero',
         'purchases' => 'Compras',
     ],
 

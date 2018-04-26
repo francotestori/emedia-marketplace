@@ -9,7 +9,7 @@
 return [
     'sidebar' => [
         'home' => 'Home',
-        'web' => 'Web / Blog',
+        'web' => 'My webs',
         'editors' => 'Editors',
         'advertisers' => 'Advertisers',
         'transactions' => 'Transactions',

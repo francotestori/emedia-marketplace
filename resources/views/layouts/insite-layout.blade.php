@@ -27,14 +27,93 @@
 @yield('modals')
 
 <div class="container-fluid display-table">
+    <div class="row" id="topbar">
+        <div class="col-md-12 col-sm-12 display-table-cell v-align">
+            <div class="row">
+                <header>
+                    <div class="col-md-3 home-logo">
+                        <a href="{{url('/home')}}">
+                            <img src="{{asset('img/login-anunciantes.png')}}" alt="merkery_logo" class="hidden-xs hidden-sm">
+                            <img src="{{asset('img/login-anunciantes.png')}}" alt="merkery_logo" class="visible-xs visible-sm circle-logo">
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <nav class="navbar-default pull-left">
+                            <div class="navbar-header">
+
+                            </div>
+                        </nav>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="header-rightside">
+                            <ul class="list-inline header-top pull-right">
+                                <li>
+                                    <a href="{{route('wallet')}}" class="btn btn-success btn-block btn-header">
+                                        <strong>{{"U\$D ".Auth::user()->getWallet()->balance}}</strong>
+                                    </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        {{ Config::get('languages')[App::getLocale()] }}
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @foreach (Config::get('languages') as $lang => $language)
+                                            @if ($lang != App::getLocale())
+                                                <li>
+                                                    <a href="{{ route('lang.switch', $lang) }}">{{$language}}</a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{{route('messages')}}" class="icon-info">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        @if(Auth::user()->getPendingThreadCount() > 0)
+                                            <span class="label label-primary">{{Auth::user()->getPendingThreadCount()}}</span>
+                                        @endif
+                                    </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="user.html" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i>
+                                        <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <div class="navbar-content">
+                                                <span>{{ Auth::user()->name }}</span>
+                                                <p class="text-muted small">
+                                                    {{ Auth::user()->email }}
+                                                </p>
+                                                <div class="divider">
+                                                </div>
+                                                <a href="{{route('users.show', Auth::user()->id)}}" class="btn btn-sm btn-simple-emedia btn-table-border active">{{Lang::get('menu.profile')}}</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{{ route('logout') }}"  class="logout-view btn-sm"
+                                       onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-sign-out"></i>
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </div>
+    </div>
+
     <div class="row display-table-row">
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
-            <div class="logo">
-                <a href="{{url('/home')}}">
-                    <img src="{{asset('img/login-anunciantes.png')}}" alt="merkery_logo" class="hidden-xs hidden-sm">
-                    <img src="{{asset('img/login-anunciantes.png')}}" alt="merkery_logo" class="visible-xs visible-sm circle-logo">
-                </a>
-            </div>
             <div class="navi">
                 <ul>
                     <!--
@@ -66,66 +145,6 @@
             </div>
         </div>
         <div class="col-md-10 col-sm-11 display-table-cell v-align">
-            <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
-            <div class="row">
-                <header>
-                    <div class="col-md-7">
-                        <nav class="navbar-default pull-left">
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-                            </div>
-                        </nav>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="header-rightside">
-                            <ul class="list-inline header-top pull-right">
-                                <li>
-                                    <a href="{{route('messages')}}" class="icon-info">
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        @if(Auth::user()->getPendingThreadCount() > 0)
-                                            <span class="label label-primary">{{Auth::user()->getPendingThreadCount()}}</span>
-                                        @endif
-                                    </a>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="user.html" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i>
-                                        <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <div class="navbar-content">
-                                                <span>{{ Auth::user()->name }}</span>
-                                                <p class="text-muted small">
-                                                    {{ Auth::user()->email }}
-                                                </p>
-                                                <div class="divider">
-                                                </div>
-                                                <a href="{{route('users.show', Auth::user()->id)}}" class="view btn-sm active">{{Lang::get('menu.profile')}}</a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="navbar-content">
-                                                <a href="{{ route('logout') }}"  class="logout-view btn-sm"
-                                                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                                    {{Lang::get('menu.logout')}}
-                                                </a>
-
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                    {{ csrf_field() }}
-                                                </form>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </header>
-            </div>
             <div class="user-dashboard">
                 @yield('content')
             </div>

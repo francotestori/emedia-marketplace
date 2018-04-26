@@ -261,13 +261,13 @@ class UserController extends Controller
 
         if(!Hash::check(Input::get('old'), $user->password))
         {
-            Session::flash('error_status', 'Unauthorized: Wrong password. Please try again.');
+            Session::flash('error_status', Lang::get('messages.password.unauthorized'));
             return redirect()->route('users.password', [$id]);
         }
 
         if(strcmp(Input::get('old'), Input::get('password')) == 0)
         {
-            Session::flash('error_status', 'New password cannot be same as current');
+            Session::flash('error_status', Lang::get('messages.password.different'));
             return redirect()->route('users.password', [$id]);
         }
 
@@ -287,7 +287,7 @@ class UserController extends Controller
         $user->password = bcrypt(Input::get('password'));
         $user->save();
 
-        Session::flash('status', 'Password changed successfully !');
+        Session::flash('status', Lang::get('messages.password.success'));
         return redirect()->route('users.show',[$id]);
     }
 

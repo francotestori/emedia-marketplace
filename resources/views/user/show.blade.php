@@ -6,78 +6,62 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h3>
-                                <span>
-                                    <strong>{{$user->name}}</strong>
-                                </span>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4>
-                                <span>
-                                    {{$user->email}}
-                                </span>
-                                </h4>
-                            </div>
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>
+                                <strong>{{$user->name}}</strong>
+                            </h1>
                         </div>
                     </div>
-                    <div class="col-md-4 balance">
-                        <div class="pull-right">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @if(Auth::user()->id == $user->id)
-                                        <a href="{{route('users.password', $user->id)}}" class="btn btn-success">{{Lang::get('forms.users.change')}}</a>
-                                        <a href="{{route('users.edit', $user->id)}}" class="btn btn-info">{{Lang::get('forms.basic.edit')}}</a>
-                                    @endif
-                                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>
+                                {{$user->email}}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 balance">
+                    <div class="pull-right">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if(Auth::user()->id == $user->id)
+                                    <a href="{{route('users.password', $user->id)}}" class="btn btn-default">{{Lang::get('forms.users.change')}}</a>
+                                    <a href="{{route('users.edit', $user->id)}}" class="btn btn-simple-emedia">{{Lang::get('forms.basic.edit')}}</a>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <br>
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <h3>{{Lang::get('titles.wallet.index')}}</h3>
-                            </div>
-                            <div class="col-md-2 balance">
-                                @if($user->isManager())
-                                    <h4>{{Lang::get('titles.wallet.revenue')}}</h4>
-                                @else
-                                    <h4>{{Lang::get('titles.wallet.balance')}}</h4>
-                                @endif
-                                <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 balance pull-right">
-                        @if(Auth::user()->isEditor())
-                            <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-warning">{{Lang::get('forms.basic.withdraw')}}</button>
-                        @elseif(Auth::user()->isAdvertiser())
-                            <a href="{{route('deposit')}}" class="btn btn-warning">{{Lang::get('forms.basic.deposit')}}</a>
-                        @endif
-                    </div>
+        </div>
+        <br>
+
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+        @if (session('errors'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('errors') }}
+            </div>
+        @endif
+
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>{{Lang::get('titles.wallet.index')}}</h3>
+                </div>
+                <div class="col-md-4 balance pull-right">
+                    @if(Auth::user()->isEditor())
+                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.withdraw')}}</button>
+                    @elseif(Auth::user()->isAdvertiser())
+                        <a href="{{route('deposit')}}" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.deposit')}}</a>
+                    @endif
                 </div>
             </div>
             <br>
@@ -87,7 +71,7 @@
                         @if($user->isAdvertiser())
                             @include('wallet.advertiser.transactions',['user' => $user, 'transactions' => $transactions])
                         @else
-                        <table class="table table-bordered" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
+                            <table class="table" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
                                 <thead>
                                 <tr>
                                     <th>{{Lang::get('tables.wallet.type')}}</th>
@@ -104,12 +88,35 @@
                                             $transaction->type == 'DEPOSIT' ||
                                             $transaction->type == 'WITHDRAWAL')
                                             <tr>
-                                                <td>{{$transaction->from_wallet == $user->getWallet()->id ? 'DEBIT' : 'CREDIT'}}</td>
-                                                <td>{{$transaction->type}}</td>
-                                                <td class="">
-                                                    {{Carbon\Carbon::parse($transaction->created_at)}}
+                                                <td>
+                                                    @if($transaction->from_wallet == $user->getWallet()->id)
+                                                        {{Lang::get('tables.DEBIT')}}
+                                                    @else
+                                                        {{Lang::get('tables.CREDIT')}}
+                                                    @endif
                                                 </td>
-                                                <td>{{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}</td>
+                                                <td>{{Lang::get('tables.'.$transaction->type)}}</td>
+                                                <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
+                                                <td align="center">
+                                                    <?php
+                                                    $status = $transaction->getEvent() == null ? 'SYSTEM' : $transaction->getEvent()->state;
+                                                    $state = Lang::get('tables.'.$status);
+
+                                                    switch($status)
+                                                    {
+                                                        case 'ACCEPTED':
+                                                            $class = "btn-success btn-table-border";
+                                                            break;
+                                                        case 'PENDING':
+                                                            $class = "btn-warning btn-table-border";
+                                                            break;
+                                                        default:
+                                                            $class = "btn-danger btn-table-border";
+                                                            break;
+                                                    }
+                                                    ?>
+                                                    <span class="btn btn-block {{$class}}">{{$state}}</span>
+                                                </td>
                                                 <td>
                                                     <span>
                                                         <strong>{{Lang::get('attributes.currency')}}</strong>
@@ -128,32 +135,49 @@
                                 <tfoot>
                                 <tr>
                                     <td colspan="4">{{Lang::get('tables.wallet.total')}}</td>
-                                    <td>{{$user->getWallet()->getTransactionsBalance()}}</td>
+
+                                    <td>
+                                        <span class="money-total">
+                                            <strong>{{Lang::get('attributes.currency')}}</strong>
+                                            {{$user->getWallet()->getTransactionsBalance()}}
+                                        </span>
+                                    </td>
                                 </tr>
                                 </tfoot>
-                        </table>
+                            </table>
                         @endif
                     </div>
                 </div>
-            @endif
-            @if($user->isEditor())
-                <div class="panel-titulo2">
-                    <h4>{{Lang::get('titles.addspaces.web')}}</h4>
-                </div>
                 <br>
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul>
-                            @foreach($user->addspaces()->get() as $addspace)
-                                <li>
-                                    <span>
-                                        {{$addspace->id}} -<a href="{{route('addspaces.show',$addspace->id)}}">{{$addspace->url}}</a>
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
+            @endif
+        </div>
+        <br>
+
+        <div class="panel-heading">
+            @if($user->isEditor())
+                <div class="panel-title">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>{{Lang::get('titles.addspaces.web')}}</h4>
+                        </div>
                     </div>
                 </div>
+                <br>
+                @foreach(array_chunk($user->getUsableAddspaces()->toArray(), 3) as $cluster)
+                    <div class="row">
+                        @foreach($cluster as $addspace)
+                            <div class="col-md-3">
+                                <span class="btn btn-block btn-default">
+                                    <strong>{{$addspace['id'].' - '}}</strong>
+                                    <a target="_blank" href="{{route('addspaces.show',$addspace['id'])}}">{{$addspace['url']}}</a>
+                                </span>
+                            </div>
+                            <div class="col-md-1"></div>
+
+                        @endforeach
+                    </div>
+                    <br>
+                @endforeach
             @endif
         </div>
     </div>

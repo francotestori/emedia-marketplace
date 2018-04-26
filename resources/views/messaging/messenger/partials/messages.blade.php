@@ -1,6 +1,6 @@
-<div class="media {{$message->user->id == Auth::id() ? 'left alert-warning' : 'right alert-info'}} clearfix">
+<div class="media alert-message clearfix">
     <a class="{{$message->user->id == Auth::id() ? 'pull-left' : 'pull-right'}}" href="#">
-        <img src="//www.gravatar.com/avatar/{{ md5($message->user->email) }} ?s=64"
+        <img src="{{$message->user->id == Auth::id() ?  asset('img/avatar.png'): asset('img/avatar.png')}}"
              alt="{{ $message->user->name }}" class="img-circle">
     </a>
     <div class="media-body formulario">

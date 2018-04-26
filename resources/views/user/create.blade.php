@@ -2,25 +2,26 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>{{Lang::get('titles.users.create')}}</h3>
-                    </div>
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>{{Lang::get('titles.users.create')}}</h3>
                 </div>
             </div>
-            <br>
+        </div>
+        <br>
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+        @if (session('errors'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('errors') }}
+            </div>
+        @endif
+
+        <div class="panel-heading">
 
             {{Form::open(['route' => 'users.store', 'class' => 'form-horizontal'])}}
 
@@ -105,7 +106,7 @@
                         <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
                     </div>
                     <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary pull-left">{{Lang::get('forms.basic.create')}}</button>
+                        <button type="submit" class="btn btn-simple-emedia pull-left">{{Lang::get('forms.basic.create')}}</button>
                     </div>
                 </div>
             {{Form::close()}}

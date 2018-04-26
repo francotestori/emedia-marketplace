@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="panel panel-default">
+        @include('messaging.messenger.partials.flash')
+
         <div class="panel-heading">
             @if (session('status'))
                 <div class="alert alert-success">
@@ -13,7 +15,6 @@
                     {{ session('errors') }}
                 </div>
             @endif
-            @include('messaging.messenger.partials.flash')
             @each('messaging.messenger.partials.thread', $threads, 'thread', 'messaging.messenger.partials.no-threads')
         </div>
     </div>

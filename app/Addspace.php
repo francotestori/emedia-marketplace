@@ -4,6 +4,7 @@ namespace App;
 
 use Cmgmyr\Messenger\Models\Thread;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Lang;
 
 class Addspace extends Model
 {
@@ -104,7 +105,7 @@ class Addspace extends Model
 
     public function visits()
     {
-        return $this->visits.' per '.$this->periodicity;
+        return $this->visits.Lang::get('attributes.frequency.'.$this->periodicity);
     }
 
 }

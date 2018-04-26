@@ -35,9 +35,13 @@ class WalletController extends Controller
         $this->provider = new ExpressCheckout();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+
+        if($request->has('status'))
+            Session::flash('status', $request->query('status'));
+
 
         $system_transaction = $user->getWallet()->getTransactions()
             ->filter(function($transaction){
@@ -204,18 +208,18 @@ class WalletController extends Controller
     /**
      * Sends Mail request to Marketplace owner so as to send the money back to the Editor requesting the withdrawal
      */
-    public function withdraw()
+    public function withdraw(Request $request)
     {
         $admin = env('MAIL_MANAGER_ACCOUNT');
 
         $sender = Auth::user();
 
         // Get account withdrawal data
-        $cbu = Input::get('cbu');
-        $alias = Input::get('alias');
-        $paypal = Input::get('paypal');
-        $amount = Input::get('amount');
-        $comment = Input::get('comment');
+        $cbu = $request->get('cbu');
+        $alias = $request->get('alias');
+        $paypal = $request->get('paypal');
+        $amount = $request->get('amount');
+        $comment = $request->get('comment');
 
         // Create associated Event
         $system = User::find(1)->getWallet();
@@ -243,16 +247,20 @@ class WalletController extends Controller
             $email = new Withdrawal($amount, $paypal, $cbu, $alias, $sender->email, $comment, $url);
 
             Mail::to($admin)->send($email);
-            Session::flash('status', 'Withdrawal requested successfully !');
+            return response()->json([
+                'data' => Lang::get('messages.withdrawal.success', ['amount' => $amount]),
+                'status' => true,
+            ]);
         }
         else
         {
             $min_limit = config('marketplace.withdrawal.min');
             $max_limit = config('marketplace.withdrawal.max');
-            Session::flash('errors', 'Your withdrawal must be withing EMarketPlace limits (u$s'.$min_limit.'-u$s'.$max_limit.') and you have u$s'.$sender_balance.' available to withdraw');
+            return response()->json([
+                'data' => Lang::get('messages.withdrawal.failure', ['min' => $min_limit, 'max' => $max_limit, 'available' => $sender_balance,]),
+                'status' => false,
+            ]);
         }
-
-        return back();
     }
 
     private function validateWithdrawal($balance, $amount)
@@ -266,7 +274,7 @@ class WalletController extends Controller
         return true;
     }
 
-    public function withdrawals()
+    public function withdrawals(Request $request)
     {
         $withdrawals = Transaction::where('type', 'WITHDRAWAL')->get();
         return view('events.withdrawals.index', compact('withdrawals'));
@@ -292,12 +300,12 @@ class WalletController extends Controller
             $editor = $transaction->getSender();
             $editor->balance = $editor->balance - $transaction->amount;
             $editor->save();
-            Session::flash('status', 'Withdrawal was accepted ! Remember to send the payment');
+            Session::flash('status', Lang::get('messages.withdrawal.accepted'));
         }
         else
             Session::flash('status', 'Withdrawal was rejected !');
 
-        return $this->withdrawals();
+        return redirect()->route('withdrawal.index');
     }
 
     /**
@@ -497,6 +505,7 @@ class WalletController extends Controller
     {
         $user = Auth::user();
         return view('wallet.sales', compact('user'));
+
     }
 
     public function packages()
@@ -526,6 +535,7 @@ class WalletController extends Controller
                     'amount' => $amount,
                     'owner' => $event->getAddspace()->getEditor()->name,
                     'state' => $event->state,
+                    'thread_id' => $event->getThread()->id,
                 ];
             });
 

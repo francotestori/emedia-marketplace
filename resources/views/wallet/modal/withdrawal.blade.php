@@ -8,7 +8,9 @@
                 <h4 class="modal-title">{{Lang::get('titles.wallet.withdraw')}}</h4>
                 <p>{{Lang::get('forms.withdrawals.withdrawing')}}</p>
             </div>
-            {{Form::open(['route' => 'withdraw'])}}
+            <div id="withdrawErrorMessage" class="alert alert-danger" role="alert">
+            </div>
+            {{Form::open(['route' => 'withdraw', 'name' => 'withdrawal'])}}
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6 form-group">

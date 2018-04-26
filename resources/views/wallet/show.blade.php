@@ -2,29 +2,37 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <h3>{{Lang::get('titles.wallet.index')}}</h3>
-                            </div>
-                            <div class="col-md-2 balance">
-                                <h4>{{Lang::get('titles.wallet.balance')}}</h4>
-                                <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
-                            </div>
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-right: 5%">
+                            <h1>{{Lang::get('titles.wallet.index')}}</h1>
+                            <h5>{{Lang::get('messages.wallet.tuft')}}</h5>
                         </div>
                     </div>
-                    <div class="col-md-2 balance pull-right">
-                        @if(Auth::user()->isEditor())
-                            <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-warning">{{Lang::get('forms.basic.withdraw')}}</button>
-                        @elseif(Auth::user()->isAdvertiser())
-                            <a href="{{route('deposit')}}" class="btn btn-warning">{{Lang::get('forms.basic.deposit')}}</a>
-                        @endif
-                    </div>
+                </div>
+                <div class="col-md-4 balance pull-right">
+                    @if(Auth::user()->isEditor())
+                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.withdraw')}}</button>
+                    @elseif(Auth::user()->isAdvertiser())
+                        <a href="{{route('deposit')}}" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.deposit')}}</a>
+                    @endif
                 </div>
             </div>
+        </div>
+        <br>
+
+        <div class="panel-heading">
+            @if (session('status'))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    </div>
+                </div>
+            @endif
             <br>
             @if(Auth::user()->id == $user->id || Auth::user()->isManager())
                 <div class="row">
@@ -72,4 +80,88 @@
             );
         });
     </script>
+    <script src="{{asset('js/jquery.validate.min.js')}}"></script>
+    <script>
+        $(function() {
+            $("#withdrawErrorMessage").hide();
+            $.ajaxSetup({
+                headers:
+                    {
+                        'X-CSRF-Token': $('input[name="_token"]').val()
+                    }
+            });
+            // Initialize form validation on the registration form.
+            // It has the name attribute "registration"
+            $("form[name='withdrawal']").validate({
+                // Specify validation rules
+                rules: {
+                    // The key name on the left side is the name attribute
+                    // of an input field. Validation rules are defined
+                    // on the right side
+                    paypal: {
+                        required: true
+                    },
+                    amount: {
+                        required: true
+                    },
+                    cbu: {
+                        required: true
+                    },
+                    alias: {
+                        required: true
+                    },
+                    comment: {
+                        required: true
+                    }
+                },
+                // Specify validation error messages
+                messages: {
+                    paypal: {
+                        required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.paypal')])}}"
+                    },
+                    amount: {
+                        required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.amount')])}}"
+                    },
+                    cbu: {
+                        required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.cbu')])}}"
+                    },
+                    alias: {
+                        required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.alias')])}}"
+                    },
+                    comment: {
+                        required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.reason')])}}"
+                    }
+                },
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                submitHandler: function(form) {
+                    $.ajax({
+                        url: "{{route('withdraw')}}",
+                        type: "POST",
+                        data: $(form).serialize(),
+                        cache: false,
+                        processData: false,
+                        success: function(response) {
+                            if(response.status){
+                                $('#loading').hide();
+                                $("#withdrawModal").modal('hide');
+                                var url = window.location.href;
+                                if (url.indexOf('?') > -1)
+                                    url += 'status=' + response.data;
+                                else
+                                    url += '?status=' + response.data;
+                                window.location.href = url;
+                            }
+                            else{
+                                $('#loading').hide();
+                                $("#withdrawErrorMessage").show();
+                                $("#withdrawErrorMessage").text(response.data);
+                            }
+                        }                    });
+                    return false;
+                }
+            });
+        });
+    </script>
+
 @endsection

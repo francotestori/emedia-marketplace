@@ -34,6 +34,7 @@ class Rollbacked extends Mailable
     {
         return $this->view('mail.rollback')
             ->with('transactions', $this->transactions)
-            ->with('reason', $this->reason);
+            ->with('reason', $this->reason)
+            ->attach('');
     }
 }

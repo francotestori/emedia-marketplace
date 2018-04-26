@@ -10,6 +10,23 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
 
 @section('content')
     <div class="panel panel-default">
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>
+                        {{Lang::get('titles.users.index')}}
+                    </h1>
+                    <p></p>
+                </div>
+                <div class="col-md-6">
+                    @if(Auth::user()->isManager())
+                        <a href="{{route('users.create')}}" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.create')}}</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <br>
+
         <div class="panel-heading">
             @if (session('status'))
                 <div class="alert alert-success">
@@ -21,24 +38,9 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
                     {{ session('errors') }}
                 </div>
             @endif
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h3>
-                            {{Lang::get('titles.users.index')}}
-                        </h3>
-                    </div>
-                    <div class="col-md-6">
-                        @if(Auth::user()->isManager())
-                            <a href="{{route('users.create')}}" class="btn btn-info pull-right">{{Lang::get('forms.basic.create')}}</a>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <br>
             <div class="row">
                 <div class="col-lg-12">
-                    <table class="table table-bordered" id="addspaces-table" @if(count($users_to_show)) data-ride="datatables" @endif>
+                    <table class="table" id="addspaces-table" @if(count($users_to_show)) data-ride="datatables" @endif>
                         <thead>
                             <tr>
                                 <th>{{Lang::get('tables.users.id')}}</th>

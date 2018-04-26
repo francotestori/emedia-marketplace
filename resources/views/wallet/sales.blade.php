@@ -2,28 +2,30 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>{{Lang::get('messages.sales')}}</h3>
-                        <p>{{Lang::get('messages.sales_subtitle')}}</p>
-                    </div>
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>{{Lang::get('messages.sales')}}</h1>
+                    <p>{{Lang::get('messages.sales_subtitle')}}</p>
                 </div>
             </div>
-            <br>
+        </div>
+        <br>
+
+        <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
 
-                    <table class="table table-bordered" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
+                    <table class="table" id="sales-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>{{Lang::get('items.web')}}</th>
-                            <th>{{Lang::get('items.date')}}</th>
-                            <th>{{Lang::get('items.amount')}}</th>
+                            <th>{{Lang::get('tables.purchases.web')}}</th>
+                            <th>{{Lang::get('tables.purchases.date')}}</th>
+                            <th>{{Lang::get('tables.purchases.amount')}}</th>
                             <th>{{Lang::get('items.advertiser')}}</th>
-                            <th>{{Lang::get('items.state')}}</th>
+                            <th>{{Lang::get('tables.purchases.state')}}</th>
+                            <th>{{Lang::get('tables.purchases.message')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -42,11 +44,23 @@
                                         </span>
                                     </td>
                                     <td>{{$transaction->getSender()->getUser()->name}}</td>
-                                    <td>
-                                        <span class="@if($transaction->getEvent() == null) alert-info @elseif($transaction->getEvent()->pending()) alert-warning @elseif($transaction->getEvent()->rejected()) alert-danger @else alert-success @endif">
-                                        {{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}
+                                    <td align="center">
+                                        <?php
+                                        $class = $transaction->getEvent() == null ? 'btn-emedia' :
+                                                 $transaction->getEvent()->pending() ? 'btn-warning':
+                                                 $transaction->getEvent()->rejected() || $transaction->getEvent()->rejectedByUser() ? 'btn-danger':
+                                                 'btn-success';
+                                        ?>
+
+                                        <span class="btn btn-block {{$class}} btn-table-border">
+                                            @if($transaction->getEvent() == null)
+                                            {{Lang::get('tables.SYSTEM')}}
+                                            @else
+                                            {{Lang::get('tables.'.$transaction->getEvent()->state)}}
+                                            @endif
                                         </span>
                                     </td>
+                                    <td><a href="{{route('messages.show', $transaction->getEvent()->getThread()->id)}}"><i class="fa fa-inbox"></i></a></td>
                                 </tr>
                             @endforeach
                         @else

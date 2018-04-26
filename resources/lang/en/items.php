@@ -13,7 +13,7 @@ return [
         'posted' => 'Posted',
     ],
 
-    'web' => 'Web / Blog',
+    'web' => 'My webs',
 
     'profit' => 'Profit',
     'revenue' => 'Revenue',

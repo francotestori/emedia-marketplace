@@ -83,6 +83,9 @@ class User extends Authenticatable
 
     public function getPendingThreadCount()
     {
+        if($this->isManager())
+            return 0;
+
         return $this->getWallet()->getTransactions()
                     ->filter(function($transaction){
                         $event = $transaction->getEvent();
@@ -91,4 +94,18 @@ class User extends Authenticatable
                     ->groupBy('event_id')
                     ->count();
     }
+
+    public function getUsableAddspaces()
+    {
+        return $this->addspaces()
+                    ->where('status', '<>', 'CLOSED')
+                    ->get();
+    }
+
+//    public function sendPasswordResetNotification($token)
+//    {
+//
+//    }
+
+
 }

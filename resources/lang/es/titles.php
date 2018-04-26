@@ -34,7 +34,12 @@ return [
                 'activity' => 'Conectate con nuestra red ',
                 'decorator' => 'y expandí tus horizontes',
             ],
-        ]
+        ],
+        'home' => [
+            'help' => 'Contactate con nuestro equipo de soporte y te guiaremos con tu primer campaña.',
+            'faq' => 'Recuerda que si tienes alguna duda tenemos una seccion para tí.',
+            'faq2' => 'Ver preguntas.',
+        ],
     ],
 
     'home' => [
@@ -52,6 +57,9 @@ return [
             "check" => 'Perfil completo',
             "services" => 'Nuestros servicios: ',
             "us" => 'Contactanos: ',
+            "help" => '¿ Necesitas ayuda ?',
+            "faq" => 'Preguntas frecuentes',
+
         ],
     ],
 
@@ -69,7 +77,7 @@ return [
     ],
 
     'wallet' => [
-        'index' => 'Billetera',
+        'index' => 'Monedero',
         'balance' => 'Balance',
         'revenue' => 'Renta',
         'revenues' => [
@@ -88,10 +96,10 @@ return [
     ],
 
     'addspaces' => [
-        'search' => 'Buscar Web / Blog',
-        'edit' => 'Editar Web / Blog',
-        'create' => 'Crear Web / Blog',
-        'web' => 'Web / Blog',
+        'search' => 'Buscar webs',
+        'edit' => 'Editar web',
+        'create' => 'Crear web',
+        'web' => 'Mis webs',
         'filters' => 'Filtros: ',
         'detail' => 'Detalle ',
     ],
@@ -116,5 +124,6 @@ return [
         'authorize' => 'Autorizar Retiro',
     ],
 
-    'messages' => 'Messages',
+    'messages' => 'Mensajes',
+    'subject' => '#:id ASUNTO: :subject',
 ];

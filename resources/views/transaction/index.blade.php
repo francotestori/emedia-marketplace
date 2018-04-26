@@ -2,20 +2,21 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-titulo2">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>{{Lang::get('titles.wallet.transactions.main')}}</h3>
-                        <p>{{Lang::get('titles.wallet.transactions.subtitle')}}</p>
-                    </div>
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>{{Lang::get('titles.wallet.transactions.main')}}</h3>
+                    <p>{{Lang::get('titles.wallet.transactions.subtitle')}}</p>
                 </div>
             </div>
-            <br>
+        </div>
+        <br>
+
+        <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
 
-                    <table class="table table-bordered" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
+                    <table class="table" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
                         <thead>
                         <tr>
                             <th>{{Lang::get('tables.wallet.id')}}</th>
@@ -35,21 +36,34 @@
                                     <td><strong>{{$transaction->id}}</strong></td>
                                     <td>
                                         @if($transaction->isSystem())
-                                            <span>{{$transaction->type}}</span>
+                                            <span>{{Lang::get('tables.'.$transaction->type)}}</span>
                                         @else
-                                            <a href="{{$transaction->getAddspace()->url}}">{{$transaction->getAddspace()->url}}</a>
+                                            <a target="_blank" href="{{$transaction->getAddspace()->url}}">{{$transaction->getAddspace()->url}}</a>
                                         @endif
                                     </td>
                                     <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getReceiver()->getUser()->name : $transaction->getSender()->getUser()->name}}</td>
                                     <td>{{$transaction->isSystem() ? $transaction->getSender()->getUser()->name : $transaction->getReceiver()->getUser()->name}}</td>
                                     <td>
-                                        <span class="@if($transaction->getEvent() == null) alert-info
-                                                     @elseif($transaction->getEvent()->pending()) alert-warning
-                                                     @elseif($transaction->getEvent()->rejected() || $transaction->getEvent()->rejectedByUser()) alert-danger
-                                                     @else alert-success
-                                                     @endif">
-                                        {{$transaction->getEvent() != null ? $transaction->getEvent()->state : 'SYSTEM'}}
+                                        <?php
+                                            if($transaction->getEvent() == null)
+                                                $class = 'btn-info';
+                                            else{
+                                                if($transaction->getEvent()->pending())
+                                                    $class = 'btn-warning';
+                                                elseif($transaction->getEvent()->accepted())
+                                                    $class = 'btn-success';
+                                                else
+                                                    $class = 'btn-danger';
+                                            }
+                                        ?>
+
+                                        <span class="btn btn-block btn-table-border {{$class}}" disabled>
+                                            @if($transaction->getEvent() == null)
+                                                {{Lang::get('tables.SYSTEM')}}
+                                            @else
+                                                {{Lang::get('tables.'.$transaction->getEvent()->state)}}
+                                            @endif
                                         </span>
                                     </td>
                                     <td>
