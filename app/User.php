@@ -80,4 +80,15 @@ class User extends Authenticatable
     public function getWallet(){
         return $this->wallet()->first();
     }
+
+    public function getPendingThreadCount()
+    {
+        return $this->getWallet()->getTransactions()
+                    ->filter(function($transaction){
+                        $event = $transaction->getEvent();
+                        return $event != null && $event->pending();
+                    })
+                    ->groupBy('event_id')
+                    ->count();
+    }
 }

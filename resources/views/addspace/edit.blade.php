@@ -60,7 +60,7 @@
                         {{Form::label('categories[]', Lang::get('forms.addspaces.item.categories'))}}
                         <select multiple="multiple" name="categories[]" class="form-control">
                             @foreach($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->id}}" @if(in_array($category->id, $addspace_categories)) selected @endif>{{$category->name}}</option>
                             @endforeach
                         </select>
                     </div>

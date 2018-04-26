@@ -13,11 +13,13 @@
     @if(count($transactions))
         @foreach($transactions as $transaction)
             <tr>
-                <td>{{$transaction['type']}}</td>
-                <td>{{$transaction['action']}}</td>
+                <td>{{Lang::get('tables.'.$transaction['type'])}}</td>
+                <td>{{Lang::get('tables.'.$transaction['action'])}}</td>
                 <td class="">{{$transaction['date']}}</td>
-                <td>{{$transaction['state']}}</td>
-                <td>{{$transaction['url']}}</td>
+                <td>{{Lang::get('tables.'.$transaction['state'])}}</td>
+                <td>
+                    <a href="{{$transaction['url']}}">{{$transaction['url']}}</a>
+                </td>
                 <td>
                     <span>
                         <strong>{{Lang::get('attributes.currency')}}</strong>

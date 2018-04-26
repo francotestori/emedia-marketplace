@@ -62,4 +62,12 @@ return [
         'to' => 'Price to',
         'value' => 'Profit value (%)',
     ],
+
+    'CREDIT' => 'CREDIT',
+    'DEBIT' => 'DEBIT',
+    'DEPOSIT' => 'DEPOSIT',
+    'PAYMENT' => 'PAYMENT',
+    'ACCEPTED' => 'ACCEPTED',
+    'REJECTED' => 'REJECTED',
+    'SYSTEM' => 'SYSTEM',
 ];

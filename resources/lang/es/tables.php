@@ -62,4 +62,12 @@ return [
         'to' => 'Precio hasta',
         'value' => 'Valor de Ganancia (%)',
     ],
+
+    'CREDIT' => 'ACREDITACIÓN',
+    'DEBIT' => 'DEBITO',
+    'DEPOSIT' => 'DEPOSITO',
+    'PAYMENT' => 'PAGO',
+    'ACCEPTED' => 'ACEPTADA',
+    'REJECTED' => 'RECHAZADA',
+    'SYSTEM' => 'TRANSACCION CON SISTEMA',
 ];

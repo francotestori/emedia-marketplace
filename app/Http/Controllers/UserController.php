@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Configuration;
 use App\Event;
 use App\Mail\SendPassword;
 use App\Role;
@@ -23,14 +22,18 @@ class UserController extends Controller
 {
     public function __construct()
     {
+        //Sharing withdrawal limits
         View::share('withdraw_min', config('marketplace.withdrawal.min'));
         View::share('withdraw_max', config('marketplace.withdrawal.max'));
 
+        //Sharing roles and users by role.
         View::share('users', User::all());
+        View::share('managers', User::where('role_id', 3)->get());
         View::share('advertisers', User::where('role_id', 2)->get());
         View::share('editors', User::where('role_id', 1)->get());
         View::share('roles', Role::all());
 
+        //Sharing countries
         View::share('countries', config('countries.enabled'));
     }
 
@@ -42,12 +45,12 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->isManager()){
-            $type = request('type');
-            return view('user.index', compact('type'));
-        }
-        else
+
+        if(!$user->isManager())
             return redirect()->route('users.show',[$user->id]);
+
+        $type = request('type');
+        return view('user.index', compact('type'));
     }
 
     /**
@@ -57,10 +60,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        $request_role = request('role', 1);
+        $requested_role = request('role', 1);
         $user = Auth::user();
+
         if($user->isManager())
-            return view('user.create', compact('request_role'));
+            return view('user.create', compact('requested_role'));
 
         return redirect()->route('users.show',[$user->id]);
     }
@@ -93,7 +97,8 @@ class UserController extends Controller
                 'name' => Input::get('name'),
                 'email' => Input::get('email'),
                 'password' => bcrypt(Input::get('password')),
-                'role_id' => $role->id
+                'role_id' => $role->id,
+                'country' => Input::get('country', 'ARG')
             ]);
 
             Wallet::create([
@@ -101,7 +106,7 @@ class UserController extends Controller
                 'balance' => 0
             ]);
 
-            // redirect
+            //Redirecting to index
             Session::flash('status', Lang::get('messages.created', ['item' =>'User']));
             return redirect()->route('users.index');
         }
@@ -134,7 +139,7 @@ class UserController extends Controller
 
         $system_transaction = $user->getWallet()->getTransactions()
             ->filter(function($transaction){
-                return $transaction->getEvent() == null;
+                return $transaction->getEvent() == null && $transaction->payment_status != null;
             })
             ->map(function($transaction) use ($user){
                 return [

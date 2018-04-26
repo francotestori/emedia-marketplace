@@ -41,7 +41,7 @@ class WalletController extends Controller
 
         $system_transaction = $user->getWallet()->getTransactions()
             ->filter(function($transaction){
-                return $transaction->getEvent() == null;
+                return $transaction->getEvent() == null && $transaction->payment_status != null;
             })
             ->map(function($transaction) use ($user){
                 return [
@@ -220,27 +220,50 @@ class WalletController extends Controller
         // Create associated Event
         $system = User::find(1)->getWallet();
 
-        $event = Event::create([
-            'addspace_id' => null,
-            'state' => 'PENDING'
-        ]);
+        //TODO validate withdrawal
+        $sender_balance = $sender->getWallet()->balance;
+        if($this->validateWithdrawal($sender_balance, $amount))
+        {
+            $event = Event::create([
+                'addspace_id' => null,
+                'state' => 'PENDING'
+            ]);
 
-        $transaction = Transaction::create([
-            'from_wallet' => $sender->getWallet()->id,
-            'to_wallet' => $system->id,
-            'type' => 'WITHDRAWAL',
-            'amount' => $amount,
-            'event_id' => $event->id
-        ]);
+            $transaction = Transaction::create([
+                'from_wallet' => $sender->getWallet()->id,
+                'to_wallet' => $system->id,
+                'type' => 'WITHDRAWAL',
+                'amount' => $amount,
+                'event_id' => $event->id
+            ]);
 
-        $url = route('withdrawal.show', ['transaction_id' => $transaction->id]);
+            $url = route('withdrawal.show', ['transaction_id' => $transaction->id]);
 
-        // Create email
-        $email = new Withdrawal($amount, $paypal, $cbu, $alias, $sender->email, $comment, $url);
+            // Create email
+            $email = new Withdrawal($amount, $paypal, $cbu, $alias, $sender->email, $comment, $url);
 
-        Mail::to($admin)->send($email);
+            Mail::to($admin)->send($email);
+            Session::flash('status', 'Withdrawal requested successfully !');
+        }
+        else
+        {
+            $min_limit = config('marketplace.withdrawal.min');
+            $max_limit = config('marketplace.withdrawal.max');
+            Session::flash('errors', 'Your withdrawal must be withing EMarketPlace limits (u$s'.$min_limit.'-u$s'.$max_limit.') and you have u$s'.$sender_balance.' available to withdraw');
+        }
 
         return back();
+    }
+
+    private function validateWithdrawal($balance, $amount)
+    {
+        $min_limit = config('marketplace.withdrawal.min');
+        $max_limit = config('marketplace.withdrawal.max');
+
+        if($amount > $balance || $amount < $min_limit || $amount > $max_limit)
+            return false;
+
+        return true;
     }
 
     public function withdrawals()
@@ -461,7 +484,12 @@ class WalletController extends Controller
     public function transactions()
     {
         $user = Auth::user();
-        $transactions = Transaction::all();
+        $transactions = Transaction::all()
+                        ->filter(function($transaction){
+
+                            return $transaction->getEvent() != null ||
+                                   ($transaction->getEvent() == null && $transaction->payment_status != null);
+                        });
         return view('transaction.index', compact('user', 'transactions'));
     }
 

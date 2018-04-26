@@ -46,14 +46,15 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
 
+        //Sharing roles
         $advertiser = Role::where('name','Advertiser')->first();
         $editor = Role::where('name','Editor')->first();
         $roles = [$advertiser->id => $advertiser->name, $editor->id => $editor->name,];
-
         View::share('roles', $roles);
         View::share('advertiser', $advertiser);
         View::share('editor', $editor);
 
+        //Sharing countries
         View::share('countries', config('countries.enabled'));
     }
 

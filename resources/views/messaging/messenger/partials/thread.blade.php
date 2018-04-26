@@ -6,8 +6,18 @@ use Illuminate\Support\Facades\Auth;
 
 $event_thread = EventThreads::where('thread_id', $thread->id)->first();
 $event = Event::find($event_thread->event_id);
-$state_class = $event->state == 'REJECTED' ? 'alert-danger' : 'alert-success';
-$class = $thread->isUnread(Auth::id()) ? 'alert-info' : $state_class;
+switch($event->state)
+{
+    case 'ACCEPTED':
+        $class = "alert-success";
+        break;
+    case 'PENDING':
+        $class = "alert-info";
+        break;
+    default:
+        $class = "alert-danger";
+        break;
+}
 ?>
 
 <div class="row">
@@ -27,7 +37,7 @@ $class = $thread->isUnread(Auth::id()) ? 'alert-info' : $state_class;
             @if(!$event->pending())
                 <h4>
                     <span>
-                        {{Lang::get('messages.threads.close')}} <strong>{{$event->state}}</strong>
+                        {{Lang::get('messages.threads.operation')}} <strong>{{Lang::get('messages.threads.'.$event->state)}}</strong>
                     </span>
                 </h4>
             @else

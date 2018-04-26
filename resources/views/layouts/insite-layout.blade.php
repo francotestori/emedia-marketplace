@@ -87,8 +87,8 @@
                                 <li>
                                     <a href="{{route('messages')}}" class="icon-info">
                                         <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        @if(Auth::user()->newThreadsCount() > 0)
-                                            <span class="label label-primary">{{Auth::user()->newThreadsCount()}}</span>
+                                        @if(Auth::user()->getPendingThreadCount() > 0)
+                                            <span class="label label-primary">{{Auth::user()->getPendingThreadCount()}}</span>
                                         @endif
                                     </a>
                                 </li>

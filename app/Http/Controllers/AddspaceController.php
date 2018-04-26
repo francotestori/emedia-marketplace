@@ -154,9 +154,10 @@ class AddspaceController extends Controller
     public function edit($id)
     {
         $addspace = Addspace::find($id);
+        $addspace_categories = $addspace->categories()->pluck('categories.id')->toArray();
 
         if(Auth::user()->isManager() || Auth::id() == $addspace->editor_id)
-            return view('addspace.edit', compact('addspace', 'categories'));
+            return view('addspace.edit', compact('addspace', 'addspace_categories'));
 
         Session::flash('status', Lang::get('messages.forbidden'));
         return redirect('addspaces');

@@ -28,11 +28,16 @@ return [
     'threads' => [
         'open' => 'The thread is still active.',
         'close' => 'Thread has been close by',
+        'operation' => 'Operation was',
+        'ACCEPTED' => 'ACCEPTED',
+        'REJECTED' => 'REJECTED',
     ],
 
     'messenger' => [
         'empty' => 'There are no messages in your inbox !',
         'new' => 'Add a new message.',
+        'accepting' => 'By clicking the accept button you\'re CONFIRMING this transaction and it\'s payment..',
+        'rejecting' => 'By rejecting it, the operation will be suspended and will be reviewed by our administrators.',
     ],
 
     'transaction' => 'Your transaction was successful!',

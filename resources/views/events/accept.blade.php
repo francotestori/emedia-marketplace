@@ -14,7 +14,8 @@
                 </p>
                 <div class="form-group">
                     {{Form::label('score', Lang::get('forms.payments.score'))}}
-                    {{Form::number('score', Input::old('score'), ['class' => 'form-control', 'step' => 1, 'max' => 10, 'min' => 1,])}}
+                    <span id="myRating" class="rating" data-stars="10"></span>
+                    <input type="hidden" name="score" id="score">
                 </div>
             </div>
             <div class="modal-footer">

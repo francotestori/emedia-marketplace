@@ -26,13 +26,18 @@ return [
     'forbidden' => 'No tienes permiso para acceder a este recurso!',
 
     'threads' => [
-        'open' => 'The thread is still active.',
-        'close' => 'Thread has been close by',
+        'open' => 'Este hilo sigue pendiente.',
+        'close' => 'Se cerro la operación por resultado ',
+        'operation' => 'La operación finalizó',
+        'ACCEPTED' => 'ACEPTADA',
+        'REJECTED' => 'RECHAZAADA',
     ],
 
     'messenger' => [
-        'empty' => 'There are no messages in your inbox !',
-        'new' => 'Add a new message.',
+        'empty' => 'No hay mensajes en tu inbox !',
+        'new' => 'Agregar mensaje.',
+        'accepting' => 'Al clickear aceptar se esta CONFIRMANDO esta transacción y el pago se acreditará al editor.',
+        'rejecting' => 'Al rechazarla, la misma queda SUSPENDIDA y será revisada por nuestros administradores para determinar su resultado.',
     ],
 
     'transaction' => 'Tu transaccion fue exitosa!',

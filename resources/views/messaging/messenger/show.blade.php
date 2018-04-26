@@ -6,9 +6,13 @@
             <div class="panel-titulo2">
                 <div class="row">
                     <div class="col-md-10">
-                        <h4>{{ $thread->subject }}</h4>
+                        <h3>{{ $thread->subject }}</h3>
                         @if(!$event->pending())
-                            <span> {{Lang::get('messages.threads.close')}} <strong>{{$event->state}}</strong></span>
+                            <span> {{Lang::get('messages.threads.operation')}} <strong>{{Lang::get('messages.threads.'.$event->state)}}</strong></span>
+                        @endif
+                        @if($event->pending())
+                        <h5>{{Lang::get('messages.messenger.accepting')}}</h5>
+                        <h5>{{Lang::get('messages.messenger.rejecting')}}</h5>
                         @endif
                     </div>
                     <div class="col-md-2 pull-right">
@@ -33,3 +37,23 @@
         </div>
     </div>
 @stop
+
+@section('custom-css')
+    <link rel="stylesheet" href="{{asset('css/star.css')}}">
+@endsection
+
+@section('custom-js')
+    <script src="{{asset('js/star.js')}}"></script>
+    <script>
+        var rater = new SimpleStarRating(document.getElementById('myRating'));
+
+        rater.onrate = function (rating) {
+            // Called whenever the SimpleStarRating is clicked
+        };
+
+        document.getElementById('myRating').addEventListener('rate', function (e) {
+            // e.detail contains the rating
+            document.getElementById('score').value = e.detail;
+        });
+    </script>
+@endsection

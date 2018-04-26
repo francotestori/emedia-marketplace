@@ -70,6 +70,7 @@ return [
         'name' => 'Name',
         'email' => 'Email Address',
         'country' => 'Country',
+        'role' => 'Role',
     ],
 
     'addspaces' => [

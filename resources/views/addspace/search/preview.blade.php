@@ -5,29 +5,21 @@ $addspace = Addspace::find($addspaceArray['id']);
 ?>
 
 <div class="col-md-4">
-    <div class="row">
-        <div class="col-md-12">
-            <a href="#">{{$addspace->url}}</a>
-        </div>
-        <hr>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="ejemplo-webs">
+        <img src="{{asset('img/example.png')}}" class="img-responsive center-block">
+
+        <div class="ejemplo-titular">
             <p>
+                <a href="{{$addspace->url}}">{{$addspace->url}}</a>
                 @foreach($addspace->getCategories() as $category)
                     <span class="btn btn-primary disabled">{{$category->name}}</span>
                 @endforeach
             </p>
         </div>
-        <hr>
-    </div>
-
-    <div class="ejemplo-webs">
-        <img src="{{asset('img/example.png')}}" class="img-responsive center-block">
-        <div class="ejemplo-titular">
-            <p>{{Lang::get('items.price').' '.Lang::get('attributes.currency').' '.$addspace->getCost()}}</p>
-        </div>
         <div>
+            <h3>
+                <strong>{{Lang::get('items.price').' '.Lang::get('attributes.currency').' '.$addspace->getCost()}}</strong>
+            </h3>
             <p><strong>{{Lang::get('items.visits')}}</strong> {{$addspace->visits}} + {{Lang::get('attributes.day_periodicity')}}</p>
             <p><strong>{{Lang::get('items.language')}}</strong> </p>
             <p><strong>{{Lang::get('items.description')}}</strong>

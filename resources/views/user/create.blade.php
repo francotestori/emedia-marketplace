@@ -1,4 +1,5 @@
 @extends('layouts.insite-layout')
+
 @section('content')
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -65,12 +66,31 @@
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                     </div>
                 </div>
+
+                <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                    {{Form::label('country', Lang::get('forms.register.country'), ['class' => 'col-md-4 control-label'])}}
+                    <div class="col-md-6">
+                        <select name="country" class="form-control">
+                            @foreach($countries as $key=>$value)
+                                <option value="{{$key}}" @if($key == old('country')) selected @endif>
+                                    {{Lang::get('countries.'.$value)}}
+                                </option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('country'))
+                            <span class="help-block">
+                            <strong>{{ $errors->first('country') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group">
                     {{Form::label('password-confirm', Lang::get('forms.users.role'), ['class' => 'col-md-4 control-label'])}}
                     <div class="col-md-6">
                         <select name="role" class="form-control">
                             @foreach($roles as $role)
-                                @if($request_role == $role->id)
+                                @if($requested_role == $role->id)
                                     <option value="{{$role->id}}" selected>{{$role->name}} </option>
                                 @else
                                     <option value="{{$role->id}}">{{$role->name}} </option>
