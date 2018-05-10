@@ -12,13 +12,13 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 emedia-title">
                     <h1>
                         {{Lang::get('titles.users.index')}}
                     </h1>
                     <p></p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 emedia-title">
                     @if(Auth::user()->isManager())
                         <a href="{{route('users.create')}}" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.create')}}</a>
                     @endif

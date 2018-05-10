@@ -1,4 +1,4 @@
-<table class="table" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
+<table class="table table-trans" id="addspaces-table" @if(count($transactions)) data-ride="datatables" @endif>
     <thead>
     <tr>
         <th>{{Lang::get('tables.wallet.type')}}</th>
@@ -16,7 +16,7 @@
                 <td>{{Lang::get('tables.'.$transaction['type'])}}</td>
                 <td>{{Lang::get('tables.'.$transaction['action'])}}</td>
                 <td>{{$transaction['date']}}</td>
-                <td align="center">
+                <td class="col-estado-trans">
                     <?php
                     switch($transaction['state'])
                     {

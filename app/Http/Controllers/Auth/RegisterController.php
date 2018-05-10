@@ -117,7 +117,7 @@ class RegisterController extends Controller
             'balance' => 0
         ]);
 
-        $email = new Welcome($activation_code);
+        $email = new Welcome($activation_code, $user->name);
 
         Mail::to($user->email)->send($email);
 

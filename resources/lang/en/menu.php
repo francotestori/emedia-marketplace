@@ -20,6 +20,7 @@ return [
         'sales' => 'Sales',
         'wallet' => 'Wallet',
         'purchases' => 'Purchases',
+        'help' => 'Help',
     ],
 
     'main' => [

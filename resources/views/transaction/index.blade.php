@@ -4,7 +4,7 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 emedia-title">
                     <h3>{{Lang::get('titles.wallet.transactions.main')}}</h3>
                     <p>{{Lang::get('titles.wallet.transactions.subtitle')}}</p>
                 </div>

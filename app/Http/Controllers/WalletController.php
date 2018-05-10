@@ -6,7 +6,11 @@ use App\Addspace;
 use App\CreditPackage;
 use App\Event;
 use App\EventThreads;
+use App\Mail\AcceptOrder;
+use App\Mail\Purchase;
+use App\Mail\RejectOrder;
 use App\Mail\Rollbacked;
+use App\Mail\Sale;
 use App\Mail\Withdrawal;
 use App\Transaction;
 use App\User;
@@ -393,6 +397,15 @@ class WalletController extends Controller
         if (Input::has('recipient'))
             $thread->addParticipant(Input::get('recipient'));
 
+        // Send sale event mail
+        $email = new Sale($thread->id, $addspace->getEditor()->name);
+        Mail::to($addspace->getEditor()->email)->send($email);
+
+        //Send purchase event mail
+        $purchase_email = new Purchase($thread->id, Auth::user()->name, $addspace->url);
+        Mail::to(Auth::user()->email)->send($purchase_email);
+
+
         Session::flash('status', Lang::get('messages.transaction'));
         return redirect()->route('messages');
     }
@@ -412,10 +425,15 @@ class WalletController extends Controller
 
             $transactions = Transaction::where('event_id', $event->id)->get();
 
+            $editor = $event->getAddspace()->getEditor();
+            $email = new AcceptOrder($editor->name, $editor->id);
+
             foreach($transactions as $transaction){
                 $recipient = $transaction->getReceiver();
                 $recipient->balance = $recipient->balance + $transaction->amount;
                 $recipient->save();
+
+                Mail::to($recipient->getUser()->email)->send($email);
             }
 
             Session::flash('status', Lang::get('messages.attributed'));
@@ -439,7 +457,9 @@ class WalletController extends Controller
 
             $transactions = Transaction::where('event_id', $event->id)->get();
 
-            $email = new Rollbacked($reason, $transactions);
+            $addspace = $event->getAddspace();
+
+            $email = new RejectOrder($addspace->getEditor()->name, $reason, $addspace->url);
 
             foreach($transactions as $transaction){
                 $to = $transaction->getReceiver()->getUser()->email;
@@ -467,7 +487,8 @@ class WalletController extends Controller
 
             $transactions = Transaction::where('event_id', $event->id)->get();
 
-            $email = new Rollbacked($reason, $transactions);
+            $addspace = $event->getAddspace();
+            $email = new RejectOrder($addspace->getEditor()->name, $reason, $addspace->url);
 
             foreach($transactions as $transaction){
                 $sender = $transaction->getSender();

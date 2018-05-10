@@ -1,15 +1,19 @@
 @extends('layouts.insite-layout')
 
 @section('content')
-    <div class="panel panel-default">
+    <div class="panel panel-default web-edit-panel">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-12">
-                    <h3>
-                        <span>
-                            {{Lang::get('titles.addspaces.edit', ['item' => $addspace->url])}}
-                        </span>
-                    </h3>
+                <div class="col-md-12 emedia-title">
+                    <div class="breadcrumbs">
+                        <a href="{{route('addspaces.index')}}"> Mis Webs </a> /
+                        <a href="{{$addspace->url}}"> {{$addspace->url}} </a> / Edit
+                    </div>
+                    <!--, ['item' =>"{{$addspace->url}}"] ESTO NO ESTABA HACIENDO DIFERENCIA-->
+                    <h1>
+                        {{Lang::get('titles.addspaces.edit')}} >
+                        <a href="{{$addspace->url}}"> {{$addspace->url}} </a>                   
+                    </h1>
                 </div>
             </div>
         </div>
@@ -35,43 +39,49 @@
                     {{ Form::model($addspace, array('route' => array('addspaces.update', $addspace->id), 'method' => 'PUT', 'name' => 'addspace')) }}
                     <div class="form-group">
                         {{Form::label('url', Lang::get('forms.addspaces.item.url'))}}
-                        {{Form::text('url', null, ['class' => 'form-control', 'placeholder' => 'http://example.com'])}}
+                        <div class="input-group">
+                                <span class="input-group-addon" id="cost-addon">http://</span>
+                            {{Form::text('url', null, ['class' => 'form-control', 'placeholder' => 'http://example.com'])}}
+                        </div>
                     </div>
                     <div class="form-group">
                         {{Form::label('description', Lang::get('forms.addspaces.item.description'))}}
                         {{Form::textarea('description', null, ['class' => 'form-control', 'rows' => 4])}}
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
+                    <div class="form-">
+                        <!--<div class="form-group col-md-3">
                             {{Form::label('language', Lang::get('forms.addspaces.item.language'))}}
                             <select id="language" class="form-control">
                                 <option value="ES">{{Lang::get('attributes.language.ES')}}</option>
                                 <option value="EN">{{Lang::get('attributes.language.EN')}}</option>
                                 <option value="PT">{{Lang::get('attributes.language.PT')}}</option>
                             </select>
-                        </div>
-                        <div class="form-group col-md-3">
+                        </div>-->
+                        <div class="form-group col-md-6">
                             {{Form::label('cost', Lang::get('forms.addspaces.item.price'))}}
-                            <div class="input-group">
+                            <div class="input-group limit-size-md">
                                 <span class="input-group-addon" id="cost-addon">USD</span>
                                 {{Form::number('cost', null, ['class' => 'form-control', 'max' => 999999, 'min' => 1, 'step' => 'any'])}}
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-6">
                             {{Form::label('visits', Lang::get('forms.addspaces.item.visits'))}}
+                            <div class="limit-size-md">
                             {{Form::number('visits', null, ['class' => 'form-control', 'min' => 0, 'max' => 4000000000])}}
+                            </div>
                         </div>
-                        <div class="form-group col-md-3">
+                        <div class="form-group" style="display: none;">
                             {{Form::label('periodicity', Lang::get('forms.addspaces.item.frequency'))}}
-                            <select id="periodicity" class="form-control">
+                            <input type="text" id="periodicity" name="periodicity" class="form-control" value="month">
+                            <!--<select id="periodicity" class="form-control">                                
                                 <option value="day">{{Lang::get('forms.addspaces.day')}}</option>
                                 <option value="week">{{Lang::get('forms.addspaces.week')}}</option>
-                                <option value="month">{{Lang::get('forms.addspaces.month')}}</option>
-                            </select>
+                                <option value="month" selected>{{Lang::get('forms.addspaces.month')}}</option>
+                            </select>-->
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-8 web-edit-categ">
                         {{Form::label('categories[]', Lang::get('forms.addspaces.item.categories'))}}
                         <select multiple="multiple" name="categories[]" class="form-control">
                             @foreach($categories as $category)
@@ -81,16 +91,14 @@
                     </div>
 
                     <!--Buttons-->
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
-                            </div>
-                            <div class="col-md-6">
-                                {{Form::submit(Lang::get('forms.basic.update'), ['class' => 'btn btn-info pull-left'])}}
-                            </div>
-                        </div>
-                    </div>
+                    <div class="form-group col-md-4 web-edit-btns">                        
+                        <!--<div class="web-edit-cancel">
+                            <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
+                        </div>-->
+                        <div class="web-edit-accept">
+                            {{Form::submit(Lang::get('forms.basic.update'), ['class' => 'btn btn-info pull-left'])}}
+                        </div>                        
+                    </div>                    
                     {{Form::close()}}
                 </div>
             </div>

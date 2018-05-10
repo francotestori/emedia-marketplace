@@ -63,7 +63,7 @@ return [
             "services" => 'Check our services : ',
             "us" => 'Contact us : ',
             "help" => 'In need of help ?',
-            "faq" => 'Preguntas frecuentes',
+            "faq" => 'Frequently Asked Questions',
         ],
     ],
 

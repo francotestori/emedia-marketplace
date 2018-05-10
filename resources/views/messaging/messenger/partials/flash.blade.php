@@ -1,10 +1,14 @@
 <div class="panel-title">
-    <h1>{{Lang::get('titles.messages')}}</h1>
-    <h5>{{Lang::get('messages.messenger.tuft')}}</h5>
-    @if (Session::has('errors'))
-        <div class="alert alert-danger" role="alert">
-            {{ Session::get('errors') }}
+    <div class="row">
+        <div class="col-md-12 emedia-title">
+            <h1>{{Lang::get('titles.messages')}}</h1>
+            <p class="subheading">{{Lang::get('messages.messenger.tuft')}}</p>
+            @if (Session::has('errors'))
+                <div class="alert alert-danger" role="alert">
+                    {{ Session::get('errors') }}
+                </div>
+            @endif
         </div>
-    @endif
+    </div>
 </div>
 <br>

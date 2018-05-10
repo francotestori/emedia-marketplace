@@ -48,8 +48,8 @@
                     <div class="col-md-5">
                         <div class="header-rightside">
                             <ul class="list-inline header-top pull-right">
-                                <li>
-                                    <a href="{{route('wallet')}}" class="btn btn-success btn-block btn-header">
+                                <li class="btn btn-success btn-header">
+                                    <a href="{{route('wallet')}}" class="">
                                         <strong>{{"U\$D ".Auth::user()->getWallet()->balance}}</strong>
                                     </a>
                                 </li>
@@ -70,10 +70,13 @@
                                 </li>
                                 <li>
                                     <a href="{{route('messages')}}" class="icon-info">
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        @if(Auth::user()->getPendingThreadCount() > 0)
-                                            <span class="label label-primary">{{Auth::user()->getPendingThreadCount()}}</span>
-                                        @endif
+                                            @if(Auth::user()->getPendingThreadCount() > 0)
+                                                    <i class="fa fa-envelope" aria-hidden="true">
+                                                        <span class="label label-primary">{{Auth::user()->getPendingThreadCount()}}</span>
+                                                    </i>
+                                            @else
+                                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            @endif
                                     </a>
                                 </li>
                                 <li class="dropdown">
@@ -93,7 +96,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="topbar-logout">
                                     <a href="{{ route('logout') }}"  class="logout-view btn-sm"
                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out"></i>
@@ -141,6 +144,12 @@
                         <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.packages')}}</span></a></li>
                         <li><a href="{{route('wallet')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.wallet')}}</span></a></li>
                     @endif
+                    <li class="sidebar-help">
+                        <a href="{{url('/faq')}}">
+                            <i class="fa fa-question" aria-hidden="true"></i>
+                            <span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.help')}}</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

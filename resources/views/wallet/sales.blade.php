@@ -4,9 +4,9 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-12">
-                    <h1>{{Lang::get('messages.sales')}}</h1>
-                    <p>{{Lang::get('messages.sales_subtitle')}}</p>
+                <div class="col-md-12 emedia-title">
+                    <h1 class="heading">{{Lang::get('messages.sales')}}</h1>
+                    <p class="subheading">{{Lang::get('messages.sales_subtitle')}}</p>
                 </div>
             </div>
         </div>
@@ -39,12 +39,12 @@
                                     <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
                                     <td>
                                         <span>
-                                            <strong>{{Lang::get('attributes.currency')}}</strong>
-                                            {{$transaction->amount}}
+                                            <strong>{{Lang::get('attributes.currency')}}
+                                            {{$transaction->amount}}</strong>
                                         </span>
                                     </td>
                                     <td>{{$transaction->getSender()->getUser()->name}}</td>
-                                    <td align="center">
+                                    <td class="col-estado-venta" align="center">
                                         <?php
                                         $class = $transaction->getEvent() == null ? 'btn-emedia' :
                                                  $transaction->getEvent()->pending() ? 'btn-warning':
@@ -60,7 +60,7 @@
                                             @endif
                                         </span>
                                     </td>
-                                    <td><a href="{{route('messages.show', $transaction->getEvent()->getThread()->id)}}"><i class="fa fa-inbox"></i></a></td>
+                                    <td class="msj-col"><a href="{{route('messages.show', $transaction->getEvent()->getThread()->id)}}"><i class="fa fa-envelope"></i></a></td>
                                 </tr>
                             @endforeach
                         @else

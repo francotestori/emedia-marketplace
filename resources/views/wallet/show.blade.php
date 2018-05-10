@@ -4,17 +4,13 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-12" style="padding-right: 5%">
-                            <h1>{{Lang::get('titles.wallet.index')}}</h1>
-                            <h5>{{Lang::get('messages.wallet.tuft')}}</h5>
-                        </div>
-                    </div>
+                <div class="col-md-8 emedia-title">
+                    <h1 class="heading">{{Lang::get('titles.wallet.index')}}</h1>
+                    <p class="subheading">{{Lang::get('messages.wallet.tuft')}}</p>
                 </div>
-                <div class="col-md-4 balance pull-right">
+                <div class="col-md-4 pull-right emedia-title">
                     @if(Auth::user()->isEditor())
-                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.withdraw')}}</button>
+                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia absolute-right">{{Lang::get('forms.basic.withdraw')}}</button>
                     @elseif(Auth::user()->isAdvertiser())
                         <a href="{{route('deposit')}}" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.deposit')}}</a>
                     @endif
@@ -32,8 +28,7 @@
                         </div>
                     </div>
                 </div>
-            @endif
-            <br>
+            @endif            
             @if(Auth::user()->id == $user->id || Auth::user()->isManager())
                 <div class="row">
                     <div class="col-md-12">

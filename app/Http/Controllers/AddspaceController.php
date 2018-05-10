@@ -259,6 +259,11 @@ class AddspaceController extends Controller
             return redirect('addspaces');
         }
 
+        if(Auth::user()->isManager())
+        {
+
+        }
+
         Session::flash('errors', Lang::get('messages.forbidden'));
         return redirect('addspaces');
     }

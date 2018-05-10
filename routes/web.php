@@ -10,6 +10,13 @@ Route::get('/', function () {
     return view('emediamarket');
 });
 
+Route::get('/faq', function(){
+    if(Auth::user() != null)
+        return view('insite-faq');
+    return view('faq');
+});
+
+
 # Logout route
 Route::get('/logout', function(){
    Auth::logout();

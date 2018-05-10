@@ -11,7 +11,7 @@
 {{Form::open(['route' => 'addspaces.indexFilter'])}}
 <input type="hidden" name="status" value="{{app('request')->input('status')}}">
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <select class="form-control" multiple="multiple" name="categories[]">
             @foreach(\App\Category::orderBy('name', 'asc')->get() as $category)
                 <option value="{{$category->name}}"
@@ -21,7 +21,7 @@
             @endforeach
         </select>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-2"></div>
     <div class="col-md-4">
         <div class="btn-block pull-right">
             <div class="input-group">
@@ -39,11 +39,12 @@
 <br>
 <div class="row">
     <br>
-    <div class="col-md-4 botones">
+    <div class="col-md-6 botones">
         <a href="{{route('addspaces.index')}}" class="pull-left">{{Lang::get('forms.addspaces.search.remove')}}</a>
-        <button type="submit" class="btn btn-simple-emedia pull-right">{{Lang::get('forms.addspaces.search.filter')}}</button>
+        <!-- btn-simple-emedia -->
+        <button type="submit" class="btn btn-invert-emedia pull-right">{{Lang::get('forms.addspaces.search.filter')}}</button>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
     </div>
 </div>
 {{Form::close()}}

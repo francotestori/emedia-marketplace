@@ -8,32 +8,25 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1>
-                                <strong>{{$user->name}}</strong>
-                            </h1>
-                        </div>
+                <div class="col-md-6 emedia-title user-basic-info">
+                    <div class="avatar-container">
+                        <img src="{{ asset('img/avatar.png')}}" class="img-responsive img-circle">
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>
-                                {{$user->email}}
-                            </h4>
-                        </div>
+                    <div class="info-container">
+                        <h1>
+                            <strong>{{$user->name}}</strong>
+                        </h1>
+                        <p class="subheading">
+                            {{$user->email}}
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4 balance">
-                    <div class="pull-right">
-                        <div class="row">
-                            <div class="col-md-12">
-                                @if(Auth::user()->id == $user->id)
-                                    <a href="{{route('users.password', $user->id)}}" class="btn btn-default">{{Lang::get('forms.users.change')}}</a>
-                                    <a href="{{route('users.edit', $user->id)}}" class="btn btn-simple-emedia">{{Lang::get('forms.basic.edit')}}</a>
-                                @endif
-                            </div>
-                        </div>
+                <div class="col-md-6 emedia-title">
+                    <div class="pull-right user-edit-btns">
+                        @if(Auth::user()->id == $user->id)
+                            <a href="{{route('users.password', $user->id)}}" class="">{{Lang::get('forms.users.change')}}</a>
+                            <a href="{{route('users.edit', $user->id)}}" class="btn btn-emedia">{{Lang::get('forms.basic.edit')}}</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -54,11 +47,11 @@
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-8">
-                    <h3>{{Lang::get('titles.wallet.index')}}</h3>
+                    <h2>{{Lang::get('titles.wallet.index')}}</h2>
                 </div>
-                <div class="col-md-4 balance pull-right">
+                <div class="col-md-4 balance">
                     @if(Auth::user()->isEditor())
-                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.withdraw')}}</button>
+                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.withdraw')}}</button>
                     @elseif(Auth::user()->isAdvertiser())
                         <a href="{{route('deposit')}}" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.deposit')}}</a>
                     @endif
@@ -97,7 +90,7 @@
                                                 </td>
                                                 <td>{{Lang::get('tables.'.$transaction->type)}}</td>
                                                 <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
-                                                <td align="center">
+                                                <td>
                                                     <?php
                                                     $status = $transaction->getEvent() == null ? 'SYSTEM' : $transaction->getEvent()->state;
                                                     $state = Lang::get('tables.'.$status);
@@ -158,21 +151,19 @@
                 <div class="panel-title">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>{{Lang::get('titles.addspaces.web')}}</h4>
+                            <h2>{{Lang::get('titles.addspaces.web')}}</h2>
                         </div>
                     </div>
                 </div>
-                <br>
                 @foreach(array_chunk($user->getUsableAddspaces()->toArray(), 3) as $cluster)
                     <div class="row">
                         @foreach($cluster as $addspace)
-                            <div class="col-md-3">
+                            <div class="col-md-4 user-weburl-box">
                                 <span class="btn btn-block btn-default">
-                                    <strong>{{$addspace['id'].' - '}}</strong>
+                                    <!--<strong>{{$addspace['id'].' - '}}</strong>-->
                                     <a target="_blank" href="{{route('addspaces.show',$addspace['id'])}}">{{$addspace['url']}}</a>
                                 </span>
                             </div>
-                            <div class="col-md-1"></div>
 
                         @endforeach
                     </div>

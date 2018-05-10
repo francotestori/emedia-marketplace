@@ -12,15 +12,17 @@ class Welcome extends Mailable
     use Queueable, SerializesModels;
 
     private $activation_code;
+    private $name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($code = null)
+    public function __construct($code = null, $name = null)
     {
         $this->activation_code = $code;
+        $this->name = $name;
     }
 
     /**
@@ -30,10 +32,11 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.welcome')
-            ->with([
-                'activation_code'=> $this->activation_code]
-            );
-
+        return $this->markdown('mail.welcome')
+                    ->with([
+                        'activation_code'=> $this->activation_code,
+                        'name'=> $this->name,
+                        ]
+                    );
     }
 }

@@ -7,7 +7,11 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <h3>{{Lang::get('titles.profits.index')}}</h3>
+            <div class="row">
+                <div class="col-md-12 emedia-title">
+                    <h3>{{Lang::get('titles.profits.index')}}</h3>
+                </div>
+            </div>
         </div>
         @if (session('status'))
             <div class="alert alert-success">

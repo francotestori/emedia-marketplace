@@ -4,7 +4,7 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 emedia-title">
                     <h3>{{Lang::get('titles.purchases.index')}}</h3>
                     <p>{{Lang::get('titles.purchases.subtitle.index')}}</p>
                 </div>
@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <table class="table" id="payments-table" @if(count($user->getWallet()->getDebits())) data-ride="datatables" @endif>
+                    <table class="table" id="addspaces-table" @if(count($user->getWallet()->getDebits())) data-ride="datatables" @endif>
                         <thead>
                         <tr>
                             <th>#</th>

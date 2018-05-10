@@ -434,3 +434,132 @@ footer{
 .formulario p{
 	color: #454545;
 }
+
+.accordion.accordion-3 {
+	border-radius: 3px;
+}
+.accordion.accordion-3 p {
+	font-size: 1rem;
+}
+.accordion.accordion-3 .fa.fa-angle-down {
+	margin-top: -10px;
+}
+/* FAQ */
+.faq-panel {
+    display: flex;
+}
+.faq-section {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 60px 60px 250px;
+    position: relative;
+}
+    /* FAQ Title */
+.faq-title img,
+.faq-title h1 {
+    display: inline-block;
+    text-transform: uppercase;
+}
+.faq-title img {
+	height: 50px;
+    margin-top: -18px;
+    margin-right: 17px;
+}
+.faq-title h1 {
+	margin-top: 0;
+	font-weight: bold;
+}
+.faq-editor .faq-title {
+    color: white;
+}
+    /* FAQ Body */    
+.faq-accordion {
+    background: transparent;
+    cursor: pointer;
+    padding: 18px 0;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-size: 16px;
+    position: relative;
+	padding-right: 48px;
+	font-weight: 600;
+}
+.faq-accordion i {
+	position: absolute;
+	right: 16px;
+	top: 20px;
+}
+.faq-section.faq-advertiser {
+	float: left;
+	background-color: #f3e353;
+}
+.faq-section.faq-editor {
+	float: right;
+	background-color: #069fcb;
+}
+.faq-advertiser .faq-accordion {
+	color: black;
+}
+.faq-advertiser .faq-answer {
+	border-bottom: 1px solid #999999;
+}
+.faq-editor .faq-accordion {
+	color: white;
+}
+.faq-editor .faq-answer {
+	border-bottom: 1px solid white;
+}
+
+.faq-accordion.active {
+    border: none !important;
+}
+.faq-answer {
+    /*display: none;*/
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease-out;
+}
+.faq-answer p {
+	margin: 0 0 5px;
+}
+.faq-answer p:last-of-type {
+	margin-bottom: 20px;
+}
+.faq-editor .faq-answer p {
+	color: white
+}
+	/* FAQ Footer */
+.faq-footer {
+    position: absolute;
+    bottom: 30px;
+    width: 80%;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+.faq-footer img {
+	display: block;
+	margin: 28px auto;
+	max-width: 60px;
+}
+.faq-footer .faq-register {
+	text-transform: uppercase;
+}
+.faq-editor .faq-footer p {
+	color: white;
+}
+.faq-register {
+    background-color: white;
+    padding: 16px 32px;
+    border-radius: 26px;
+    font-size: 16px;
+    color: black;
+    display: block;
+    text-align: center;
+    width: 270px;
+    margin: auto;
+}

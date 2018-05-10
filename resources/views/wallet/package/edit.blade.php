@@ -7,18 +7,23 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <h1>{{Lang::get('titles.packages.edit').$package->name}}</h1>
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
+            <div class="row">
+                <div class="col-md-12 emedia-title">
+                    <h1>{{Lang::get('titles.packages.edit').$package->name}}</h1>
                 </div>
-            @endif
-            @if (session('errors'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('errors') }}
-                </div>
-            @endif
+            </div>
         </div>
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+        @if (session('errors'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('errors') }}
+            </div>
+        @endif
+
         <br>
         <div class="row panel-heading">
             <div class="col-md-8 col-md-offset-2">

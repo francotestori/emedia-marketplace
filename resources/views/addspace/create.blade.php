@@ -4,7 +4,7 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 emedia-title">
                     <h3>
                         {{Lang::get('titles.addspaces.create')}}
                     </h3>
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     {{Form::label('language', Lang::get('forms.addspaces.item.language'))}}
                     <select id="language" class="form-control">
                         <option value="ES">{{Lang::get('attributes.language.ES')}}</option>
@@ -50,24 +50,25 @@
                         <option value="PT">{{Lang::get('attributes.language.PT')}}</option>
                     </select>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     {{Form::label('cost', Lang::get('forms.addspaces.item.price'))}}
                     <div class="input-group">
                         <span class="input-group-addon" id="cost-addon">USD</span>
                         {{Form::number('cost', Input::old('cost'), ['class' => 'form-control', 'max' => 999999, 'min' => 1, 'step' => 'any'])}}
                     </div>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     {{Form::label('visits', Lang::get('forms.addspaces.item.visits'))}}
                     {{Form::number('visits', Input::old('visits'), ['class' => 'form-control', 'min' => 0, 'max' => 4000000000])}}
                 </div>
-                <div class="form-group col-md-3">
-                    {{Form::label('periodicity', Lang::get('forms.addspaces.item.frequency'))}}
+                <div class="form-group" style="display:none">
+                    <input type="text" id="periodicity" name="periodicity" class="form-control" value="month">
+                    <!--{{Form::label('periodicity', Lang::get('forms.addspaces.item.frequency'))}}
                     <select id="periodicity" class="form-control">
                         <option value="day">{{Lang::get('forms.addspaces.day')}}</option>
                         <option value="week">{{Lang::get('forms.addspaces.week')}}</option>
                         <option value="month">{{Lang::get('forms.addspaces.month')}}</option>
-                    </select>
+                    </select>-->
                 </div>
             </div>
             <div class="form-group">
@@ -83,7 +84,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="{{URL::previous()}}" class="btn btn-default pull-right">{{Lang::get('forms.basic.cancel')}}</a>
+                        <a href="{{URL::previous()}}" class="btn btn-emedia-invert pull-right">{{Lang::get('forms.basic.cancel')}}</a>
                     </div>
                     <div class="col-md-6">
                         {{Form::submit(Lang::get('forms.basic.create'), ['class' => 'btn btn-info pull-left'])}}

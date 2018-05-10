@@ -4,11 +4,11 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-8">
-                    <h1>{{Lang::get('titles.addspaces.web')}}</h1>
-                    <p>{{Lang::get('messages.addspaces.tuft')}}</p>
+                <div class="col-md-8 emedia-title">
+                    <h1 class="heading">{{Lang::get('titles.addspaces.web')}}</h1>
+                    <p class="subheading">{{Lang::get('messages.addspaces.tuft')}}</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3 emedia-title absolute-right">
                     @if(Auth::user()->isEditor())
                         <a href="{{route('addspaces.create')}}" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.create')}}</a>
                     @endif
@@ -55,7 +55,7 @@
                                         {{$addspace->cost}}
                                     </td>
                                     <td>{{Carbon\Carbon::parse($addspace->created_at)}}</td>
-                                    <td>
+                                    <td class="col-state-my-webs">
                                         <?php
                                         switch($addspace->status)
                                         {
@@ -73,33 +73,33 @@
                                         <span class="btn btn-block {{$class}}">{{Lang::get('attributes.'.$addspace->status)}}</span>
                                     </td>
                                     <td>
-                                        <div class="btn-group">
-                                            <a class="btn btn-default"
+                                        <div class="btn-actions-container">
+                                            <a class="btn-info-action"
                                                href="{{route('addspaces.show', ['id' => $addspace->id])}}">
-                                                <i class="fa fa-info"></i>
+                                                <i class="fa fa-info-circle"></i>
                                             </a>
                                             @if((Auth::id() == $addspace->editor_id || Auth::user()->isManager()) && !$addspace->isClosed())
-                                                <a data-original-title="Detail" class="btn btn-info"
+                                                <a data-original-title="Detail" class="btn-edit-action"
                                                    href="{{route('addspaces.edit', ['id' => $addspace->id])}}">
-                                                    <i class="fa fa-pencil"></i>
+                                                    <i class="fa fa-pencil-square-o"></i>
                                                 </a>
                                                 @if($addspace->isPaused())
-                                                    <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-default">
-                                                        <i class="fa fa-play"></i>
+                                                    <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn-play-action">
+                                                        <i class="fa fa-play-circle"></i>
                                                     </a>
                                                 @elseif($addspace->isActive())
-                                                    <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn btn-warning">
-                                                        <i class="fa fa-pause"></i>
+                                                    <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn-pause-action">
+                                                        <i class="fa fa-pause-circle"></i>
                                                     </a>
                                                 @endif
                                             @endif
                                             @if(!$addspace->isClosed())
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#closeAddspace{{$addspace->id}}">
-                                                    <i class="fa fa-close"></i>
+                                                <button type="button" class="btn-close-action" data-toggle="modal" data-target="#closeAddspace{{$addspace->id}}">
+                                                    <i class="fa fa-times-circle"></i>
                                                 </button>
                                                 <div id="closeAddspace{{$addspace->id}}" class="modal fade" role="dialog">
                                                     <div class="modal-dialog">
-                                                        <div class="modal-content">
+                                                        <div class="modal-content deactivate-web">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
@@ -117,7 +117,6 @@
                                                                 <a href="{{route('addspaces.close', $addspace->id)}}" class="btn btn-danger">
                                                                     {{Lang::get('forms.basic.close')}}
                                                                 </a>
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,6 +137,7 @@
             </div>
 
             <br>
+            <!--
             <div class="row status-bar">
                 <div class="col-sm-4">
                     <span class="label label-success" data-toggle="tooltip" data-placement="bottom" data-original-title="{{Lang::get('tables.active')}}">{{Lang::get('tables.active')}}</span>
@@ -149,7 +149,7 @@
                     <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" data-original-title="{{Lang::get('tables.closed')}}">{{Lang::get('tables.closed')}}</span>
                 </div>
             </div>
-
+            -->
         </div>
     </div>
 

@@ -8,12 +8,12 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8 emedia-title">
                     <h3>{{Lang::get('titles.packages.index')}}</h3>
                 </div>
-                <div class="col-md-2 pull-right">
+                <div class="col-md-4 pull-right emedia-title">
                     @if(Auth::user()->isManager())
-                        <a href="{{route('package.create')}}" class="btn btn-info">{{Lang::get('forms.basic.create')}}</a>
+                        <a href="{{route('package.create')}}" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.create')}}</a>
                     @endif
                 </div>
             </div>

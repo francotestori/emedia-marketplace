@@ -60,7 +60,7 @@
         <img src="{{asset('img/icon.png')}}" class="img-responsive center-block">
         <h2>{{Lang::get('menu.main.optimizing.first')}}<br>
             {{Lang::get('menu.main.optimizing.second')}}</h2>
-        <a href="#" class="btn btn-primary btn-lg center-block info" role="button">{{Lang::get('menu.main.more')}}</a>
+        <a href="{{url('/faq')}}" class="btn btn-primary btn-lg center-block info" role="button">{{Lang::get('menu.main.more')}}</a>
     </div>
 </div>
 <section class="como-hacemos" id="hacemos">
@@ -172,7 +172,7 @@
                 <p><strong>{{Lang::get('menu.main.why.bullet.third.first')}}</strong>{{Lang::get('menu.main.why.bullet.third.second')}}</p>
                 <p><strong>{{Lang::get('menu.main.why.bullet.fourth')}}</strong></p>
                 <p><strong>{{Lang::get('menu.main.why.bullet.fifth')}}</strong></p>
-                <a href="#" class="btn btn-primary btn-lg  boton-funciona" role="button"><strong>{{Lang::get('menu.main.more')}}</strong></a>
+                <a href="{{url('/faq')}}" class="btn btn-primary btn-lg  boton-funciona" role="button"><strong>{{Lang::get('menu.main.more')}}</strong></a>
             </div>
         </div>
     </div>

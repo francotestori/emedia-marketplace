@@ -4,7 +4,10 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-10 emedia-title">
+                    <div class="breadcrumbs">
+                        <a href="{{route('sales')}}"> Ventas </a> / Mensajes
+                    </div>
                     <h1>{{ $thread->subject }}</h1>
                     @if(!$event->pending())
                         <span> {{Lang::get('messages.threads.operation')}} <strong>{{Lang::get('messages.threads.'.$event->state)}}</strong></span>
@@ -14,7 +17,7 @@
                         <h5>{{Lang::get('messages.messenger.rejecting')}}</h5>
                     @endif
                 </div>
-                <div class="col-md-2 pull-right">
+                <div class="col-md-2 pull-right emedia-title">
                     @if(Auth::user()->isAdvertiser() && $event->pending())
                         <button class="btn btn-danger" data-toggle="modal" data-target="{{'#reject'.$event->id}}">{{Lang::get('forms.messenger.reject')}}</button>
                         <button class="btn btn-success" data-toggle="modal" data-target="{{'#accept'.$event->id}}">{{Lang::get('forms.messenger.accept')}}</button>
@@ -30,6 +33,7 @@
                 <div class="col-lg-12">
                     @each('messaging.messenger.partials.messages', $thread->messages, 'message')
                     @if($event->pending())
+                        <hr>
                         @include('messaging.messenger.partials.form-message')
                     @endif
                 </div>

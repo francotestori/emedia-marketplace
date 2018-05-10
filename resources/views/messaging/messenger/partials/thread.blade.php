@@ -12,7 +12,7 @@ switch($event->state)
         $class = "btn-success btn-table-border";
         break;
     case 'PENDING':
-        $class = "btn-info btn-table-border";
+        $class = "btn-warning btn-table-border";
         break;
     default:
         $class = "btn-danger btn-table-border";
@@ -23,36 +23,36 @@ $wallet_id = Auth::user()->getWallet()->id;
 $transaction = $event->transactions()->where($search_id, $wallet_id)->first();
 ?>
 
-<div class="row">
+<div class="row single-msj-row">
     <div class="col-md-12">
         <div class="media alert alert-default">
             <h4 class="media-heading">
                 <span>
                     <a href="{{ route('messages.show', $thread->id) }}">
-                        <strong>{{Lang::get('titles.subject', ['id' => $transaction->id, 'subject' => $thread->subject])}}</strong>
+                        {{Lang::get('titles.subject', ['id' => $transaction->id, 'subject' => $thread->subject])}}
                     </a>
-                    ({{ $thread->userUnreadMessagesCount(Auth::id()) }} unread)
+                    <span class="unread-msjs">({{ $thread->userUnreadMessagesCount(Auth::id()) }} unread)</span>
                 </span>
             </h4>
             <span>
-                <strong>{{Lang::get('items.messenger.from')}}</strong> {{ $thread->participantsString(Auth::id()) }}
+                {{Lang::get('items.messenger.from')}} <strong>{{ $thread->participantsString(Auth::id()) }}</strong>
             </span>
             @if(!$event->pending())
-                <h5>
+                <!--<h5>
                     <span>
                         {{Lang::get('messages.threads.operation')}}
                     </span>
-                </h5>
-                <h5>
-                    <strong class="btn {{$class}}" disabled>{{Lang::get('messages.threads.'.$event->state)}}</strong>
+                </h5>-->
+                <h5 class="msj-status">
+                    <strong class="btn {{$class}}">{{Lang::get('messages.threads.'.$event->state)}}</strong>
                 </h5>
             @else
-                <h5>
+                <!--<h5>
                     <span>
                         {{Lang::get('messages.threads.open')}}
                     </span>
-                </h5>
-                <h5>
+                </h5>-->
+                <h5 class="msj-status">
                     <strong class="btn {{$class}}" disabled>{{$event->state}}</strong>
                 </h5>
             @endif

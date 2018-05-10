@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Mail\ResetPassword as ResetPasswordMail;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -102,10 +104,11 @@ class User extends Authenticatable
                     ->get();
     }
 
-//    public function sendPasswordResetNotification($token)
-//    {
-//
-//    }
+    public function sendPasswordResetNotification($token)
+    {
+        $email = new ResetPasswordMail($token, $this->email);
 
+        Mail::to($this->email)->send($email);
 
+    }
 }

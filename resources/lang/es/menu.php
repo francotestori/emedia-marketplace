@@ -20,6 +20,7 @@ return [
         'sales' => 'Ventas',
         'wallet' => 'Monedero',
         'purchases' => 'Compras',
+        'help' => 'Ayuda',
     ],
 
     'main' => [

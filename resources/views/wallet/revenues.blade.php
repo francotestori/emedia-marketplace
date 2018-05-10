@@ -8,11 +8,11 @@
     <div class="panel panel-default">
         <div class="panel-title">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-10 emedia-title">
                     <h3>{{Lang::get('titles.wallet.revenues.main')}}</h3>
                     <p>{{Lang::get('titles.wallet.revenues.subtitle')}}</p>
                 </div>
-                <div class="col-md-2 balance">
+                <div class="col-md-2 balance emedia-title">
                     <h4>{{Lang::get('titles.wallet.revenues.item')}}</h4>
                     <p><strong>{{Lang::get('attributes.currency')}}</strong> {{$user->getWallet()->balance}}</p>
                 </div>
