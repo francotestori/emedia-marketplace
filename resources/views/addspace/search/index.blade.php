@@ -10,7 +10,7 @@
         <div class="panel-title">
             <div class="row">
                 <div class="col-md-12 emedia-title">
-                    <h3>{{Lang::get('titles.addspaces.search')}}</h3>
+                    <h1>{{Lang::get('titles.addspaces.search')}}</h1>
                 </div>
             </div>
         </div>
@@ -26,13 +26,12 @@
                 {{ session('errors') }}
             </div>
         @endif
-
-        <div class="panel-heading">
+        <div class="panel-heading advertiser-web-filter">
             @include('addspace.search.form')
         </div>
         <br>
-
-        <div class="panel-heading">
+        <h1 class="advertiser-search-title">{{Lang::get('titles.addspaces.listing')}}</h1>
+        <div class="advertiser-search-results">
             @each('addspace.search.cluster', $clusters, 'addspaces')
         </div>
     </div>

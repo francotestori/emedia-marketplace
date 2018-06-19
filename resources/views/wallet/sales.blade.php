@@ -12,7 +12,7 @@
         </div>
         <br>
 
-        <div class="panel-heading">
+        <div class="panel-heading table-panel">
             <div class="row">
                 <div class="col-md-12">
 
@@ -35,7 +35,11 @@
                                     <td>
                                         <strong>{{$transaction->id}}</strong>
                                     </td>
-                                    <td>{{$transaction->getAddspace()->url}}</td>
+                                    <td>
+                                        <a target="_blank" href="{{$transaction->getAddspace()->url}}">
+                                            {{$transaction->getAddspace()->url}}
+                                        </a>
+                                    </td>
                                     <td>{{Carbon\Carbon::parse($transaction->created_at)}}</td>
                                     <td>
                                         <span>
@@ -46,10 +50,14 @@
                                     <td>{{$transaction->getSender()->getUser()->name}}</td>
                                     <td class="col-estado-venta" align="center">
                                         <?php
-                                        $class = $transaction->getEvent() == null ? 'btn-emedia' :
-                                                 $transaction->getEvent()->pending() ? 'btn-warning':
-                                                 $transaction->getEvent()->rejected() || $transaction->getEvent()->rejectedByUser() ? 'btn-danger':
-                                                 'btn-success';
+                                            if($transaction->getEvent() == null)
+                                                $class = 'btn-emedia';
+                                            elseif($transaction->getEvent()->pending())
+                                                $class = 'btn-warning';
+                                            elseif($transaction->getEvent()->rejected() || $transaction->getEvent()->rejectedByUser())
+                                                $class = 'btn-danger';
+                                            else
+                                                $class = 'btn-success';
                                         ?>
 
                                         <span class="btn btn-block {{$class}} btn-table-border">

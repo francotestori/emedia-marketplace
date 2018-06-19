@@ -9,14 +9,21 @@
 return [
     'sidebar' => [
         'home' => 'Home',
-        'web' => 'My webs',
+        'web' => [
+            'admin' => 'Web\'s index',
+            'advertiser' => 'Webs and Blogs',
+            'editor' => 'My webs',
+        ],
         'editors' => 'Editors',
         'advertisers' => 'Advertisers',
         'transactions' => 'Transactions',
-        'packages' => 'Credit Packages',
-        'profits' => 'Profits',
+        'packages' => [
+            'advertiser' => 'Credit Packages',
+            'admin' => 'Package\'s Management',
+        ],
+        'profits' => 'Profit\'s Management',
         'revenues' => 'Revenues',
-        'withdrawals' => 'Withdrawals',
+        'withdrawals' => 'Withdrawal\'s Management',
         'sales' => 'Sales',
         'wallet' => 'Wallet',
         'purchases' => 'Purchases',
@@ -64,7 +71,7 @@ return [
         ],
 
         'emedia' => [
-            'about' => 'About EMediaMarket',
+            'about' => 'About eMediaMarket',
             'description' => [
                 'first' => 'Having',
                 'second' => 'worked several years in the digital marketing world',

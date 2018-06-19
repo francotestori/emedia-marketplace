@@ -15,30 +15,6 @@ class AddspaceTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::where('email','it@editor.com')->first();
-
-        $price = 350.00;
-
-        $profit = Profit::where([
-            ['from_range', '<', $price],
-            ['to_range', '>=', $price],
-        ])->first();
-
-        $addspace = Addspace::create([
-            'url' =>'http://www.example.com',
-            'description' => 'Example Addspace',
-            'visits' => 1200,
-            'cost' => $price,
-            'profit' => $profit->value,
-            'editor_id' => $user->id,
-        ]);
-
-        $category = Category::find(3);
-        $category1 = Category::find(15);
-
-        $addspace->categories()->attach($category);
-        $addspace->categories()->attach($category1);
-
 
     }
 }

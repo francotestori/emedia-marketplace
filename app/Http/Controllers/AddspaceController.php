@@ -9,6 +9,7 @@ use App\EventThreads;
 use App\Profit;
 use App\Role;
 use App\User;
+use function GuzzleHttp\default_ca_bundle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -130,14 +131,27 @@ class AddspaceController extends Controller
 
             $profit = $this->getProfit(Input::get('cost'));
 
+            $protocol = substr(Input::get('url'), 0, 5);
 
-            $url = substr( Input::get('url'), 0, 7 ) === "http://" ? Input::get('url') : 'http://'.Input::get('url');
+            switch($protocol){
+                case "https":
+                    $url = Input::get('url');
+                    break;
+                case "http:":
+                    $url = Input::get('url');
+                    break;
+                default:
+                    $url = 'http://'.Input::get('url');
+                    break;
+            }
+
+//            $url = substr( Input::get('url'), 0, 7 ) === "http://" ? Input::get('url') : 'http://'.Input::get('url');
 
             $addspace = Addspace::create([
                 'url' => $url,
                 'description' => Input::get('description'),
                 'visits' => Input::get('visits'),
-                'periodicity' => Input::get('periodicity'),
+                'periodicity' => 'month',
                 'cost' => Input::get('cost'),
                 'profit' => $profit,
                 'editor_id' => Auth::user()->id,
@@ -155,7 +169,7 @@ class AddspaceController extends Controller
                 }
             }
 
-            Session::flash('status', Lang::get('messages.created', ['item' =>'Addspace']));
+            Session::flash('status', Lang::get('messages.addspaces.created'));
             return redirect('addspaces');
         }
     }
@@ -239,10 +253,23 @@ class AddspaceController extends Controller
                     ->withInput(Input::all());
             }
 
-            $addspace->url = Input::get('url');
+            $protocol = substr(Input::get('url'), 0, 5);
+
+            switch($protocol){
+                case "https":
+                    $url = Input::get('url');
+                    break;
+                case "http:":
+                    $url = Input::get('url');
+                    break;
+                default:
+                    $url = 'http://'.Input::get('url');
+                    break;
+            }
+
+            $addspace->url = $url;
             $addspace->description = Input::get('description');
             $addspace->visits = Input::get('visits');
-            $addspace->periodicity = Input::get('periodicity');
             $addspace->cost = Input::get('cost');
 
             if(!$addspace->admin_profit)
@@ -345,7 +372,10 @@ class AddspaceController extends Controller
     {
         $request->flush();
 
-        $addspaces = Addspace::where('status','ACTIVE')->get();
+        if(Auth::user()->isManager())
+            $addspaces = Addspace::query()->whereIn('status',['ACTIVE', 'PAUSED'])->get();
+        else
+            $addspaces = Addspace::query()->where('status', 'ACTIVE')->get();
 
         $clusters = array_chunk($addspaces->toArray(), 3);
         return view('addspace.search.index', compact('clusters'));
@@ -381,7 +411,10 @@ class AddspaceController extends Controller
 
     public function filter(Request $request)
     {
-        $addspaces = Addspace::query()->where('status', 'ACTIVE');
+        if(Auth::user()->isManager())
+            $addspaces = Addspace::query()->whereIn('status',['ACTIVE', 'PAUSED']);
+        else
+            $addspaces = Addspace::query()->where('status', 'ACTIVE');
 
         if(Input::has('editors'))
         {

@@ -19,15 +19,16 @@ use App\EventThreads;
         </div>
         <div class="row home-info-btns">
             <div class="col-md-12">
-                <button type="button" class="btn btn-simple-emedia">
-                    <i class="fa fa-question-circle"></i>
-                    {{Lang::get('titles.home.common.how')}}
-                </button>
                 @if($user->isEditor())
-                    <button type="button" class="btn btn-default btn-invert-emedia">
+                    <a href="{{asset('pdf/eMediaMarket_GuíadeEditores_V02 .pdf')}}" target="_blank" class="btn btn-default btn-invert-emedia">
                         <i class="fa fa-book"></i>
-                        {{Lang::get('titles.home.common.guide')}}
-                    </button>
+                        {{Lang::get('titles.home.common.guide.editor')}}
+                    </a>
+                @else
+                    <a href="{{asset('pdf/eMediaMarket_GuíadeAnunciantes_V02.pdf')}}" target="_blank" class="btn btn-default btn-invert-emedia">
+                        <i class="fa fa-book"></i>
+                        {{Lang::get('titles.home.common.guide.advertiser')}}
+                    </a>
                 @endif
 
             </div>
@@ -35,12 +36,12 @@ use App\EventThreads;
     </div>
     <br>
 
-    <div class="row">
-        <div class="panel-heading home-box msj-box">
+    <div class="box-row clearfix">
+        <div class="home-box msj-box">
             <div class="box-title">
                 <h3>
                     <i class="fa fa-envelope"></i>
-                    {{Lang::get('titles.messages')}}
+                    <a href="{{route('messages')}}">{{Lang::get('titles.messages')}}</a>
                 </h3>
             </div>
             <div class="box-content">
@@ -78,11 +79,15 @@ use App\EventThreads;
             @endforeach
             </div>
         </div>
-        <div class="panel-heading home-box trans-box">
+        <div class="home-box trans-box">
             <div class="box-title">
                 <h3>
                     <i class="fa fa-line-chart"></i>
-                    {{Lang::get('titles.wallet.transactions.main')}}
+                    @if(Auth::user()->isEditor())
+                        <a href="{{route('sales')}}">{{Lang::get('titles.wallet.transactions.main')}}</a>
+                    @else
+                        <a href="{{route('payments')}}">{{Lang::get('titles.wallet.transactions.main')}}</a>
+                    @endif
                 </h3>
             </div>
             <div class="box-content">
@@ -92,7 +97,11 @@ use App\EventThreads;
                         <h6>
                             <strong>{{$transaction['user']}}</strong>
                         </h6>
-                        <p><span>{{$transaction['url']}}</span></p>
+                        @if(Agent::isMobile())
+                            <p><span>{{str_limit(str_replace_first('http://','',$transaction['url']), 18)}}</span></p>
+                        @else
+                            <p><span>{{str_limit(str_replace_first('http://','',$transaction['url']), 21)}}</span></p>
+                        @endif
                     </div>
                     <div class="col-md-5">
                         <?php
@@ -125,11 +134,11 @@ use App\EventThreads;
             @endforeach
             </div>
         </div>
-        <div class="col-md-3 panel-heading home-box wallet-box">
+        <div class="home-box wallet-box">
             <div class="box-title">
                 <h3>
                     <i class="fa fa-money"></i>
-                    {{Lang::get('titles.wallet.index')}}
+                    <a href="{{route('wallet')}}" class="wallet-box-title">{{Lang::get('titles.wallet.index')}}</a>
                 </h3>
             </div>
             <div class="box-content">
@@ -145,9 +154,8 @@ use App\EventThreads;
         </div>
     </div>
     <br>
-
-    <div class="row">
-        <div class="home-box-lg help-box panel-heading">
+    <div class="clearfix">
+        <div class="home-box-lg help-box">
             <div class="row">
                 <div class="col-md-12">
                     <h3>{{Lang::get('titles.home.common.help')}}</h3>
@@ -156,11 +164,11 @@ use App\EventThreads;
                 </div>
             </div>
         </div>
-        <div class="home-box faq-box panel-heading">
+        <div class="home-box faq-box">
             <div class="col-md-12">
                 <h3>{{Lang::get('titles.home.common.faq')}}</h3>
                 <p class="subheading">{{Lang::get('titles.tufts.home.faq')}}</p>
-                <a href="">{{Lang::get('titles.tufts.home.faq2')}}</a>
+                <a href="{{url('/faq')}}">{{Lang::get('titles.tufts.home.faq2')}}</a>
             </div>
         </div>
     </div>

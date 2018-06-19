@@ -15,18 +15,17 @@
     <tr>
         <td height="356" align="center" bgcolor="#29abe1">
             <br>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; text-transform: uppercase;">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; text-transform: uppercase; padding-left: 5%; padding-right: 5%;">
                 {{Lang::get('mail.accept.name', ['user' => $editor])}}<br />
-
-            </p>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236);">
-                {{Lang::get('mail.accept.good')}}<br />
             </p>
             <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); padding-left: 5%; padding-right: 5%;">
+                {{Lang::get('mail.accept.good')}}<br />
+            </p>
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); padding-left: 10%; padding-right: 10%;">
                 {{Lang::get('mail.accept.accepted')}}<br>
                 {{Lang::get('mail.accept.article')}}
             </p>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold;">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; padding-left: 5%; padding-right: 5%;">
                 {{Lang::get('mail.accept.credited')}} <br>
             </p>
             <br />
@@ -43,12 +42,14 @@
                     </td>
 
                 </tr>
-            </table> <br><br>
+            </table>
+            <br>
+            <br>
         </td>
     </tr>
     <tr>
         <td height="115" align="center">
-            <p style="font-size: 14px; font-family: Arial;">
+            <p style="font-size: 14px; font-family: Arial; padding-left: 5%; padding-right: 5%; ">
                 {{Lang::get('mail.common.greeting')}}
                 <br />
                 {{Lang::get('mail.common.team')}}
@@ -56,7 +57,7 @@
         </td>
     </tr>
     <tr>
-        <td bgcolor="#676767" align="center"><img src="logo-footer.jpg"  alt="eMediaMarket" /></td>
+        <td bgcolor="#676767" align="center"><img src="{{asset('img/mail/logo-footer.png')}}" width="136" height="31" alt="eMediaMarket" /></td>
     </tr>
 </table>
 </body>

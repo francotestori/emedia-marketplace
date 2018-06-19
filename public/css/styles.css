@@ -452,7 +452,7 @@ footer{
     width: 50%;
     display: inline-block;
     box-sizing: border-box;
-    padding: 60px 60px 250px;
+    padding: 60px 60px 260px;
     position: relative;
 }
     /* FAQ Title */
@@ -560,6 +560,50 @@ footer{
     color: black;
     display: block;
     text-align: center;
-    width: 270px;
+    width: 340px;
     margin: auto;
+}
+@media only screen and (max-width: 768px) {
+    .faq-panel {
+        display: block;
+    }
+    .faq-section {
+        padding: 20px 20px 250px;
+        width: 100%;
+    }
+    .faq-section.faq-editor,
+    .faq-section.faq-advertiser {
+        float: none;
+    }
+    .faq-title h1 {
+        font-size: 25px;
+    }
+    .faq-title img {
+        height: 34px;
+        margin-top: -12px;
+        margin-right: 5px;
+	}
+	.faq-register {		
+		padding: 10px 25px;
+		font-size: 12px;		
+		width: 250px;		
+	}
+	.faq-footer {
+		width: 90%;
+	}
+	.faq-footer img {
+		margin: 16px auto;
+	}
+}
+/* FAQ - END */
+@media screen and (max-width: 744px){
+	section.login .logo-anunciantes > img {
+		display: none;
+	}
+	.login-anunciantes .logo-anunciantes {
+		display: none;
+	}
+	.navbar-header > a.navbar-brand {
+		width: 70%;
+	}
 }

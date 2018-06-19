@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Mail\SendPassword;
+use App\Mail\Welcome;
 use App\Role;
-use App\User;
+use App\User;http://localhost/password/reset/mqig7zllGhaUbzEosklzqcM6xVVaubiGRSjcudiTKB65T0XRRKVqF3pUuy6ZJWRp
 use App\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
@@ -93,10 +94,13 @@ class UserController extends Controller
         {
             $role = Role::find(Input::get('role'));
 
+            $activation_code = str_random(30);
+
             $user = User::create([
                 'name' => Input::get('name'),
                 'email' => Input::get('email'),
                 'password' => bcrypt(Input::get('password')),
+                'activation_code' => $activation_code,
                 'role_id' => $role->id,
                 'country' => Input::get('country', 'ARG')
             ]);
@@ -105,6 +109,10 @@ class UserController extends Controller
                 'user_id' => $user->id,
                 'balance' => 0
             ]);
+
+            $email = new Welcome($activation_code, $user->name);
+
+            Mail::to($user->email)->send($email);
 
             //Redirecting to index
             Session::flash('status', Lang::get('messages.created', ['item' =>'User']));
@@ -298,7 +306,7 @@ class UserController extends Controller
             $user->activated=true;
             $user->save();
 
-            Session::flash('status', 'User was activated !');
+            Session::flash('status',Lang::get('messages.user.activate', ['user' => $user->email]));
         }
 
         return redirect()->back();
@@ -311,7 +319,7 @@ class UserController extends Controller
             $user->activated=false;
             $user->save();
 
-            Session::flash('status', 'User was deactivated !');
+            Session::flash('status',Lang::get('messages.user.deactivate', ['user' => $user->email]));
         }
 
         return redirect()->back();
@@ -320,18 +328,26 @@ class UserController extends Controller
     public function sendPassword($user_id)
     {
         $user = User::find($user_id);
-        $random_pass = str_random(12);
 
-        $user->password = bcrypt($random_pass);
+        DB::table(config('auth.passwords.users.table'))
+            ->where('email', $user->email)
+            ->delete();
+
+        $token = str_random(64);
+
+        DB::table(config('auth.passwords.users.table'))->insert([
+            'email' => $user->email,
+            'token' => Hash::make($token),
+            'created_at' => Carbon::now()
+        ]);
+
+        $user->sendPasswordResetNotification($token);
+
         $user->activated=true;
         $user->save();
 
-        $email = new SendPassword($random_pass);
-
-        Mail::to($user->email)->send($email);
-
         Session::flash('status', 'Password was sent !');
-
         return redirect()->back();
     }
 }
+

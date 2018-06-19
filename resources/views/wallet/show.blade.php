@@ -3,23 +3,27 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <div class="row">
+            <div class="clearfix">
                 <div class="col-md-8 emedia-title">
                     <h1 class="heading">{{Lang::get('titles.wallet.index')}}</h1>
-                    <p class="subheading">{{Lang::get('messages.wallet.tuft')}}</p>
-                </div>
-                <div class="col-md-4 pull-right emedia-title">
                     @if(Auth::user()->isEditor())
-                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia absolute-right">{{Lang::get('forms.basic.withdraw')}}</button>
+                        <p class="subheading">{{Lang::get('messages.wallet.tuft')}}</p>
+                    @else
+                        <p class="subheading">{{Lang::get('messages.wallet.single_tuft')}}</p>
+                    @endif
+                </div>
+                <div class="col-md-4 emedia-title clearfix">
+                    @if(Auth::user()->isEditor())
+                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.withdraw')}}</button>
                     @elseif(Auth::user()->isAdvertiser())
-                        <a href="{{route('deposit')}}" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.deposit')}}</a>
+                        <a href="{{route('deposit')}}" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.deposit')}}</a>
                     @endif
                 </div>
             </div>
         </div>
         <br>
 
-        <div class="panel-heading">
+        <div class="panel-heading table-panel">
             @if (session('status'))
                 <div class="row">
                     <div class="col-md-12">
@@ -93,9 +97,9 @@
                     // The key name on the left side is the name attribute
                     // of an input field. Validation rules are defined
                     // on the right side
-                    paypal: {
-                        required: true
-                    },
+//                    paypal: {
+//                        required: true
+//                    },
                     amount: {
                         required: true
                     },
@@ -111,9 +115,9 @@
                 },
                 // Specify validation error messages
                 messages: {
-                    paypal: {
-                        required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.paypal')])}}"
-                    },
+                    {{--paypal: {--}}
+                        {{--required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.paypal')])}}"--}}
+                    {{--},--}}
                     amount: {
                         required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.withdrawals.amount')])}}"
                     },

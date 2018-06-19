@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Lang;
 
 class Welcome extends Mailable
 {
@@ -33,7 +34,9 @@ class Welcome extends Mailable
     public function build()
     {
         return $this->markdown('mail.welcome')
-                    ->with([
+            ->subject(Lang::get('mail.welcome.subject'))
+
+            ->with([
                         'activation_code'=> $this->activation_code,
                         'name'=> $this->name,
                         ]

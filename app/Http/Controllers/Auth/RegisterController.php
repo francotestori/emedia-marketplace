@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Wallet;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -75,6 +77,9 @@ class RegisterController extends Controller
 
     public function showRegistrationForm(Request $request)
     {
+        $locale = Cookie::get('locale');
+        App::setLocale($locale);
+
         $requested = $request->get('role');
         return view('auth.register', compact('requested'));
     }
@@ -82,6 +87,9 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        $locale = Cookie::get('locale');
+        App::setLocale($locale);
+
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));

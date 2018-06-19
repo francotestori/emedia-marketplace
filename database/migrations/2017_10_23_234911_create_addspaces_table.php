@@ -16,9 +16,9 @@ class CreateAddspacesTable extends Migration
         Schema::create('addspaces', function (Blueprint $table) {
             $table->increments('id');
             $table->string('url')->index();
-            $table->string('description', 800);
+            $table->string('description', 1200);
             $table->integer('visits', false, true);
-            $table->enum('periodicity',['day', 'week' ,'month'])->default('day');
+            $table->enum('periodicity',['day', 'week' ,'month'])->default('month');
             $table->double('cost', 8,2);
             $table->integer('profit');
             $table->boolean('admin_profit')->default(false);

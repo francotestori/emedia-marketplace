@@ -16,6 +16,16 @@ return [
     |
     */
 
+    'user' => [
+        'activate' => 'User was activated - :user',
+        'deactivate' => 'User was deactivated - :user',
+    ],
+
+    'mail' => [
+        'resetting' => 'You can retrieve your eMediaMarket password',
+        'link' => 'by clicking on the link below:',
+    ],
+
     'no_items_found' => 'No items have been found.',
 
     'created' => 'Your :item has been created successfully!',
@@ -38,8 +48,10 @@ return [
         'tuft' => 'All sent and received messages',
         'empty' => 'There are no messages in your inbox !',
         'new' => 'Add a new message.',
+        'unread' => ':count Unread',
         'accepting' => 'By clicking the accept button you\'re CONFIRMING this transaction and it\'s payment..',
         'rejecting' => 'By rejecting it, the operation will be suspended and will be reviewed by our administrators.',
+        'empty_message' => 'Write something. You are not allowed to send empty messages.',
     ],
 
     'transaction' => 'Your transaction was successful!',
@@ -50,11 +62,16 @@ return [
     'sales_subtitle' => 'Here you can see your addspaces\' sales',
 
     'wallet' =>[
+        'single_tuft' => 'This is your transactions record.',
         'tuft' => 'This is your transactions record. You can also withdraw your money here.',
     ],
 
     'addspaces' =>[
         'tuft' => 'This is your web\'s listing. Here you can create and edit them.',
+        'deactivate' => 'You are about to deactivate',
+        'confirm' => 'Please confirm.',
+        'created' => 'Your web was added successfully',
+
     ],
 
     'editor' =>[
@@ -81,17 +98,21 @@ return [
     'paused' => ':item has been paused!',
     'closed' => ':item has been closed!',
 
-    'rollbacked' => 'The transaction was rejected and is waiting for an EMarket admin confirmation.',
+    'rollbacked' => 'The transaction was rejected and is waiting for an eMediaMarket admin confirmation.',
 
     'withdrawal' => [
         'accepted' => 'Withdrawal was accepted. Remember to send the payment!',
         'success' => 'Your withdrawal of u$s :amount has been requested successfully !',
-        'failure' => 'Withdrawal must be within EMarketplace limits (u$s :min - u$s :max). You have u$s :available available to withdraw.',
+        'failure' => 'Withdrawal must be within eMediaMarket limits (u$s :min - u$s :max). You have u$s :available available to withdraw.',
     ],
 
     'password' => [
         'unauthorized' => 'You are not authorized to perform this action !',
         'different' => 'New password cannot be same as current.',
         'success' => 'Password has been changed successfully !',
+    ],
+
+    'funds' => [
+        'unavailable' => 'You do not have enough funds to but this addspace (u$d :funds). Please make a deposit.',
     ],
 ];

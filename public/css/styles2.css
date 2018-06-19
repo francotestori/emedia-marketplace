@@ -662,7 +662,7 @@ header {
     background: #000 none repeat scroll 0 0;
     /*border-left: 5px solid #5fb6f3;
     padding-left: 15px;*/
-    display: block;    
+    display: block;
 }
 
 .navbar-default {
@@ -705,7 +705,6 @@ header {
     font-weight: 500;
     margin: 0;
     padding: 10px 0;
-    text-transform: capitalize;
 }
 .sales {
     background: #ffffff none repeat scroll 0 0;
@@ -1008,11 +1007,6 @@ a {
     font-weight: 600;
 }
 
-.ejemplo-webs{
-    background-color: #d4d4d4;
-    padding: 2%;
-}
-
 .bloque{
     margin-top: 3%;
 }
@@ -1189,7 +1183,8 @@ a.btn-emedia,a.btn-simple-emedia,button.btn-emedia,.btn-simple-emedia{
 }
 
 /* Retoques #000000000 */
-a.btn-emedia, 
+/* EDITOR - START */
+a.btn-emedia,
 button.btn-emedia {
     font-size: 16px;
 }
@@ -1198,6 +1193,11 @@ button.btn-emedia {
     font-weight: 600;
     font-size: 13px;
     margin-bottom: 10px;
+}
+form label.error {
+    color: #ff6666;
+    font-size: 13px;
+    font-weight: 600;
 }
 /* Top bar */
 ul.header-top {
@@ -1226,10 +1226,23 @@ ul.header-top {
 #topbar ul.header-top > li .fa {
     font-size: 16px !important;
 }
+#topbar .navbar-toggle {
+    border: 2px solid white;
+    margin-left: 10px;
+    float: left;
+}
+#topbar .navbar-toggle .icon-bar {
+    background-color: white;
+}
+@media (max-width:767px) {
+    #topbar ul.header-top > li {
+        margin: 0;
+    }
+}/* @media end */
 /* Sidenav */
 #navigation {
     padding-top: 30px;
-    padding-bottom: 30px;
+    padding-bottom: 108px;
     max-width: 240px;
     position: relative;
 }
@@ -1248,7 +1261,7 @@ ul.header-top {
     font-size: 20px !important;
     position: relative;
     top: 1px;
-    margin-right: 28px;    
+    margin-right: 28px;
 }
 /* My Webs */
 .subheading {
@@ -1304,20 +1317,20 @@ div.col-md-6.botones a {
     background-color: #1dd1a1;
 }
 #addspaces-table td span.btn-warning {
-    background-color: #ff9f43;    
+    background-color: #ff9f43;
 }
 #addspaces-table td span.btn-danger {
-    background-color: #ee5253;    
+    background-color: #ee5253;
 }
-#addspaces-table td.col-state-my-webs span.btn-success {   
+#addspaces-table td.col-state-my-webs span.btn-success {
     width: 65px;
-    margin-left: 7px;   
+    margin-left: 7px;
 }
 #addspaces-table td.col-state-my-webs span.btn-warning,
 #addspaces-table td.col-state-my-webs span.btn-danger {
     width: 78px;
 }
-    /* My Web - Acciones */
+/* My Web - Acciones */
 .btn-actions-container a {
     margin-right: 12px;
 }
@@ -1344,7 +1357,7 @@ div.col-md-6.botones a {
 }
 
 
-    /* My Web - cuantos elem por pagina */
+/* My Web - cuantos elem por pagina */
 #addspaces-table_length label,
 #sales-table_length label {
     font-weight: normal;
@@ -1357,21 +1370,21 @@ div.col-md-6.botones a {
     border: 1px solid #dcdcdc;
     background-color: transparent;
 }
-    /* My Web - Search bar */
+/* My Web - Search bar */
 #addspaces-table_filter label,
 #sales-table_filter label {
     color: #5fb6f3;
 }
 #addspaces-table_filter label input,
 #sales-table_filter label input {
-    background: transparent;    
+    background: transparent;
     border: 1px solid rgb(200, 200, 200);
     border-radius: 4px;
     font-weight: normal;
     color: black;
     padding: 6px;
 }
-    /* My Web - paginator */
+/* My Web - paginator */
 #addspaces-table_paginate a,
 #sales-table_paginate a {
     border: 1px solid #e1e3e6;
@@ -1382,7 +1395,7 @@ div.col-md-6.botones a {
 }
 #addspaces-table_paginate span a,
 #sales-table_paginate span a {
-    background: transparent;    
+    background: transparent;
 }
 /* Ventas  (Sales) */
 #sales-table {
@@ -1399,10 +1412,10 @@ div.col-md-6.botones a {
     max-width: 96px;
 }
 #sales-table td span.btn-success {
-    background-color: #1dd1a1; 
+    background-color: #1dd1a1;
 }
 #sales-table td span.btn-danger {
-    background-color: #ee5253;    
+    background-color: #ee5253;
     width: 90px;
 }
 #sales-table td.msj-col a i.fa {
@@ -1427,7 +1440,7 @@ div.col-md-6.botones a {
     text-align: center;
     margin-left: 5px;
 }
-/* Home */
+/* Home - Editor */
 div.home-welcome {
     margin-bottom: 25px;
 }
@@ -1457,9 +1470,11 @@ div.home-info-btns button i.fa {
     margin-right: 7px;
 }
 .home-box {
-    width: 32%;
+    width: 31%;
     margin-right: 25px;
     padding: 0;
+    float: left;
+    background-color: #f5f5f5;
 }
 .home-box > .box-content > .row {
     margin-bottom: 10px;
@@ -1471,12 +1486,16 @@ div.home-info-btns button i.fa {
 .home-box > .box-content > .row p {
     font-size: 13px;
     font-weight: 600;
+    text-transform: lowercase;
 }
 .home-box > .box-content > .row .row > div {
     padding-left: 0;
 }
 .wallet-box, .faq-box {
     margin-right: 0;
+}
+.wallet-box-title{
+    position: inherit !important;
 }
 .faq-box {
     padding: 20px;
@@ -1541,12 +1560,14 @@ div.trans-box .box-content div {
 .label-closed {
     color: #ee5253;
 }
-    /* Home - faq box y box-lg */
+/* Home - faq box y box-lg */
 .home-box-lg {
-    width: 66%;
+    width: 64%;
     margin-right: 25px;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 0 24px 24px;
+    background-color: #f5f5f5;
+    float: left;
+    min-height: 173px;
 }
 .faq-box > div {
     padding: 0;
@@ -1561,7 +1582,31 @@ div.trans-box .box-content div {
     font-weight: 600;
 }
 @media only screen and (max-width: 768px) {
-}
+    div.avatar-container {
+        display: none;
+    }
+    div.home-info-btns {
+        text-align: center;
+        margin-bottom: 0;
+    }
+    .home-info-btns button {
+        margin-bottom: 10px;
+    }
+    .home-box, .home-box-lg {
+        width: 95%;
+        margin: 0 auto 32px;
+    }
+    .table-panel {
+        overflow-x: scroll;
+        max-width: 90vw;
+    }
+    .status-select {
+        margin-top: 16px;
+    }
+    .panel {
+        padding: 0 !important;
+    }
+}/* Media - End */
 /* Messages */
 div.single-msj-row {
     padding: 17px 0 2px 20px;
@@ -1601,6 +1646,23 @@ div.single-msj-row strong.btn-danger {
     background-color: #ee5253;
     border-color: #ee5253;
 }
+.user-weburl-box {
+    margin-top: 12px;
+}
+@media only screen and (max-width: 768px) {
+    div.single-msj-row {
+        padding: 10px 0 0px 0px;
+    }
+    div.single-msj-row > div > div {
+        padding: 15px 0 10px 18px;
+    }
+    .single-msj-row > div {
+        padding: 0 !important;
+    }
+    div.single-msj-row h4 a {
+        font-size: 15px;
+    }
+}
 /* Single Web Info */
 .web-name {
     text-transform: lowercase;
@@ -1627,7 +1689,34 @@ div.btn-actions-container-lg a {
 .category-row h3 {
     margin-top: 0;
 }
-    /* boxes */
+.web-info-box {
+    background-color: #f5f5f5;
+}
+.web-info-box.details-box {
+    width: 64%;
+}
+.web-info-box.views-price-box {
+    width: 32%;
+    margin-left: 2.5%;
+}
+.web-info-box.details-box,
+.web-info-box.views-price-box {
+    float: left;
+    min-height: 255px;
+}
+@media only screen and (max-width: 768px) {
+    .title-link {
+        font-size: 17px;
+        text-transform: lowercase;
+    }
+    .web-info-box.details-box,
+    .web-info-box.views-price-box {
+        margin-bottom: 15px;
+        width: 100%;
+        margin-left: 0%;
+    }
+}
+/* boxes */
 .details-box {
     margin-right: 20px;
     overflow-x: hidden;
@@ -1736,13 +1825,26 @@ textarea::placeholder {
     color: #29abe1;
     font-weight: 600;
 }
+@media only screen and (max-width: 768px) {
+    .user-pass-panel {
+        padding: 22px;
+        min-width: 300px;
+    }
+    .user-pass-cancel,
+    .user-pass-accept,
+    .user-edit-cancel,
+    .user-edit-accept {
+        float: none;
+        margin: 10px auto;
+    }    
+}
 /* User */
 .user-basic-info {
     margin-bottom: 20px;
 }
 .user-basic-info > div {
     display: inline-block;
-    vertical-align: top;    
+    vertical-align: top;
 }
 .user-basic-info > div.info-container {
     padding-top: 10px;
@@ -1753,7 +1855,23 @@ textarea::placeholder {
 .user-edit-btns a:first-of-type {
     margin-right: 20px;
 }
-    /* User - Mis Webs */
+@media only screen and (max-width: 768px) {
+    .user-edit-btns {
+        text-align: center;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .user-edit-btns a:first-of-type {
+        margin-right: 0;
+    }
+    .user-edit-btns a.btn-emedia {
+        margin-top: 10px
+    }
+    .user-withdraw {
+        float: none !important;
+    }
+}
+/* User - Mis Webs */
 .user-weburl-box span {
     border: none;
     border-radius: 0;
@@ -1787,13 +1905,26 @@ textarea::placeholder {
     border-color: #ee5253;
     width: 200px;
 }
+@media only screen and (max-width: 768px) {
+    .modal-content.deactivate-web .modal-body {
+        padding: 0px 23px;
+    }
+    .modal-body h3 {
+        margin: 0 0 7px;
+        font-size: 18px;
+    }
+    .modal-body h3 strong {
+        font-size: 14px;
+        text-transform: lowercase;
+    }
+}
 /* Ventas > Mensajes */
 .alert-message {
     margin: 27px 16px;
 }
 .alert-message > a.msj-receptor,
 .alert-message > a.msj-emisor {
-    display: inline-block;    
+    display: inline-block;
     margin: 24px;
 }
 .alert-message > a.msj-receptor img,
@@ -1824,4 +1955,505 @@ textarea::placeholder {
 .msj-content p.msj-text {
     font-weight: 500;
 }
-/* @media only screen and (max-device-width: 767px) */
+@media only screen and (max-width: 768px) {
+    .alert-message {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .msj-content {
+        padding: 5px 20px !important;
+    }
+    .msj-details.msj-emisor {
+        text-align: left;
+    }    
+    .msj-details.msj-receptor {
+        text-align: right;
+    }
+    .alert-message > a.msj-receptor,
+    .alert-message > a.msj-emisor {
+        display: none;
+    }
+    .alert-message > div.msj-content {        
+        width: 100% !important;
+        max-width: 100%;
+    }
+    div.msj-details {
+        width: 100%;
+    }
+}
+/* EDITOR - END */
+
+/* ANUNCIANTES - START */
+/* Paquetes de Crédito */
+.packages-panel > .row {
+    margin-bottom: 18px;
+}
+.packages-panel > .row > div {
+    padding: 0;
+    padding-right: 18px;
+}
+.credit-package {
+    /*height: 215px;*/
+    background-color: #f5f5f5;
+    text-align: center;
+    margin-bottom: 24px;
+}
+.credit-package-info {
+    color: #757575;
+    font-weight: 700;
+    font-size: 12px;
+    margin-top: 28px;
+    padding-bottom: 22px;
+}
+.credit-package > .box-title {
+    padding: 13px;
+    min-height: 47px;
+}
+.credit-package > .box-title > h3 {
+    font-size: 20px;
+    text-transform: capitalize;
+}
+.package-emark-value h4 {
+    margin-bottom: 5px;
+}
+.package-emark-value h4 span {
+    font-size: 18px;
+}
+p.package-price {
+    margin: 25px 0;
+}
+.credit-package .btn-info {
+    background-color: #5fb6f3;
+    border-color: #5fb6f3;
+    padding: 6px 48px;
+}
+@media only screen and (max-width: 768px) {
+    .credit-package { 
+        margin-bottom: 16px;       
+        width: 75vw;
+    }
+}
+/* Mis Webs (Anunciantes) */
+.order-by-price {
+    text-align: right;
+}
+.advertiser-web-filter form > .row {
+    padding: 15px;
+}
+.order-by-price > label {
+    margin-right: 10px;
+}
+.order-by-price div.btn-primary {
+    border-color: #7fa8db;
+}
+.order-by-price label.btn-primary.toggle-on {
+    background-color: #7fa8db;
+}
+.advertiser-web-filter form .slider-visits {
+    padding: 12px 0 40px;
+}
+.advertiser-web-filter form .botones {
+    padding-top: 15px;
+    font-weight: 500;
+}
+.advertiser-web-filter form .botones > a {
+    margin-top: 10px;
+}
+.advertiser-web-filter form .botones > button {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.advertiser-filter-sliders {
+    text-align: center;
+}
+.advertiser-web-filter {
+    padding: 20px 25px;
+}
+.advertiser-web-filter form > div.clearfix {
+    padding: 15px;
+}
+@media only screen and (max-width: 768px) {
+    .order-by-price {
+        text-align: center;
+        margin: 14px 0;
+    }
+    .advertiser-filter-sliders {
+        margin: 50px 0 14px;
+    }
+}
+/* Web search results */
+h1.advertiser-search-title {
+    margin-bottom: 10px;
+}
+.advertiser-web-result,
+.admin-profit-web {
+    background-color: #f5f5f5;
+    min-height: 390px;
+    position: relative;
+}
+.advertiser-web-result .box-title,
+.admin-profit-web .box-title {
+    background-color: #eaeaea;
+    overflow-x: hidden;
+}
+.box-title a.ejemplo-titular {
+    font-size: 21px;
+}
+.advertiser-search-results > div.clearfix > div,
+.profit-webs > div.clearfix > div {
+    padding: 0;
+    padding-right: 18px;
+}
+.advertiser-search-results > .row > div:last-of-type,
+.profit-webs > .row > div:last-of-type {
+    padding-right: 0;
+}
+.web-result-info {
+    padding: 14px 10% 0;
+    position: relative;
+}
+.web-result-info .category-tag{
+    background-color: #eaeaea;
+    color: black;
+    margin-bottom: 1px;
+    display: inline-block;
+}
+.web-result-info p {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+p.web-caegories {
+    margin: 0;
+}
+h4.web-result-price {
+    color: #757575;
+    margin: 20px 0 24px;
+}
+h4.web-result-price span.money-total {
+    font-size: 20px;
+}
+.web-result-actions > button.btn-simple-emedia {
+    width: 80%;
+    float: right;
+}
+.web-result-actions > a.btn-info-action > i{
+    margin-top: 4px;
+}
+.advertiser-web-result {
+    padding-bottom: 76px;
+}
+div.web-result-actions {
+    width: 80%;
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+@media only screen and (max-width: 768px) {
+    .advertiser-web-result,
+    .admin-profit-web {
+        margin-bottom: 15px;
+    }
+}
+/* ANUNCIANTES - END */
+
+/* MANAGER - START */
+/* Editors */
+.editor-users-table .btn-actions-container > a > img {
+    width: 38px;
+}
+.editor-users-table .btn-actions-container > a.password-change,
+.editor-users-table .btn-actions-container > a.password-send {
+    margin-right: 0;
+    margin-left: -2px;
+}
+.editor-users-table .btn-actions-container > a.password-change > img {
+    margin-top: -6px;
+}
+.editor-users-table .btn-actions-container > a.password-send > img {
+    margin-top: -8px;
+    margin-right: 5px;
+}
+.btn-create-user,
+.btn-create {
+    float: right;
+}
+@media only screen and (max-width: 768px) {
+    .btn-create-user,
+    .btn-create {
+        float: none;
+        margin: 0 auto;
+    }
+}
+/* Mis Webs */
+.web-result-actions.admin-actions {
+    background-color: white;
+    text-align: center;
+    padding: 4px 0;
+}
+.web-result-actions.admin-actions a {
+    padding: 0px 12px;
+}
+/* Credit Packages */
+.box-title > h3.admin-panel {
+    float: left;
+}
+.box-title div.admin-panel {
+    float: right;
+}
+.box-title div.admin-panel > a > i.fa {
+    font-size: 16px !important;
+    margin-left: 7px;
+}
+.packages-title > div.clearfix {
+    padding-right: 15px;
+}
+/* Profit */
+.profit-webs {
+    margin-top: 20px;
+}
+.admin-profit-web .web-result-actions > a {
+    margin-top: 6px;
+    display: inline-block;
+}
+.admin-profit-web .web-result-actions > button.btn-simple-emedia {
+    width: auto;
+    padding-right: 25px;
+    padding-left: 25px;
+}
+.profit-table-btns {
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+.profit-table-btns > a {
+    padding-top: 8px;
+    margin-right: 24px;
+}
+.profit-table-btns > button.btn-simple-emedia {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.profits-table {
+    padding: 30px 55px 10px;
+}
+.admin-profit-web h4.web-result-price {
+    margin: 10px 0;
+}
+.admin-profit-web h4.web-result-price:last-of-type {
+    margin-bottom: 24px;
+}
+@media only screen and (max-width: 768px) {
+    .profits-table {
+        padding: 10px;
+    }
+}
+/* Admin - Home */
+.admin-home-advertisers, .admin-home-editors {
+    background-color: #f5f5f5;
+    text-align: center;
+}
+.admin-home-advertisers .box-content,
+.admin-home-editors .box-content {
+    height: auto;
+}
+.admin-home-advertisers .box-content > button,
+.admin-home-editors .box-content > button {
+    margin: 18px auto;
+}
+.admin-home-advertisers .box-content > h1,
+.admin-home-editors .box-content > h1 {
+    padding: 20px 0;
+    font-size: 52px;
+}
+.admin-home-editors .box-title,
+.admin-home-advertisers .box-title {
+    text-align: left;
+    padding: 23px 35px;
+}
+.admin-home-editors .box-title > h3 > i.fa,
+.admin-home-advertisers .box-title > h3 > i.fa {
+    font-size: 20px !important;
+}
+.admin-home .home-welcome {
+    margin-bottom: 50px;
+}
+.admin-home > .row > div {
+    padding: 0;
+    margin-right: 25px;
+}
+@media only screen and (max-width: 768px) {
+    .admin-home-advertisers,
+    .admin-home-editors {
+        margin-bottom: 16px;
+    }
+}
+/* TESTS PARA LA TOP BAR */
+#topbear{
+    background: #070707;
+    height: 58px;
+    max-height: 58px;
+    display: none;
+}
+#topbear .home-logo img {
+    margin: 4px 0 0 21px;
+}
+#topbear div {/* Cancelamos el padding automatico de bootstrap */
+    padding-right: 0;
+    padding-left: 0;
+}
+#topbear ul.header-top > li {
+    height: 58px;
+    padding: 18px 8px;
+    margin: 0px 14px;
+    vertical-align: top;
+}
+#topbear ul.header-top > li:last-of-type {
+    margin: 0;
+}
+#topbear ul.header-top > li.btn-header {
+    border-radius: 0;
+    padding: 14px 38px;
+}
+#topbear ul.header-top > li .fa {
+    font-size: 16px !important;
+}
+/* FAQ */
+.faq-panel {
+    display: flex;
+}
+.faq-section {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 60px 60px 250px;
+    position: relative;
+}
+.faq-advertiser.faq-editor-only,
+.faq-editor.faq-advertiser-only {
+    display: none;
+}
+.faq-advertiser.faq-advertiser-only,
+.faq-editor.faq-editor-only {
+    width: 100%;
+}
+    /* FAQ Title */
+.faq-title img,
+.faq-title h1 {
+    display: inline-block;
+    text-transform: uppercase;
+}
+.faq-title img {
+	height: 50px;
+    margin-top: -18px;
+    margin-right: 17px;
+}
+.faq-title h1 {
+	margin-top: 0;
+	font-weight: bold;
+}
+.faq-editor .faq-title h1 {
+    color: white;
+}
+    /* FAQ Body */    
+.faq-accordion {
+    background: transparent;
+    cursor: pointer;
+    padding: 18px 0;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    font-size: 16px;
+    position: relative;
+	padding-right: 48px;
+	font-weight: 600;
+}
+.faq-accordion i {
+	position: absolute;
+	right: 16px;
+	top: 20px;
+}
+.faq-section.faq-advertiser {
+	float: left;
+	background-color: #f3e353;
+}
+.faq-section.faq-editor {
+	float: right;
+	background-color: #069fcb;
+}
+.faq-advertiser .faq-accordion {
+	color: black;
+}
+.faq-advertiser .faq-answer {
+	border-bottom: 1px solid #999999;
+}
+.faq-editor .faq-accordion {
+	color: white;
+}
+.faq-editor .faq-answer {
+	border-bottom: 1px solid white;
+}
+
+.faq-accordion.active {
+    border: none !important;
+}
+.faq-answer {
+    /*display: none;*/
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease-out;
+}
+.faq-answer p {
+	margin: 0 0 5px;
+}
+.faq-answer p:last-of-type {
+	margin-bottom: 20px;
+}
+.faq-editor .faq-answer p {
+	color: white
+}
+	/* FAQ Footer */
+.faq-footer {
+    position: absolute;
+    bottom: 30px;
+    width: 80%;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+.faq-footer img {
+	display: block;
+	margin: 28px auto;
+	max-width: 60px;
+}
+.faq-footer .faq-register {
+	text-transform: uppercase;
+}
+.faq-editor .faq-footer p {
+	color: white;
+}
+@media only screen and (max-width: 768px) {
+    .faq-panel {
+        display: block;
+    }
+    .faq-section {
+        padding: 20px 20px 250px;
+        width: 95%;
+        margin-bottom: 15px;
+    }
+    .faq-section.faq-editor,
+    .faq-section.faq-advertiser {
+        float: none;
+    }
+    .faq-title h1 {
+        font-size: 25px;
+    }
+    .faq-title img {
+        height: 34px;
+        margin-top: -12px;
+        margin-right: 5px;
+    }
+}
+/* FAQ - END */

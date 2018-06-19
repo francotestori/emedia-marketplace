@@ -16,6 +16,12 @@ return [
     |
     */
 
+    'user' => [
+        'activate' => 'El usuario fue activado - :user',
+        'deactivate' => 'El usuario fue desactivado - :user',
+    ],
+
+
     'mail' => [
         'resetting' => 'Puedes restablecer tu contraseña de eMediaMarket',
         'link' => 'haciendo clic en el enlace de abajo:',
@@ -43,8 +49,10 @@ return [
         'tuft' => 'Todos los mensajes enviados y recibidos',
         'empty' => 'No hay mensajes en tu inbox !',
         'new' => 'Agregar mensaje.',
+        'unread' => ':count No Leidos',
         'accepting' => 'Al clickear aceptar se esta CONFIRMANDO esta transacción y el pago se acreditará al editor.',
         'rejecting' => 'Al rechazarla, la misma queda SUSPENDIDA y será revisada por nuestros administradores para determinar su resultado.',
+        'empty_message' => 'Escribe algo! No se pueden envíar mensajes vacios.',
     ],
 
     'transaction' => 'Tu transaccion fue exitosa!',
@@ -55,6 +63,7 @@ return [
     'sales_subtitle' => 'Aca puedes visualizar tus ventas realizadas',
 
     'wallet' =>[
+        'single_tuft' => 'Este es el listado de tus transacciones.',
         'tuft' => 'Este es el listado de tus transacciones. Podrás retirar tu dinero aqui.',
     ],
 
@@ -62,6 +71,8 @@ return [
         'tuft' => 'Este es el listado de todas sus webs. Aquí puede crear nuevas y editar las existentes.',
         'deactivate' => 'Esta por desactivar',
         'confirm' => 'Por favor confirme.',
+        'created' => 'Tu web se añadió exitosamente',
+
     ],
 
     'editor' =>[
@@ -86,12 +97,12 @@ return [
     'paused' => ':item fue pausado !',
     'closed' => ':item fue cerrado !',
 
-    'rollbacked' => 'La transacción fue rechazada y está pendiente de revision por un administrador de EMarket.',
+    'rollbacked' => 'La transacción fue rechazada y está pendiente de revision por un administrador de eMediaMarket.',
 
     'withdrawal' => [
         'accepted' => 'El retiro fue aceptado. Recorda enviar la transferencia!',
         'success' => 'Tu retiro de u$s :amount se solicito correctamente !',
-        'failure' => 'Los retiros deben respetar los limites de EMarketplace (u$s :min - u$s :max). Tenes u$s :available disponibles para retirar.',
+        'failure' => 'Los retiros deben respetar los limites de eMediaMarket (u$s :min - u$s :max). Tenes u$s :available disponibles para retirar.',
     ],
 
     'password' => [
@@ -100,4 +111,7 @@ return [
         'success' => 'La contraseña fue modificada con éxito !',
     ],
 
+    'funds' => [
+        'unavailable' => 'No tenes fondos suficientes para ejecutar esta compra (u$d :funds). Por favor, hace un depósito.',
+    ],
 ];

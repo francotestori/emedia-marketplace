@@ -7,7 +7,7 @@
  */
 
 return [
-    'visits' => 'Visitas',
+    'visits' => 'Visitas Mensuales',
     'currency' => 'u$s',
     'day_periodicity' => 'por día',
 

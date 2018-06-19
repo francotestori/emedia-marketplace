@@ -1,5 +1,47 @@
 {{Form::open(['route' => 'addspaces.filter'])}}
-<div class="row">
+<div class="clearfix">
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-addon" id="url-addon">http://</span>
+            <input type="text" name="url" value="{{old('url')}}" class="form-control" placeholder="www.example.com">
+        </div>
+    </div>
+    <div class="col-md-6 order-by-price">    
+        <label for="order" class="control-label">{{Lang::get('forms.addspaces.search.order')}}</label>
+        <input type="checkbox" name="order" id="order" checked data-toggle="toggle" data-on="ASC" data-off="DESC">
+    </div>
+</div>
+<div class="clearfix">
+    <div class="col-md-7">
+        <select class="form-control" multiple="multiple" name="categories[]">
+            @foreach($search_categories as $category)
+                <option value="{{$category->name}}"
+                        @if(in_array($category->name, old('categories',[]))) selected @endif>
+                    {{$category->name}}
+                </option>
+            @endforeach
+        </select>
+        <div class=" botones">
+            <a href="{{route('addspaces.search')}}" class="pull-left">{{Lang::get('forms.addspaces.search.remove')}}</a>
+            <button type="submit" class="btn btn-invert-emedia pull-right">{{Lang::get('forms.addspaces.search.filter')}}</button>
+        </div>
+    </div>
+    <div class="col-md-5 advertiser-filter-sliders">
+        <div class="slider-visits">
+            <label for="visits" class="control-label">{{Lang::get('forms.addspaces.search.visits')}}</label>
+            <input id="visitSlider" name="visits" data-slider-id='visitSlider' type="text"
+               data-slider-min="0" data-slider-max="5000" data-slider-step="1" data-slider-value="{{'['.old('visits','0, 500').']'}}"/>
+        </div>
+        <div class="slider-price">
+            <label for="price" class="control-label">{{Lang::get('forms.addspaces.search.price')}}</label>
+            <input class="form-control" id="priceSlider" name="price" data-slider-id='priceSlider' type="text"
+                data-slider-min="0" data-slider-max="5000" data-slider-step="1" data-slider-value="{{'['.old('price','0, 500').']'}}"/>
+        </div>
+    </div>
+</div>
+
+<!--
+    <div class="row">
     <div class="col-md-4">
         <div class="input-group">
             <span class="input-group-addon" id="url-addon">http://</span>
@@ -68,4 +110,5 @@
     <div class="col-md-8">
     </div>
 </div>
+-->
 {{Form::close()}}

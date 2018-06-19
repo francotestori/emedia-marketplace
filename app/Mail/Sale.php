@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Lang;
 
 class Sale extends Mailable
 {
@@ -33,7 +34,8 @@ class Sale extends Mailable
     public function build()
     {
         return $this->markdown('mail.sale')
-                    ->with('thread', $this->thread)
+            ->subject(Lang::get('mail.sale.subject'))
+            ->with('thread', $this->thread)
                     ->with('editor', $this->editor);
     }
 }

@@ -10,16 +10,6 @@
             </div>
         </div>
         <br>
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('errors'))
-            <div class="alert alert-danger" role="alert">
-                {{ session('errors') }}
-            </div>
-        @endif
 
         <div class="panel-heading">
 

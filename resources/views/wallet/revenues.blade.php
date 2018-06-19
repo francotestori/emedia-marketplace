@@ -7,10 +7,10 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <div class="row">
+            <div class="clearfix">
                 <div class="col-md-10 emedia-title">
-                    <h3>{{Lang::get('titles.wallet.revenues.main')}}</h3>
-                    <p>{{Lang::get('titles.wallet.revenues.subtitle')}}</p>
+                    <h1>{{Lang::get('titles.wallet.revenues.main')}}</h1>
+                    <p class="subheading">{{Lang::get('titles.wallet.revenues.subtitle')}}</p>
                 </div>
                 <div class="col-md-2 balance emedia-title">
                     <h4>{{Lang::get('titles.wallet.revenues.item')}}</h4>
@@ -31,8 +31,8 @@
 
         <br>
 
-        <div class="panel-heading">
-                <table class="table" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
+        <div class="panel-heading table-panel">
+                <table class="table dataTable" id="addspaces-table" @if(count($user->getWallet()->getTransactions())) data-ride="datatables" @endif>
                     <thead>
                     <tr>
                         <th>{{Lang::get('tables.wallet.id')}}</th>

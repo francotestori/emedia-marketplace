@@ -9,7 +9,7 @@
         <div class="panel-title">
             <div class="row">
                 <div class="col-md-12 emedia-title">
-                    <h3>{{Lang::get('titles.profits.index')}}</h3>
+                    <h1>{{Lang::get('titles.profits.index')}}</h1>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
 
         <br>
 
-        <div class="panel-heading">
+        <div class="panel-heading table-panel profits-table">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -47,65 +47,66 @@
                     </tbody>
                 </table>
             </div>
-            <hr>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#add-profit">{{Lang::get('forms.basic.add')}}</button>
-            <a class="btn btn-info" href="{{route('profits.edit')}}">{{Lang::get('forms.basic.edit')}}</a>
-            <hr>
-            @each('profits.group', $clusters, 'addspaces')
-            <!-- Modal -->
-                <div class="modal fade" id="add-profit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">{{Lang::get('forms.profits.creating')}}</h4>
-                            </div>
-                            {{Form::open(['route' => 'profits.store'])}}
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-8 col-md-offset-2">
-                                        <div class="form-group">
-                                            {{Form::label('from', Lang::get('forms.profits.from'))}}
-                                            <div class="input-group">
-                                                <span class="input-group-addon" id="from-addon">USD</span>
-                                                {{Form::number('from', old('from'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="form-group">
-                                            {{Form::label('to', Lang::get('forms.profits.to'))}}
-                                            <div class="input-group">
-                                                <span class="input-group-addon" id="to-addon">USD</span>
-                                                {{Form::number('to', old('to'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="form-group">
-                                            {{Form::label('profit', Lang::get('forms.profits.value'))}}
-                                            <div class="input-group">
-                                                <span class="input-group-addon" id="profit-addon">%</span>
-                                                {{Form::number('profit', old('profit'), ['class' => 'form-control','step'=>'1', 'min' => 0, 'max' => 100])}}
-                                            </div>
-                                        </div>
-                                        </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <div class="row form-group">
-                                    <div class="col-md-6">
-                                        <a class="btn btn-default pull-right" data-dismiss="modal">{{Lang::get('forms.basic.cancel')}}</a>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button class="btn btn-info pull-left">{{Lang::get('forms.basic.create')}}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            {{Form::close()}}
+            <div class="profit-table-btns clearfix">
+                <button type="button" class="btn btn-simple-emedia pull-right" data-toggle="modal" data-target="#add-profit">{{Lang::get('forms.basic.add')}}</button>
+                <a class="pull-right" href="{{route('profits.edit')}}">{{Lang::get('forms.basic.edit')}}</a>
+            </div>
+        </div>
+        <div class="profit-webs">
+        @each('profits.group', $clusters, 'addspaces')
+        </div>
+        <!-- Modal -->
+            <div class="modal fade" id="add-profit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">{{Lang::get('forms.profits.creating')}}</h4>
                         </div>
+                        {{Form::open(['route' => 'profits.store'])}}
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="form-group">
+                                        {{Form::label('from', Lang::get('forms.profits.from'))}}
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="from-addon">USD</span>
+                                            {{Form::number('from', old('from'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        {{Form::label('to', Lang::get('forms.profits.to'))}}
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="to-addon">USD</span>
+                                            {{Form::number('to', old('to'), ['class' => 'form-control','step'=>'1', 'min' => 0])}}
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        {{Form::label('profit', Lang::get('forms.profits.value'))}}
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="profit-addon">%</span>
+                                            {{Form::number('profit', old('profit'), ['class' => 'form-control','step'=>'1', 'min' => 0, 'max' => 100])}}
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row form-group">
+                                <div class="col-md-6">
+                                    <a class="btn btn-default pull-right" data-dismiss="modal">{{Lang::get('forms.basic.cancel')}}</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-info pull-left">{{Lang::get('forms.basic.create')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{Form::close()}}
                     </div>
                 </div>
-
-        </div>
+            </div>        
     </div>
 @stop
 

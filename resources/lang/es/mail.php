@@ -8,12 +8,15 @@
 
 return [
 
+    'password' => 'Contraseña',
+
     'common' => [
         'greeting' => 'Saludos',
         'team' => 'El equipo de eMediaMarket',
     ],
 
     'welcome' => [
+        'subject' => 'Bienvenido a eMediaMarket',
         'name' => '¡HOLA :user !',
         'thanks' => 'Gracias por registrarte en eMediaMarket.',
         'congratulations' => '¡Felicitaciones!',
@@ -25,6 +28,7 @@ return [
     ],
 
     'reset' => [
+        'subject' => 'Cambio de Contraseña',
         'resetting' => 'Puedes restablecer tu contraseña de eMediaMarket',
         'clicking' => 'haciendo clic en el enlace de abajo:',
         'remind' => 'Te recordamos que tu nombre de usuario es: ',
@@ -36,6 +40,7 @@ return [
     ],
 
     'sale' => [
+        'subject' => 'Felicitaciones! un anunciante está interesado en tu artículo',
         'name' => '¡Hola :user !',
         'interested' => 'Hay un anunciante interesado en publicitar en tu web!',
         'specification' => 'Lee detenidamente las especificaciones del pedido',
@@ -45,6 +50,7 @@ return [
     ],
 
     'purchase' => [
+        'subject' => 'Compra',
         'congratulations' => '¡Felicitaciones ',
         'your' => 'Tu compra en  ',
         'realized' => 'ha sido efectuada ',
@@ -52,6 +58,7 @@ return [
     ],
 
     'reject' => [
+        'subject' => 'Rechazo',
         'name' => '¡Hola :user!',
         'addspace' => 'Lamentamos informarte que tu orden en el sitio :url ha sido rechazada.',
         'review' => 'La misma pasará a un estado de revisión por nuestro equipo para confirmar o rechazar dicha operacion.',
@@ -59,6 +66,7 @@ return [
     ],
 
     'accept' => [
+        'subject' => 'Felicitaciones! tu venta ha sido exitosa',
         'name' => '¡Hola :user!',
         'good' => '¡Buenas noticias!',
         'accepted' => 'Te informamos que el anunciante ha aprobado el artículo ',

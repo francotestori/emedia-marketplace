@@ -64,7 +64,7 @@ return [
         'sending' => '¿ Deseas enviar una nueva contraseña para este usuario?',
         'password' => [
             'item' => 'Contraseña',
-            'old' => 'Contraseña Anterior',
+            'old' => 'Anterior',
             'new' => 'Nueva Contraseña',
             'confirm' => 'Confirmar Contraseña',
         ],
@@ -76,12 +76,12 @@ return [
 
     'addspaces' => [
         'item' => [
-            'url' => 'URL',
-            'description' => 'Descripción',
-            'visits' => 'Visitas',
+            'url' => 'Indicanos la url de tu web',
+            'description' => 'Descripción de tu web',
+            'visits' => 'Visitas Mensuales',
             'frequency' => 'Frecuencia',
             'price' => 'Precio',
-            'categories' => 'Categorias',
+            'categories' => 'A que categorias pertenece tu web?',
             'language' => 'Idioma',
         ],
         'search' => [
@@ -159,7 +159,7 @@ return [
     'packages' => [
         'name' => 'Nombre',
         'value' => [
-            'emarketplace' => 'Valor EMarketplace',
+            'emarketplace' => 'Valor eMediaMarket',
             'price' => 'Precio',
         ],
         'activate' => 'Activar',

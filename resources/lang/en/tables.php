@@ -75,7 +75,7 @@ return [
     'PAYMENT' => 'PAYMENT',
     'ACCEPTED' => 'ACCEPTED',
     'REJECTED' => 'REJECTED',
-    'USER_REJECTED' => 'REJECTED BY USER',
+    'USER_REJECTED' => 'REJECTED',
     'PENDING' => 'PENDING',
     'WITHDRAWAL' => 'WITHDRAWAL',
     'SYSTEM' => 'SYSTEM',

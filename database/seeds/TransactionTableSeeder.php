@@ -16,26 +16,23 @@ class TransactionTableSeeder extends Seeder
      */
     public function run()
     {
-        $manager = User::where('name', 'manager')->first();
-        $m_wallet = $manager->getWallet();
+        $manager = User::where('email', 'pagos@emediamarket.com')->first();
+        $manager_wallet = $manager->getWallet();
 
         $advertiser = User::where('name', 'advertiser')->first();
-        $a_wallet = $advertiser->getWallet();
-
-        $editor = User::where('name', 'editor')->first();
-        $e_wallet = $editor->getWallet();
+        $advertiser_wallet = $advertiser->getWallet();
 
         $deposit = Transaction::create([
-            'from_wallet' => $m_wallet->id,
-            'to_wallet' => $a_wallet->id,
+            'from_wallet' => $manager_wallet->id,
+            'to_wallet' => $advertiser_wallet->id,
             'type' => 'DEPOSIT',
-            'amount' => 1000,
+            'amount' => 2000,
         ]);
 
         $deposit->payment_status = 'Completed';
         $deposit->save();
 
-        $a_wallet->balance = $a_wallet->balance + $deposit->amount;
-        $a_wallet->save();
+        $advertiser_wallet->balance = $advertiser_wallet->balance + $deposit->amount;
+        $advertiser_wallet->save();
     }
 }

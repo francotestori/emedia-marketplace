@@ -183,7 +183,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-
+        Jenssegers\Agent\AgentServiceProvider::class,
 
     ],
 
@@ -237,6 +237,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
 
     ],
 

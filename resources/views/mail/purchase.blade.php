@@ -14,10 +14,10 @@
     </tr>
     <tr>
         <td height="291" align="center" bgcolor="#29abe1">
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold;">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; padding-left: 5%; padding-right: 5%;">
                 {{Lang::get('mail.purchase.congratulations')}}
                 <span style="color:#000">{{$advertiser}}!</span></p>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236);">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); padding-left: 5%; padding-right: 5%;">
                 <strong>
                     {{Lang::get('mail.purchase.your')}}
                     <span style="color:#000">{{$url}}</span>
@@ -36,12 +36,14 @@
                     </td>
 
                 </tr>
-            </table> <br><br>
+            </table>
+            <br>
+            <br>
         </td>
     </tr>
     <tr>
         <td height="115" align="center">
-            <p style="font-size: 14px; font-family: Arial;">
+            <p style="font-size: 14px; font-family: Arial; padding-left: 5%; padding-right: 5%;">
                 {{Lang::get('mail.common.greeting')}}
                 <br />
                 {{Lang::get('mail.common.team')}}

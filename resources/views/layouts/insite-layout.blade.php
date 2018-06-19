@@ -27,6 +27,7 @@
 @yield('modals')
 
 <div class="container-fluid display-table">
+    <!-- Viejo Menu
     <div class="row" id="topbar">
         <div class="col-md-12 col-sm-12 display-table-cell v-align">
             <div class="row">
@@ -112,8 +113,88 @@
                     </div>
                 </header>
             </div>
+        </div>        
+    </div> -->
+    <div class="row" id="topbar"><!-- nuevo menu -->
+        <div class="col-md-3 hidden-xs hidden-sm home-logo">
+            <a href="{{url('/home')}}">
+                <img src="{{asset('img/login-anunciantes.png')}}" alt="merkery_logo" class="">
+                <!-- visible en sm y xs
+                <img src="{{asset('img/login-anunciantes.png')}}" alt="merkery_logo" class="circle-logo"> -->
+            </a>
         </div>
-    </div>
+        <div class="col-md-4 hidden-xs hidden-sm">                    
+        </div>
+        <div class="col-md-5 col-sm-12 col-xs-12">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="" aria-expanded="false" aria-controls="">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>            
+            <ul class="list-inline header-top pull-right">
+                <li class="btn btn-success btn-header hidden-xs">
+                    <a href="{{route('wallet')}}" class="">
+                        <strong>{{"U\$D ".Auth::user()->getWallet()->balance}}</strong>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        {{ Config::get('languages')[App::getLocale()] }}
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        @foreach (Config::get('languages') as $lang => $language)
+                            @if ($lang != App::getLocale())
+                                <li>
+                                    <a href="{{ route('lang.switch', $lang) }}">{{$language}}</a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{route('messages')}}" class="icon-info">
+                            @if(Auth::user()->getPendingThreadCount() > 0)
+                                    <i class="fa fa-envelope" aria-hidden="true">
+                                        <span class="label label-primary">{{Auth::user()->getPendingThreadCount()}}</span>
+                                    </i>
+                            @else
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            @endif
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="user.html" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" aria-hidden="true"></i>
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <div class="navbar-content">
+                                <span>{{ Auth::user()->name }}</span>
+                                <p class="text-muted small">
+                                    {{ Auth::user()->email }}
+                                </p>
+                                <div class="divider">
+                                </div>
+                                <a href="{{route('users.show', Auth::user()->id)}}" class="btn btn-sm btn-simple-emedia btn-table-border active">{{Lang::get('menu.profile')}}</a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="topbar-logout">
+                    <a href="{{ route('logout') }}"  class="logout-view btn-sm"
+                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        <i class="fa fa-sign-out"></i>
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+
+                </li>
+            </ul>
+        </div>
+    </div><!-- nuevo menu END -->
 
     <div class="row display-table-row">
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
@@ -124,24 +205,24 @@
                     -->
                     @if(Auth::user() != null && Auth::user()->isManager())
                         <li><a href="{{route('home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.home')}}</span></a></li>
-                        <li><a href="{{route('addspaces.search')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.web')}}</span></a></li>
+                        <li><a href="{{route('addspaces.search')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.web.admin')}}</span></a></li>
                         <li><a href="{{url('users').'?type=editor'}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.editors')}}</span></a></li>
                         <li><a href="{{url('users').'?type=advertiser'}}"><i class="fa fa-bullhorn" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.advertisers')}}</span></a></li>
                         <li><a href="{{route('transactions')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.transactions')}}</span></a></li>
-                        <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.packages')}}</span></a></li>
+                        <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.packages.admin')}}</span></a></li>
                         <li><a href="{{route('profits.index')}}"><i class="fa fa-percent" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.profits')}}</span></a></li>
                         <li><a href="{{route('revenues')}}"><i class="fa fa-usd" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.revenues')}}</span></a></li>
                         <li><a href="{{route('withdrawal.index')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.withdrawals')}}</span></a></li>
                     @elseif(Auth::user() != null && Auth::user()->isEditor())
                         <li><a href="{{route('home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.home')}}</span></a></li>
-                        <li><a href="{{route('addspaces.index')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.web')}}</span></a></li>
+                        <li><a href="{{route('addspaces.index')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.web.editor')}}</span></a></li>
                         <li><a href="{{route('sales')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.sales')}}</span></a></li>
                         <li><a href="{{route('wallet')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.wallet')}}</span></a></li>
                     @elseif(Auth::user() != null && Auth::user()->isAdvertiser())
                         <li><a href="{{route('home')}}"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.home')}}</span></a></li>
-                        <li><a href="{{route('addspaces.search')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.web')}}</span></a></li>
+                        <li><a href="{{route('addspaces.search')}}"><i class="fa fa-desktop" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.web.advertiser')}}</span></a></li>
                         <li><a href="{{route('payments')}}"><i class="fa fa-line-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.purchases')}}</span></a></li>
-                        <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.packages')}}</span></a></li>
+                        <li><a href="{{route('packages')}}"><i class="fa fa-ticket" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.packages.advertiser')}}</span></a></li>
                         <li><a href="{{route('wallet')}}"><i class="fa fa-money" aria-hidden="true"></i><span class="hidden-xs hidden-sm">{{Lang::get('menu.sidebar.wallet')}}</span></a></li>
                     @endif
                     <li class="sidebar-help">

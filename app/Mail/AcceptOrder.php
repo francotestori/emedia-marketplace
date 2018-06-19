@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Lang;
 
 class AcceptOrder extends Mailable
 {
@@ -33,6 +34,7 @@ class AcceptOrder extends Mailable
     public function build()
     {
         return $this->markdown('mail.accept')
+            ->subject(Lang::get('mail.accept.subject'))
             ->with('user_id', $this->user_id)
             ->with('editor', $this->editor);
     }

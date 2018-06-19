@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Lang;
 
 class Purchase extends Mailable
 {
@@ -35,6 +36,7 @@ class Purchase extends Mailable
     public function build()
     {
         return $this->markdown('mail.purchase')
+                    ->subject(Lang::get('mail.purchase.subject'))
                     ->with('thread', $this->thread)
                     ->with('url', $this->url)
                     ->with('advertiser', $this->advertiser);

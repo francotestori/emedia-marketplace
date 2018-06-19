@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-md-12 emedia-title">
                     <div class="breadcrumbs">
-                        <a href="{{route('users.show', Auth::user()->id)}}"> Perfil </a> / Cambiar contraseña
+                        <a href="{{route('users.show', Auth::user()->id)}}"> {{Lang::get('titles.profile')}} </a> / {{Lang::get('titles.users.password.change')}}
                     </div>
                     <h1>{{Lang::get('titles.users.password.change')}}</h1>
                 </div>

@@ -10,87 +10,103 @@ return [
 
     "advertiser" => [
         "first" => [
-            'title' => 'Cuales son los beneficios de los anuncios patrocinados?',
-            'tuft' => 'Este tipo de artículos tiene múltiples beneficios:',
+            'title' => 'What are the benefits of sponsored ads?',
+            'tuft' => 'This type of articles has multiple benefits:',
             'items' => [
-                '1' => 'Publicidad directa',
-                '2' => 'Generación de tráfico: Aumento de visitas y páginas vistas en tu web',
-                '3' => 'Mejora el posicionamiento orgánico de tu sitio en buscadores',
-                '4' => 'Mayor visibilidad y credibilidad en Internet',
-                '5' => 'Fortalece la  imagen de tu marca o Branding',
-                '6' => 'Aumento de clientes y ventas',
+                '1' => 'Direct advertising',
+                '2' => 'Traffic generation: Increase in visits and pages seen in your web',
+                '3' => 'Improves the organic positioning of your site on browsers',
+                '4' => 'Better visibility and credibility on the Internet',
+                '5' => 'Strengthens your brand\'s image (Branding)',
+                '6' => 'Increase your clients and sales',
             ],
         ],
 
         "second" => [
-            'title' => 'Cuales son las ventajas de usar eMediaMarket para Anunciantes?',
-            'tuft' => 'En eMediaMarket tienes a tu disposición una gran cantidad de medios donde puedes anunciar tus productos con precios competitivos. De esta manera ahorrarás tiempo de analisis, contacto, negociación y ejecución del proceso de publicación de forma segura.',
+            'title' => 'What are the advantages of using eMediaMarket for Advertisers?',
+            'tuft' => 'At eMediaMarket you have at your disposal a great quantity of media where to advertise your products at competitive prices. Therefor you will be saving time in analysing, contacting, negotiating and executing your publishing process in a safe way.',
         ],
 
         "third" => [
-            'title' => 'Qué características tienen los artículos?',
-            'tuft' => 'Los artículos son únicos, originales y deben contar con no menos de 500 palabras y puedes incluir links DoFollow.',
+            'title' => 'What characteristics do the articles have?',
+            'tuft' => 'The articles are unique, original and must have no less than 500 words and you can include DoFollow links.',
         ],
 
         "fourth" => [
-            'title' => 'Quién es responsable de la redacción de los artículos?',
-            'tuft' => 'El Editor es responsable de la redacción de los artículos a no ser que tu prefieras enviarle el contenido listo para ser publicado, que también podrás hacerlo si deseas tener un mayor control del contenido a publicar.',
+            'title' => 'Who is responsible for the writing of articles?',
+            'tuft' => 'The Editor is responsible for writing the articles unless you prefer to send the content ready to be published, which you can also do if you want to have more control of the content to publish.',
         ],
 
         "fifth" => [
-            'title' => 'Puedo realizar alguna modificación si no estoy conforme con el artículo?',
-            'tuft' => 'Claro! Si no estás satisfecho con tu artículo puedes solicitar las modificaciones que creas necesarias.',
+            'title' => 'I can make some changes if I am not satisfied with the article?',
+            'tuft' => 'Clear! If you are not satisfied with your article you can request the modifications you think necessary.',
         ],
 
         "sixth" => [
-            'title' => 'Los precios incluyen IVA? Puedo solicitar una factura?',
-            'tuft' => 'Sí, los precios son con impuestos incluidos y puedes solicitar factura por cada una de las recargas.',
+            'title' => 'Prices include VAT? I can request an invoice?',
+            'tuft' => 'Yes, the prices are with taxes included and you can request invoice for each one of the refills.',
         ],
 
-        'message' => 'Recuerda que siempre puedes consultar la guía para Anunciantes de eMediaMarket y aclarar tus dudas.'
+        'message' => 'Remember that you can always consult the guide for Advertisers of eMediaMarket and clarify your doubts.'
     ],
 
     "editor" => [
         "first" => [
-            'title' => 'Cuales son las ventajas de usar eMediaMarket para Anunciantes?',
-            'tuft' => 'El formato de anuncio patrocinado es una excelente manera de monetizar tu sitio web, creando a la vez contenido relevante para tus seguidores.\\nCon otros sistemas de publicidad online requieres una gran cantidad de tráfico y páginas vistas para lograr un ingreso parecido al de un anuncio patrocinado. De esta manera te estarás asegurando un ingreso por el artículo publicado independientemente de la cantidad de visitas que tenga ese artículo en particular.',
+            'title' => 'What are the advantages of using eMediaMarket for Advertisers?',
+            'tuft' => [
+                '1' => 'Sponsored ad format is an excellent way to monetize your website, while creating content relevant to your followers.',
+                '2' => 'With other online advertising systems you require a large amount of traffic and page views to achieve an income similar to that of a sponsored advertisement. This way you will be ensuring an income for the article published regardless of the number of visits that particular article has.',
+            ],
+
         ],
 
         "second" => [
-            'title' => 'Cuánto puedo ganar por cada anuncio?',
-            'tuft' => 'El precio por cada anuncio en tu web lo decides tu.\\nPuedes modificar el precio de tu web cuando lo creas conveniente.',
+            'title' => 'How much can I earn for each ad?',
+            'tuft' => [
+                '1' => 'The price for each ad on your website is decided by you.',
+                '2' => 'You can modify the price of your website when you deem it convenient.',
+            ],
         ],
 
         "third" => [
-            'title' => 'Puedo postular más de una web?',
-            'tuft' => 'Si, claro. Puedes enviarnos todos los sitios que quieras siempre y cuando seas su administrador o tengas el permiso para gestionar los anuncios patrocinados.',
+            'title' => 'Can I apply for more than one website?',
+            'tuft' => 'Yeah right. You can send us all the sites you want as long as you are their administrator or have permission to manage the sponsored ads.',
         ],
 
         "fourth" => [
-            'title' => 'Cuanto tiempo tiene un Editor para publicar un anuncio?',
-            'tuft' => 'El Editor tiene 72 horas para aceptar o rechazar el pedido de un anuncio. Una vez aceptado el pedido  tienes 10 días (corridos) para publicarlo en tu web.\\nDe no cumplirse alguno de estos límites de tiempo, el pedido se cancelará automáticamente para que el Anunciante pueda volver a disponer de su crédito.',
+            'title' => 'How much time does an Editor have to publish an ad?',
+            'tuft' => [
+                '1' => 'The Editor has 72 hours to accept or reject the request for an advertisement. Once accepted the order you have 10 days (runs) to publish it on your website.',
+                '2' => 'If any of these time limits are not met, the order will be automatically canceled so that the Advertiser can regain its credit.',
+            ],
         ],
 
         "fifth" => [
-            'title' => 'Tengo una duda sobre una orden. Cómo me contacto con el anunciante?',
-            'tuft' => 'Una vez aceptada la orden se creará un sistema de mensajería para que puedas interactuar con el Anunciante por si tienes alguna duda. De lo contrario no hace falta que hagas nada. La orden ya está en marcha.',
+            'title' => 'I have a question about an order. How do I contact the advertiser?',
+            'tuft' => 'Once the order is accepted, a messaging system will be created so that you can interact with the Advertiser if you have any questions. Otherwise you do not have to do anything. The order is already underway.',
         ],
 
         "sixth" => [
-            'title' => 'Cuánto tiempo deben permanecer activos los anuncios?',
-            'tuft' => 'Los anuncios deben estar activos en el sitio como mínimo durante un año. Aunque siempre recomendamos dejarlos activos de forma permanente.',
+            'title' => 'How long should the ads remain active?',
+            'tuft' => 'Ads must be active on the site for at least one year. Although we always recommend leaving them active permanently.',
         ],
 
         "seventh" => [
-            'title' => 'Las ganancias que figuran en mi monedero son netas?',
-            'tuft' => 'Sí, nosotros no descontaremos nada de tu cuenta de eMediaMarket. Pero ten en cuenta que servicios como Paypal pueden cobrar comisiones cuando te enviemos el dinero a tu cuenta. Te recomendamos tener eso en mente al fijar el precio de tu sitio web.',
+            'title' => 'The earnings listed in my purse are net?',
+            'tuft' => 'Yes, we will not deduct anything from your eMediaMarket account. But keep in mind that services like Paypal can charge commissions when we send the money to your account. We recommend you keep that in mind when setting the price of your website.',
         ],
 
         "eight" => [
-            'title' => 'Cómo cobro el dinero que figura en mi cuenta de eMediaMarket?',
-            'tuft' => 'Para hacer efectivo el pago debes solicitarlo desde el botón en tu cuenta de eMediaMarket.\\nEl saldo mínimo que puedes retirar es de 5 dolares y puedes hacer solicitudes una vez por semana.',
+            'title' => 'How do I collect the money in my eMediaMarket account?',
+            'tuft' => [
+                '1' => 'To make the payment effective you must request it from the button in your eMediaMarket account.',
+                '2' => 'The minimum balance that you can withdraw is 5 dollars and you can make requests once a week.',
+            ],
         ],
 
-        'message' => 'Recuerda que siempre puedes consultar la guía para Editores de eMediaMarket y aclarar tus dudas.\\nSi no encuentras alguna respuesta puedes escribirnos desde nuestra sección de Contacto o bien hacerlo por email a info@emediamarket.com'
+        'message' => [
+            '1' => 'Remember that you can always consult the guide for eMediaMarket Publishers and clarify your doubts.',
+            '2' => 'If you do not find an answer, you can write to us from our Contact section or do it by email to info@emediamarket.com',
+        ],
     ],
 ];

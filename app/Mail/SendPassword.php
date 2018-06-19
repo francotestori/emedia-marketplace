@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Lang;
 
 class SendPassword extends Mailable
 {
@@ -32,6 +33,7 @@ class SendPassword extends Mailable
     public function build()
     {
         return $this->view('mail.password')
+            ->subject(Lang::get('mail.password'))
             ->with([
                     'password'=> $this->password]
             );

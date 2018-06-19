@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col-md-10 emedia-title">
                     <div class="breadcrumbs">
-                        <a href="{{route('sales')}}"> Ventas </a> / Mensajes
+                        <a href="{{route('sales')}}"> {{Lang::get('menu.sidebar.sales')}} </a> / {{Lang::get('titles.messages')}}
                     </div>
-                    <h1>{{ $thread->subject }}</h1>
+                    <h1>{{Lang::get('titles.messages')}} > <a href="{{$event->getAddspace()->url}}">{{$event->getAddspace()->url}}</a></h1>
                     @if(!$event->pending())
                         <span> {{Lang::get('messages.threads.operation')}} <strong>{{Lang::get('messages.threads.'.$event->state)}}</strong></span>
                     @endif
@@ -25,6 +25,16 @@
                 </div>
             </div>
         </div>
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+        @if (session('errors'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('errors') }}
+            </div>
+        @endif
 
         <br>
 

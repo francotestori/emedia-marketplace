@@ -53,12 +53,19 @@ return [
     "editor" => [
         "first" => [
             'title' => 'Cuales son las ventajas de usar eMediaMarket para Anunciantes?',
-            'tuft' => 'El formato de anuncio patrocinado es una excelente manera de monetizar tu sitio web, creando a la vez contenido relevante para tus seguidores.\\nCon otros sistemas de publicidad online requieres una gran cantidad de tráfico y páginas vistas para lograr un ingreso parecido al de un anuncio patrocinado. De esta manera te estarás asegurando un ingreso por el artículo publicado independientemente de la cantidad de visitas que tenga ese artículo en particular.',
+            'tuft' => [
+                '1' => 'El formato de anuncio patrocinado es una excelente manera de monetizar tu sitio web, creando a la vez contenido relevante para tus seguidores.',
+                '2' => 'Con otros sistemas de publicidad online requieres una gran cantidad de tráfico y páginas vistas para lograr un ingreso parecido al de un anuncio patrocinado. De esta manera te estarás asegurando un ingreso por el artículo publicado independientemente de la cantidad de visitas que tenga ese artículo en particular.',
+            ],
+
         ],
 
         "second" => [
             'title' => 'Cuánto puedo ganar por cada anuncio?',
-            'tuft' => 'El precio por cada anuncio en tu web lo decides tu.\\nPuedes modificar el precio de tu web cuando lo creas conveniente.',
+            'tuft' => [
+                '1' => 'El precio por cada anuncio en tu web lo decides tu.',
+                '2' => 'Puedes modificar el precio de tu web cuando lo creas conveniente.',
+            ],
         ],
 
         "third" => [
@@ -68,7 +75,10 @@ return [
 
         "fourth" => [
             'title' => 'Cuanto tiempo tiene un Editor para publicar un anuncio?',
-            'tuft' => 'El Editor tiene 72 horas para aceptar o rechazar el pedido de un anuncio. Una vez aceptado el pedido  tienes 10 días (corridos) para publicarlo en tu web.\\nDe no cumplirse alguno de estos límites de tiempo, el pedido se cancelará automáticamente para que el Anunciante pueda volver a disponer de su crédito.',
+            'tuft' => [
+                '1' => 'El Editor tiene 72 horas para aceptar o rechazar el pedido de un anuncio. Una vez aceptado el pedido  tienes 10 días (corridos) para publicarlo en tu web.',
+                '2' => 'De no cumplirse alguno de estos límites de tiempo, el pedido se cancelará automáticamente para que el Anunciante pueda volver a disponer de su crédito.',
+            ],
         ],
 
         "fifth" => [
@@ -88,9 +98,15 @@ return [
 
         "eight" => [
             'title' => 'Cómo cobro el dinero que figura en mi cuenta de eMediaMarket?',
-            'tuft' => 'Para hacer efectivo el pago debes solicitarlo desde el botón en tu cuenta de eMediaMarket.\\nEl saldo mínimo que puedes retirar es de 5 dolares y puedes hacer solicitudes una vez por semana.',
+            'tuft' => [
+                '1' => 'Para hacer efectivo el pago debes solicitarlo desde el botón en tu cuenta de eMediaMarket.',
+                '2' => 'El saldo mínimo que puedes retirar es de 5 dolares y puedes hacer solicitudes una vez por semana.',
+            ],
         ],
 
-        'message' => 'Recuerda que siempre puedes consultar la guía para Editores de eMediaMarket y aclarar tus dudas.\\nSi no encuentras alguna respuesta puedes escribirnos desde nuestra sección de Contacto o bien hacerlo por email a info@emediamarket.com'
+        'message' => [
+            '1' => 'Recuerda que siempre puedes consultar la guía para Editores de eMediaMarket y aclarar tus dudas.',
+            '2' => 'Si no encuentras alguna respuesta puedes escribirnos desde nuestra sección de Contacto o bien hacerlo por email a info@emediamarket.com',
+        ],
     ],
 ];

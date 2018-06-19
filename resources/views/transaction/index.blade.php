@@ -5,14 +5,14 @@
         <div class="panel-title">
             <div class="row">
                 <div class="col-md-12 emedia-title">
-                    <h3>{{Lang::get('titles.wallet.transactions.main')}}</h3>
-                    <p>{{Lang::get('titles.wallet.transactions.subtitle')}}</p>
+                    <h1>{{Lang::get('titles.wallet.transactions.main')}}</h3>
+                    <p class="subheading">{{Lang::get('titles.wallet.transactions.subtitle')}}</p>
                 </div>
             </div>
         </div>
         <br>
 
-        <div class="panel-heading">
+        <div class="panel-heading table-panel">
             <div class="row">
                 <div class="col-md-12">
 

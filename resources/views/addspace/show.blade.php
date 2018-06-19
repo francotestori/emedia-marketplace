@@ -4,13 +4,13 @@
 
     <div class="panel panel-default">
         <div class="panel-title">
-            <div class="row">
+            <div class="clearfix">
                 <div class="col-md-8 emedia-title">
                     <div class="breadcrumbs">
                         <a href="{{route('addspaces.index')}}"> Mis Webs </a> / {{$addspace->url}}
                     </div>
                     <h1 class="web-name">
-                        <a target="_blank" href="{{$addspace->url}}">{{$addspace->url}}</a>
+                        <a target="_blank" class="title-link" href="{{$addspace->url}}">{{$addspace->url}}</a>
                     </h1>
                 </div>
 
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row category-row">
+            <div class="clearfix category-row">
                 <div class="col-md-12">
                     <h3>
                         @foreach($addspace->getCategories() as $category)
@@ -91,12 +91,12 @@
         </div>
         <br>
 
-        <div class="row">
-            <div class="panel-heading col-md-7 web-info-box details-box">
+        <div class="clearfix">
+            <div class="panel-heading web-info-box details-box">
                 <h3>{{Lang::get('titles.addspaces.detail')}}</h3>
                 <p>{{$addspace->description}}</p>
             </div>
-            <div class="panel-heading col-md-5 web-info-box views-price-box">
+            <div class="panel-heading web-info-box views-price-box">
                 <!-- <div class="col-md-4">
                     <h3>{{Lang::get('forms.addspaces.item.language')}}</h3>
                     <p>

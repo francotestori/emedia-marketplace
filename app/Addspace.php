@@ -108,4 +108,20 @@ class Addspace extends Model
         return $this->visits.Lang::get('attributes.frequency.'.$this->periodicity);
     }
 
+    public function monthlyVisits(){
+        switch ($this->periodicity)
+        {
+            case 'day':
+                $visits = $this->visits * 30;
+                break;
+            case 'week':
+                $visits = $this->visits * 4;
+                break;
+            default:
+                $visits = $this->visits;
+                break;
+        }
+        return $visits;
+    }
+
 }

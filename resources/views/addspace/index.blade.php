@@ -3,12 +3,12 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <div class="row">
+            <div class="clearfix">
                 <div class="col-md-8 emedia-title">
                     <h1 class="heading">{{Lang::get('titles.addspaces.web')}}</h1>
                     <p class="subheading">{{Lang::get('messages.addspaces.tuft')}}</p>
                 </div>
-                <div class="col-md-3 emedia-title absolute-right">
+                <div class="col-md-4 emedia-title">
                     @if(Auth::user()->isEditor())
                         <a href="{{route('addspaces.create')}}" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.create')}}</a>
                     @endif
@@ -30,7 +30,7 @@
             @include('addspace.filter', ['selected_categories' => $selected_categories])
         </div>
         <br>
-        <div class="panel-heading">
+        <div class="panel-heading table-panel">
             <div class="row">
                 <div class="col-md-12">
                     <table class="table" id="addspaces-table" @if(count($addspaces)) data-ride="datatables" @endif>

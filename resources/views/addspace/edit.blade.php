@@ -12,7 +12,7 @@
                     <!--, ['item' =>"{{$addspace->url}}"] ESTO NO ESTABA HACIENDO DIFERENCIA-->
                     <h1>
                         {{Lang::get('titles.addspaces.edit')}} >
-                        <a href="{{$addspace->url}}"> {{$addspace->url}} </a>                   
+                        <a class="title-link" href="{{$addspace->url}}"> {{$addspace->url}} </a>                   
                     </h1>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                 </div>
             @endif
             <br>
-            <div class="row">
+            <div class="clearfix">
                 <div class="col-md-12">
                     {{Html::ul($errors->all())}}
 
@@ -124,7 +124,8 @@
                     },
                     description: {
                         required: true,
-                        minlength: 100
+                        minlength: 100,
+                        maxlength: 800
                     },
                     visits: {
                         required: true,
@@ -149,7 +150,8 @@
                     },
                     description: {
                         required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.addspaces.item.description')])}}",
-                        minlength: "{{Lang::get('validation.min.string', ['attribute' => Lang::get('forms.addspaces.item.description'), 'min' => 100])}}"
+                        minlength: "{{Lang::get('validation.min.string', ['attribute' => Lang::get('forms.addspaces.item.description'), 'min' => 100])}}",
+                        maxlength: "{{Lang::get('validation.max.string', ['attribute' => Lang::get('forms.addspaces.item.description'), 'max' => 800])}}"
                     },
                     visits: {
                         required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.addspaces.item.visits')])}}",

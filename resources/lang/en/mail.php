@@ -8,12 +8,15 @@
 
 return [
 
+    'password' => 'Password',
+
     'common' => [
-        'greeting' => 'Saludos',
-        'team' => 'El equipo de eMediaMarket',
+        'greeting' => 'Greetings',
+        'team' => 'eMediaMarket Team',
     ],
 
     'welcome' => [
+        'subject' => 'Welcome',
         'name' => '¡WELCOME :user !',
         'thanks' => 'Thanks for registering at eMediaMarket.',
         'congratulations' => '¡Congratulations!',
@@ -25,47 +28,52 @@ return [
     ],
 
     'reset' => [
-        'resetting' => 'Puedes restablecer tu contraseña de eMediaMarket',
-        'clicking' => 'haciendo clic en el enlace de abajo:',
-        'remind' => 'Te recordamos que tu nombre de usuario es: ',
-        'unrequested' => 'Si no solicitaste restablecer tu contraseña, ',
-        'delete' => 'no dudes en eliminar este mensaje.',
-        'enjoy' => '¡Sigue disfrutando tu experiencia en eMediaMarket.com!',
-        'change' => 'Quiero cambiar ',
-        'password' => 'mi contraseña.',
+        'subject' => 'Reset Password',
+        'resetting' => 'You can reset your eMediaMarket password',
+        'clicking' => 'by clicking the following link:',
+        'remind' => 'Your username is:: ',
+        'unrequested' => 'If you didn\'t requested this password change, ',
+        'delete' => 'do not doubt and delete this message.',
+        'enjoy' => '¡Keep enjoying your experience in eMediaMarket.com!',
+        'change' => 'I want to change ',
+        'password' => 'my password.',
     ],
 
     'sale' => [
-        'name' => '¡Hola :user !',
-        'interested' => 'Hay un anunciante interesado en publicitar en tu web!',
-        'specification' => 'Lee detenidamente las especificaciones del pedido',
-        'decision' => 'y decide si vas a aceptar o rechazar su orden.',
-        'see' => 'Ver ',
-        'order' => 'el pedido',
+        'subject' => 'Congratulations! An advertiser is interested in your web',
+        'name' => '¡Hello :user !',
+        'interested' => 'There is and advertiser interested in your web!',
+        'specification' => 'Read closely your client\'s specifications',
+        'decision' => 'and decide whether to accept or reject his offer.',
+        'see' => 'See ',
+        'order' => 'your sale',
     ],
 
     'purchase' => [
-        'congratulations' => '¡Felicitaciones ',
-        'your' => 'Tu compra en  ',
-        'realized' => 'ha sido efectuada ',
-        'working' => 'y el editor ya estará trabajando en tu pedido.',
+        'subject' => 'Purchase',
+        'congratulations' => '¡Congratulations ',
+        'your' => 'Your purchase  ',
+        'realized' => 'has been completed ',
+        'working' => 'and the Editor is already working on it.',
     ],
 
     'reject' => [
-        'name' => '¡Hola :user!',
-        'addspace' => 'Lamentamos informarte que tu orden en el sitio :url ha sido rechazada.',
-        'review' => 'La misma pasará a un estado de revisión por nuestro equipo para confirmar o rechazar dicha operacion.',
-        'reason' => 'El motivo ha sido: ',
+        'subject' => 'Rejection',
+        'name' => '¡Hello :user!',
+        'addspace' => 'We regret to inform you that you order in the web :url has been rejected.',
+        'review' => 'The following will be reviewed by our team to confirm or reject the operation.',
+        'reason' => 'The reason has been: ',
     ],
 
     'accept' => [
-        'name' => '¡Hola :user!',
-        'good' => '¡Buenas noticias!',
-        'accepted' => 'Te informamos que el anunciante ha aprobado el artículo ',
-        'article' => 'que has publicado.',
-        'credited' => 'Ya hemos acreditado el pago en tu cuenta de eMediaMarket.',
-        'see' => 'Ver ',
-        'wallet' => 'mi cuenta',
+        'subject' => 'Congratulations! Your addspace transaction has been accepted',
+        'name' => '¡Hello :user!',
+        'good' => '¡Great news!',
+        'accepted' => 'The advertiser has accepted your published ',
+        'article' => 'addspace.',
+        'credited' => 'We have already secure the payment in your eMediaMarket account.',
+        'see' => 'See ',
+        'wallet' => 'my wallet',
 
     ],
 

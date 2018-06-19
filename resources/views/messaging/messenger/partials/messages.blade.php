@@ -4,13 +4,14 @@
              alt="{{ $message->user->name }}" class="img-circle">
     </a>
     <div class="msj-content">
-        <!-- <h5 class="media-heading  {{$message->user->id == Auth::id() ? 'pull-left' : 'pull-right'}}"> -->
-        <h5 class="msj-heading">
-            <strong>{{ $message->user->name }}</strong>
-        </h5>
-        <p class="msj-sub-info">
-            {{Lang::get('items.messenger.posted')}} {{Carbon\Carbon::parse($message->created_at->diffForHumans())}}</small>
-        </p>        
+        <div class="msj-details {{$message->user->id == Auth::id() ? 'msj-emisor' : 'msj-receptor'}}">        
+            <h5 class="msj-heading">
+                <strong>{{ $message->user->name }}</strong>
+            </h5>
+            <p class="msj-sub-info">
+                {{Lang::get('items.messenger.posted')}} {{Carbon\Carbon::parse($message->created_at->diffForHumans())}}</small>
+            </p>
+        </div>    
         <p class="msj-text">{{ $message->body }}</p>
     </div>
 </div>

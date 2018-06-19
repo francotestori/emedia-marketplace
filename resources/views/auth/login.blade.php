@@ -1,5 +1,18 @@
 @extends('layouts.emedia-layout')
 
+@section('metadata')
+    <meta name="description" content="">
+    @if($requested == null)
+        <title>{{Lang::get('seo.login.common')}}</title>
+    @elseif($requested == 'advertiser')
+        <title>{{Lang::get('seo.login.advertiser')}}</title>
+    @elseif($requested == 'editor')
+        <title>{{Lang::get('seo.login.editor')}}</title>
+    @else
+        <title>{{Lang::get('seo.login.common')}}</title>
+    @endif
+@endsection
+
 @section('content')
     <section class="login">
         <div class="logo-anunciantes">

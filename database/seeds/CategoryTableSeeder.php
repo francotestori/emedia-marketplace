@@ -32,7 +32,8 @@ class CategoryTableSeeder extends Seeder
             'Tiempo Libre','Politica',
             'Psicología','Religión',
             'Salud','Tecnología',
-            'Moviles y Aplicaciones','Viajes y Turismo'
+            'Moviles y Aplicaciones','Viajes y Turismo',
+            'Deportes'
         ];
 
         foreach ($items as $item){

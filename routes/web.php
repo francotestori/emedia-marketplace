@@ -1,18 +1,64 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/test', function(){
+    $cookie = Cookie::get('locale');
+    exit($cookie);
+});
 
 # Index route
 Route::get('/', function () {
+    $locale = 'es';
+
+    App::setLocale($locale);
+
     if(Auth::user() != null)
         return redirect('/home');
-    return view('emediamarket');
+
+    $response = new Response(view('emediamarket'));
+    $response->withCookie(cookie('locale', $locale, 45000));
+    return $response;
+});
+
+#Español
+Route::get('/es', function () {
+    $locale = 'es';
+
+    App::setLocale($locale);
+
+    if(Auth::user() != null)
+        return redirect('/home');
+
+    $response = new Response(view('emediamarket'));
+    $response->withCookie(cookie('locale', $locale, 45000));
+    return $response;
+});
+
+#Ingles
+Route::get('/en', function () {
+    $locale = 'en';
+
+    App::setLocale($locale);
+
+    if(Auth::user() != null)
+        return redirect('/home');
+
+    $response = new Response(view('emediamarket'));
+    $response->withCookie(cookie('locale', $locale, 45000));
+    return $response;
 });
 
 Route::get('/faq', function(){
     if(Auth::user() != null)
         return view('insite-faq');
+
+    $locale = Cookie::get('locale');
+    App::setLocale($locale);
     return view('faq');
 });
 
@@ -125,7 +171,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('packages', ['as' => 'packages', 'uses' => 'WalletController@packages']);
 
         # Withdrawal request routes
-        Route::post('withdraw', ['as' => 'withdraw','uses' => 'WalletController@withdraw']);
+        Route::post('request-withdraw', ['as' => 'withdraw','uses' => 'WalletController@withdraw']);
     });
 
     # Advertiser specific routes

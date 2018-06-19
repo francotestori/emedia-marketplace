@@ -7,7 +7,7 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <div class="row">
+            <div class="clearfix">
                 <div class="col-md-6 emedia-title user-basic-info">
                     <div class="avatar-container">
                         <img src="{{ asset('img/avatar.png')}}" class="img-responsive img-circle">
@@ -44,14 +44,14 @@
             </div>
         @endif
 
-        <div class="panel-heading">
-            <div class="row">
+        <div class="panel-heading table-panel">
+            <div class="clearfix">
                 <div class="col-md-8">
                     <h2>{{Lang::get('titles.wallet.index')}}</h2>
                 </div>
                 <div class="col-md-4 balance">
                     @if(Auth::user()->isEditor())
-                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.withdraw')}}</button>
+                        <button data-toggle="modal" data-target="#withdrawModal" class="btn btn-block btn-emedia pull-right user-withdraw">{{Lang::get('forms.basic.withdraw')}}</button>
                     @elseif(Auth::user()->isAdvertiser())
                         <a href="{{route('deposit')}}" class="btn btn-block btn-emedia">{{Lang::get('forms.basic.deposit')}}</a>
                     @endif
@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 @foreach(array_chunk($user->getUsableAddspaces()->toArray(), 3) as $cluster)
-                    <div class="row">
+                    <div class="clearfix">
                         @foreach($cluster as $addspace)
                             <div class="col-md-4 user-weburl-box">
                                 <span class="btn btn-block btn-default">

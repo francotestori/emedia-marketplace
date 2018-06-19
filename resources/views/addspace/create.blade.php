@@ -113,16 +113,14 @@
                     },
                     description: {
                         required: true,
-                        minlength: 100
+                        minlength: 100,
+                        maxlength: 800
                     },
                     visits: {
                         required: true,
                         number: true,
                         min: 0,
                         max: 4000000000
-                    },
-                    periodicity: {
-                        required: true
                     },
                     cost: {
                         required: true,
@@ -137,16 +135,14 @@
                     },
                     description: {
                         required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.addspaces.item.description')])}}",
-                        minlength: "{{Lang::get('validation.min.string', ['attribute' => Lang::get('forms.addspaces.item.description'), 'min' => 100])}}"
+                        minlength: "{{Lang::get('validation.min.string', ['attribute' => Lang::get('forms.addspaces.item.description'), 'min' => 100])}}",
+                        maxlength: "{{Lang::get('validation.max.string', ['attribute' => Lang::get('forms.addspaces.item.description'), 'max' => 800])}}"
                     },
                     visits: {
                         required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.addspaces.item.visits')])}}",
                         number: "{{Lang::get('validation.url', ['attribute' => Lang::get('forms.addspaces.item.visits')])}}",
                         min: "{{Lang::get('validation.min.numeric', ['attribute' => Lang::get('forms.addspaces.item.price'), 'min' => 0])}}",
                         max: "{{Lang::get('validation.max.numeric', ['attribute' => Lang::get('forms.addspaces.item.price'), 'max' => 4000000000])}}"
-                    },
-                    periodicity: {
-                        required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.addspaces.item.periodicity')])}}"
                     },
                     cost: {
                         required: "{{Lang::get('validation.required', ['attribute' => Lang::get('forms.addspaces.item.price')])}}",

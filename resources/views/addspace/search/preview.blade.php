@@ -5,61 +5,83 @@ $addspace = Addspace::find($addspaceArray['id']);
 ?>
 
 <div class="col-md-4">
-    <div class="ejemplo-webs">
-        <img src="{{asset('img/example.png')}}" class="img-responsive center-block">
-
-        <div class="row">
-            <div class="col-md-12">
-                <a target="_blank" class="ejemplo-titular" href="{{$addspace->url}}">
-                    {{substr(str_replace_first('www.','',str_replace_first('http://', '', $addspace->url)),0,27)}}
-                </a>
-            </div>
-        </div>
-        <p>
-            @if(count($addspace->getCategories()))
-                @foreach($addspace->getCategories() as $category)
-                    <span class="btn btn-primary disabled">{{$category->name}}</span>
-                @endforeach
-            @else
-                <span class="btn btn-default disabled">{{Lang::get('attributes.categories.empty')}}</span>
-            @endif
-        </p>
-        <div>
-            <div class="row"></div>
-            <h4>
-                <strong>{{Lang::get('items.price').' '.Lang::get('attributes.currency').' '.$addspace->getCost()}}</strong>
+    <div class="advertiser-web-result">
+        <div class="box-title">            
+            <a target="_blank" class="ejemplo-titular" href="{{$addspace->url}}">
+                {{substr(str_replace_first('www.','',str_replace_first('http://', '', $addspace->url)),0,27)}}
+            </a>
+        </div>        
+        <div class="web-result-info">
+            <p class="web-caegories">
+                @if(count($addspace->getCategories()))
+                    @foreach($addspace->getCategories() as $category)
+                        <span class="category-tag disabled">{{$category->name}}</span>
+                    @endforeach
+                @else
+                    <span class="btn btn-default disabled">{{Lang::get('attributes.categories.empty')}}</span>
+                @endif
+            </p>
+            <h4 class="web-result-price">
+                <strong>{{Lang::get('items.price')}} <span class="money-total"> {{Lang::get('attributes.currency').' '.$addspace->getCost()}}</span></strong>
             </h4>
-            <p><strong>{{Lang::get('items.visits')}}</strong> {{$addspace->visits}} + {{Lang::get('attributes.frequency.'.$addspace->periodicity)}}</p>
-            <p><strong>{{Lang::get('items.language')}}</strong> {{Lang::get('attributes.language.'.$addspace->language)}}</p>
-            <p><strong>{{Lang::get('items.description')}}</strong>
+            <p>{{Lang::get('items.visits')}} <strong>+{{$addspace->monthlyVisits()}} {{Lang::get('attributes.frequency.month')}}</strong></p>
+            <p>{{Lang::get('items.language')}} <strong>{{Lang::get('attributes.language.'.$addspace->language)}}</strong></p>
+            <p>{{Lang::get('items.description')}}
+                <strong>
                 @if(strlen($addspace->description) > 60)
                     {{substr($addspace->description,0,60).'...'}}
                 @else
                     {{substr($addspace->description,0,60)}}
                 @endif
-            </p>
-            <div class="btn-group">
-                <a href="{{route('addspaces.show',[$addspace->id])}}" class="btn btn-info">{{Lang::get('forms.basic.more')}}</a>
-{{--                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{'info-'.$addspace->id}}">{{Lang::get('forms.basic.more')}}</button>--}}
-                @if(Auth::user()->isAdvertiser())
-                    <button type="button" class="btn btn-warning"data-toggle="modal" data-target="#{{'charge-'.$addspace->id}}">{{Lang::get('forms.basic.buy')}}</button>
+                </strong>
+            </p>            
+        </div>
+        <?php (Auth::user()->isAdvertiser()) ? $class="" : $class = "admin-actions"  ?>
+        <div class="web-result-actions {{$class}}">
+            <a href="{{route('addspaces.show',[$addspace->id])}}" class="btn-info-action"><i class="fa fa-info-circle"></i></a>
+{{--            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{'info-'.$addspace->id}}">{{Lang::get('forms.basic.more')}}</button>--}}
+            @if(Auth::user()->isAdvertiser())
+                <button type="button" class="btn btn-simple-emedia"data-toggle="modal" data-target="#{{'charge-'.$addspace->id}}">{{Lang::get('forms.basic.buy')}}</button>
+            @else
+                @if(!$addspace->isActive())
+                    <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn-play-action">
+                        <i class="fa fa-play-circle"></i>
+                    </a>
                 @else
-                    @if(!$addspace->isActive())
-                        <a href="{{route('addspaces.activate', $addspace->id)}}" class="btn btn-success">
-                            {{Lang::get('forms.addspaces.activate')}}
-                        </a>
-                    @else
-                        <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn btn-warning">
-                            {{Lang::get('forms.addspaces.pause')}}
-                        </a>
-                    @endif
-                    @if(!$addspace->isClosed())
-                        <a href="{{route('addspaces.close', $addspace->id)}}" class="btn btn-danger">
-                            {{Lang::get('forms.addspaces.deactivate')}}
-                        </a>
-                    @endif
+                    <a href="{{route('addspaces.pause', $addspace->id)}}" class="btn-pause-action">
+                        <i class="fa fa-pause-circle"></i>
+                    </a>
                 @endif
-            </div>
+                @if(!$addspace->isClosed())
+                    <a href="" class="btn-close-action" data-toggle="modal" data-target="#closeAddspace{{$addspace->id}}">
+                        <i class="fa fa-times-circle"></i>
+                    </a>
+                    <div id="closeAddspace{{$addspace->id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content deactivate-web">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>
+                                        {{Lang::get('messages.addspaces.deactivate')}}
+                                        <strong>{{$addspace->url}}</strong>
+                                    </h3>
+                                    <h3>{{Lang::get('messages.addspaces.confirm')}}</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" data-dismiss="modal">
+                                        {{Lang::get('forms.basic.cancel')}}
+                                    </button>
+                                    <a href="{{route('addspaces.close', $addspace->id)}}" class="btn btn-danger">
+                                        {{Lang::get('forms.basic.close')}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endif
         </div>
 
         <!-- Modal -->

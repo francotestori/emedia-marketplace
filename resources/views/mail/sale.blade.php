@@ -15,10 +15,10 @@
     <tr>
         <td height="356" align="center" bgcolor="#29abe1">
             <br>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; text-transform: uppercase;">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; text-transform: uppercase; padding-left: 5%; padding-right: 5%;">
                 {{Lang::get('mail.sale.name', ['user' => $editor])}}<br />
             </p>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); padding-left: 5%; padding-right: 5%;">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); padding-left: 10%; padding-right: 10%;">
                 {{Lang::get('mail.sale.interested')}}
                 <br><br>
                 {{Lang::get('mail.sale.specification')}}<br>
@@ -27,7 +27,7 @@
             <br />
             <table width="457" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="457" height="49" align="center" bgcolor="#f3e353" style="border-radius: 25px;background-color: rgb(243, 227, 83);">
+                    <td width="457" height="49" align="center" bgcolor="#f3e353" style="border-radius: 25px;background-color: rgb(243, 227, 83); padding-left: 5%; padding-right: 5%;">
                         <a href="{{ route('messages.show', $thread) }}" style="text-decoration:none; color:#000;font-size: 22px; font-family: Arial;
                            color: rgb(0, 0, 0); line-height: 1.2; text-transform:uppercase">
                             <strong> {{Lang::get('mail.sale.see')}} </strong>
@@ -36,12 +36,14 @@
                     </td>
 
                 </tr>
-            </table> <br><br>
+            </table>
+            <br>
+            <br>
         </td>
     </tr>
     <tr>
         <td height="115" align="center">
-            <p style="font-size: 14px; font-family: Arial;">
+            <p style="font-size: 14px; font-family: Arial; padding-left: 5%; padding-right: 5%;">
                 {{Lang::get('mail.common.greeting')}}
                 <br />
                 {{Lang::get('mail.common.team')}}

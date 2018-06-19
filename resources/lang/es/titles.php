@@ -8,7 +8,7 @@
 
 return [
 
-    'emedia' => 'EMediamarket',
+    'emedia' => 'eMediaMarket',
 
     'register' => 'Registrar',
     'login' => 'Iniciar Sesión',
@@ -53,7 +53,10 @@ return [
             "activity" => 'Todavía no tienes una actividad registrada',
             "contact" => '¿ Necesitas ayuda ? Contactate con nuestro equipo de soporte y te ayudaremos con tu primer campaña.',
             "how" => '¿ Cómo funciona ?',
-            "guide" => 'Guía para el Editor',
+            "guide" => [
+                'editor' => 'Guía para el Editor',
+                'advertiser' => 'Guía para el Anunciante',
+            ],
             "check" => 'Perfil completo',
             "services" => 'Nuestros servicios: ',
             "us" => 'Contactanos: ',
@@ -97,11 +100,12 @@ return [
 
     'addspaces' => [
         'search' => 'Buscar webs',
-        'edit' => 'Editar web',
+        'listing' => 'Listado General',
+        'edit' => 'Editar',
         'create' => 'Crear web',
         'web' => 'Mis webs',
         'filters' => 'Filtros: ',
-        'detail' => 'Detalle ',
+        'detail' => 'Descripción de tu web ',
     ],
 
     'profile' => 'Perfil',
@@ -112,7 +116,7 @@ return [
     ],
 
     'users' => [
-        'index' => 'Usuarios de EMarketplace',
+        'index' => 'Usuarios de eMediaMarket',
         'create' => 'Crear Usuario',
         'edit' => 'Editar Usuario',
         'password' => [

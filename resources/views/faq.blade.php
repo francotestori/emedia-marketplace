@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="{{Lang::get('seo.faq.description')}}">
     <meta name="author" content="">
-    <title>eMediaMarket</title>
+    <title>{{Lang::get('seo.faq.title')}}</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('css/bootstrap.css')}}" rel="stylesheet">
     <link href="{{ asset('css/styles.css')}}" rel="stylesheet">
@@ -46,7 +46,7 @@
 </nav>
 <div class="jumbotron">
     <div class="container">
-        <h1>Preguntas frecuentes</h1>
+        <h1>{{Lang::get('titles.home.common.faq')}}</h1>
     </div>
 </div>
 
@@ -54,7 +54,7 @@
   <div class="faq-section faq-advertiser">
     <div class="faq-title">
       <img src="{{asset('img/icono1.png')}}" alt="megaphone">
-      <h1>Anunciantes</h1>
+      <h1>{{Lang::get('items.advertisers')}}</h1>
     </div>
     <button class="faq-accordion">{{Lang::get('faq.advertiser.first.title')}}
     <i class="fa fa-caret-right" aria-hidden="true"></i></button>
@@ -104,17 +104,19 @@
   <div class="faq-section faq-editor">
     <div class="faq-title">
       <img src="{{asset('img/icono2blanco.png')}}" alt="pencil">
-      <h1>Editores</h1>
+      <h1>{{Lang::get('items.editors')}}</h1>
     </div>
     <button class="faq-accordion">{{Lang::get('faq.editor.first.title')}}
     <i class="fa fa-caret-right" aria-hidden="true"></i></button>
     <div class="faq-answer">
-      <p>{{Lang::get('faq.editor.first.tuft')}}</p>
+      <p>{{Lang::get('faq.editor.first.tuft.1')}}</p>
+      <p>{{Lang::get('faq.editor.first.tuft.2')}}</p>
     </div>
     <button class="faq-accordion">{{Lang::get('faq.editor.second.title')}}
     <i class="fa fa-caret-right" aria-hidden="true"></i></button>
     <div class="faq-answer">
-      <p>{{Lang::get('faq.editor.second.tuft')}}</p>
+      <p>{{Lang::get('faq.editor.second.tuft.1')}}</p>
+      <p>{{Lang::get('faq.editor.second.tuft.2')}}</p>
     </div>
     <button class="faq-accordion">{{Lang::get('faq.editor.third.title')}}
     <i class="fa fa-caret-right" aria-hidden="true"></i></button>
@@ -124,7 +126,8 @@
     <button class="faq-accordion">{{Lang::get('faq.editor.fourth.title')}}
     <i class="fa fa-caret-right" aria-hidden="true"></i></button>
     <div class="faq-answer">
-      <p>{{Lang::get('faq.editor.fourth.tuft')}}</p>
+      <p>{{Lang::get('faq.editor.fourth.tuft.1')}}</p>
+      <p>{{Lang::get('faq.editor.fourth.tuft.2')}}</p>
     </div>
     <button class="faq-accordion">{{Lang::get('faq.editor.fifth.title')}}
     <i class="fa fa-caret-right" aria-hidden="true"></i></button>
@@ -144,10 +147,12 @@
     <button class="faq-accordion">{{Lang::get('faq.editor.eight.title')}}
     <i class="fa fa-caret-right" aria-hidden="true"></i></button>
     <div class="faq-answer">
-      <p>{{Lang::get('faq.editor.eight.tuft')}}</p>
+      <p>{{Lang::get('faq.editor.eight.tuft.1')}}</p>
+      <p>{{Lang::get('faq.editor.eight.tuft.2')}}</p>
     </div>
     <div class="faq-footer">
-        <p>{{Lang::get('faq.editor.message')}} </p>
+        <p>{{Lang::get('faq.editor.message.1')}} </p>
+        <p>{{Lang::get('faq.editor.message.2')}} </p>
         <img src="{{asset('img/flecha.png')}}" alt="chevron-down">
         <a href="{{route('register', ['role' => 'editor'])}}" class="faq-register">
             {{Lang::get('menu.main.register')}}<strong>{{Lang::get('menu.main.editors.as')}}</strong>

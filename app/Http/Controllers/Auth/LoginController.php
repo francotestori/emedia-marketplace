@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Role;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\View;
 
 class LoginController extends Controller
@@ -57,7 +59,12 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
+        $locale = Cookie::get('locale');
+        App::setLocale($locale);
+
         $requested = $request->get('role');
-        return view('auth.login', compact('requested'));
+        $title = null;
+        $description = null;
+        return view('auth.login', compact('requested', 'title', 'decription'));
     }
 }

@@ -5,36 +5,38 @@ $addspace = Addspace::find($addspaceArray['id']);
 ?>
 
 <div class="col-md-4">
-    <div class="ejemplo-webs">
-        <img src="{{asset('img/example.png')}}" class="img-responsive center-block">
-
-        <div class="row">
-            <div class="col-md-12">
-                <a target="_blank" class="ejemplo-titular" href="{{$addspace->url}}">
-                    {{substr(str_replace_first('www.','',str_replace_first('http://', '', $addspace->url)),0,27)}}
-                </a>
-            </div>
-        </div>
-
-        <div>
-            <p><strong>{{Lang::get('items.visits')}}</strong> {{$addspace->visits}} + {{Lang::get('attributes.frequency.'.$addspace->periodicity)}}</p>
-            <p><strong>{{Lang::get('items.language')}}</strong> {{Lang::get('attributes.language.'.$addspace->language)}}</p>
-            <p><strong>{{Lang::get('items.description')}}</strong>
+    <div class="admin-profit-web">
+        <div class="box-title">            
+            <a target="_blank" class="ejemplo-titular" href="{{$addspace->url}}">
+                {{substr(str_replace_first('www.','',str_replace_first('http://', '', $addspace->url)),0,27)}}
+            </a>
+        </div>        
+        <div class="web-result-info">
+            <h4 class="web-result-price">
+                <strong>{{Lang::get('items.profit')}} <span class="money-total"> {{$addspace->profit}}%</span></strong>
+            </h4>
+            <h4 class="web-result-price">
+                <strong>{{Lang::get('items.revenue')}}<span class="money-total"> {{Lang::get('attributes.currency').' '.$addspace->getCost()}}</span></strong>
+            </h4>
+            <h4 class="web-result-price">
+                <strong>{{Lang::get('items.price')}} <span class="money-total"> {{Lang::get('attributes.currency').$addspace->getSystemRevenue()}}</span></strong>
+            </h4>
+            <p>{{Lang::get('items.visits')}} <strong>+{{$addspace->visits}} {{Lang::get('attributes.frequency.'.$addspace->periodicity)}}</strong></p>
+            <p>{{Lang::get('items.language')}} <strong>{{Lang::get('attributes.language.'.$addspace->language)}}</strong></p>
+            <p>{{Lang::get('items.description')}}
+                <strong>    
                 @if(strlen($addspace->description) > 30)
                     {{substr($addspace->description,0,30).'...'}}
                 @else
                     {{substr($addspace->description,0,30)}}
                 @endif
-            </p>
-            <h4>
-                <strong>{{Lang::get('items.price').' '.Lang::get('attributes.currency').' '.$addspace->getCost()}}</strong>
-            </h4>
-            <p class="profit"><strong>{{Lang::get('items.profit').': '}}</strong>{{$addspace->profit}}<strong>%</strong></p>
-            <p class="profit"><strong>{{Lang::get('items.revenue').': '}}</strong>{{Lang::get('attributes.currency').$addspace->getSystemRevenue()}}</p>
-            <div class="btn-group">
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#{{'change-'.$addspace->id}}">{{Lang::get('forms.profits.change')}}</button>
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{'default-'.$addspace->id}}">{{Lang::get('forms.profits.apply')}}</button>
-            </div>
+                </strong>
+            </p>        
+        </div>
+        <div class="web-result-actions">
+            <!--<button type="button" class="btn btn-invert-emedia" data-toggle="modal" data-target="#{{'change-'.$addspace->id}}">{{Lang::get('forms.profits.change')}}</button>-->
+            <a type="button" data-toggle="modal" href="#{{'change-'.$addspace->id}}">{{Lang::get('forms.profits.change')}}</a>
+            <button type="button" class="btn btn-simple-emedia" data-toggle="modal" data-target="#{{'default-'.$addspace->id}}">{{Lang::get('forms.profits.apply')}}</button>
         </div>
 
         <!-- Modals -->

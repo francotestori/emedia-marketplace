@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td height="356" align="center" bgcolor="#29abe1">
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold;">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; padding-left: 10%; padding-right: 10%;">
                 {{Lang::get('mail.reset.resetting')}}
                 <br/>
                 {{Lang::get('mail.reset.clicking')}}
@@ -26,16 +26,16 @@
                 <br />
                 <br />
             </p>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236);">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); padding-left: 10%; padding-right: 10%;">
                 {{Lang::get('mail.reset.remind')}}
                 <span style="color:#000">{{$email}}</span>
             </p>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236);">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); padding-left: 10%; padding-right: 10%;">
                 {{Lang::get('mail.reset.unrequested')}}
                 <br />
                 {{Lang::get('mail.reset.delete')}}
             </p>
-            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold;">
+            <p style="font-size: 18px;font-family: Arial; color: rgb(236, 236, 236); font-weight: bold; padding-left: 10%; padding-right: 10%;">
                 {{Lang::get('mail.reset.enjoy')}}
             </p>
             <br />
@@ -50,11 +50,13 @@
                     </td>
                 </tr>
             </table>
+            <br>
+            <br>
         </td>
     </tr>
     <tr>
         <td height="115" align="center">
-            <p style="font-size: 14px; font-family: Arial;">
+            <p style="font-size: 14px; font-family: Arial; padding-left: 5%; padding-right: 5%;">
                 {{Lang::get('mail.common.greeting')}}
                 <br />
                 {{Lang::get('mail.common.team')}}

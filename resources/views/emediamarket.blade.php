@@ -4,9 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="{{Lang::get('seo.landing.description')}}">
     <meta name="author" content="">
-    <title>eMediaMarket</title>
+    <title>{{Lang::get('seo.landing.title')}}</title>
+    <link rel="canonical" href="{{url('/')}}"/>
+    <link rel="canonical" href="{{url('/es')}}" hreflang="es"/>
+    <link rel="canonical" href="{{url('/en')}}" hreflang="en"/>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('css/bootstrap.css')}}" rel="stylesheet">
     <link href="{{ asset('css/styles.css')}}" rel="stylesheet">

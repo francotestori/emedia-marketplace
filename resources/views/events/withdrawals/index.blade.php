@@ -7,7 +7,7 @@
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <h3>{{Lang::get('titles.wallet.withdrawals')}}</h3>
+            <h1>{{Lang::get('titles.wallet.withdrawals')}}</h1>
         </div>
         @if (session('status'))
             <div class="alert alert-success">
@@ -22,7 +22,7 @@
 
         <br>
 
-        <div class="panel-heading">
+        <div class="panel-heading table-panel">
                 <div class="row">
                     <div class="col-md-12">
                         <table class="table" id="addspaces-table" @if(count($withdrawals)) data-ride="datatables" @endif>

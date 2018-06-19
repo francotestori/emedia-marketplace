@@ -64,7 +64,7 @@ return [
         'sending' => 'Do you want to send a new password to this user ?',
         'password' => [
             'item' => 'Password',
-            'old' => 'Old Password',
+            'old' => 'Old',
             'new' => 'New Password',
             'confirm' => 'Confirm Password',
         ],
@@ -76,12 +76,12 @@ return [
 
     'addspaces' => [
         'item' => [
-            'url' => 'URL',
-            'description' => 'Description',
-            'visits' => 'Visits',
+            'url' => 'Tell us your web\'s url',
+            'description' => 'Describe your web',
+            'visits' => 'Monthly Visits',
             'frequency' => 'Frequency',
             'price' => 'Price',
-            'categories' => 'Categories',
+            'categories' => 'Which categories fit your web?',
             'language' => 'Language',
         ],
         'search' => [
@@ -159,7 +159,7 @@ return [
     'packages' => [
         'name' => 'Name',
         'value' => [
-            'emarketplace' => 'EMarketplace Value',
+            'emarketplace' => 'eMediaMarket Value',
             'price' => 'Price',
         ],
         'activate' => 'Activate',

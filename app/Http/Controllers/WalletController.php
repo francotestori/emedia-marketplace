@@ -106,7 +106,7 @@ class WalletController extends Controller
             ],
             // every invoice id must be unique, else you'll get an error from paypal
             'invoice_id' => $this->genPaypalId($transaction_id, $invoice_id) ,
-            'invoice_description' => "EMediaMarket Deposit #".$transaction_id,
+            'invoice_description' => "eMediaMarket Deposit #".$transaction_id,
             // return url is the url where PayPal returns after user confirmed the payment
             'return_url' => route('deposit.accept', ['id' => $transaction_id]),
             'cancel_url' => route('deposit.cancel', ['id' => $transaction_id]),
@@ -245,12 +245,12 @@ class WalletController extends Controller
                 'event_id' => $event->id
             ]);
 
-            $url = route('withdrawal.show', ['transaction_id' => $transaction->id]);
+            $url = '/withdrawal/'.$transaction->id.'/authorize';
 
             // Create email
             $email = new Withdrawal($amount, $paypal, $cbu, $alias, $sender->email, $comment, $url);
-
             Mail::to($admin)->send($email);
+
             return response()->json([
                 'data' => Lang::get('messages.withdrawal.success', ['amount' => $amount]),
                 'status' => true,
@@ -339,8 +339,8 @@ class WalletController extends Controller
 
         if($source->balance < $cost)
         {
-            Session::flash('errors', Lang::get('messages.without_funds'));
-            return redirect()->route('addspaces.show', $addspace->id);
+            Session::flash('errors', Lang::get('messages.funds.unavailable'));
+            return redirect()->route('wallet');
         }
 
         // Get Wallets
@@ -467,7 +467,7 @@ class WalletController extends Controller
             }
 
             Session::flash('status', Lang::get('messages.rollbacked'));
-            return redirect()->route('addspaces.search');
+            return redirect()->back();
         }
     }
 

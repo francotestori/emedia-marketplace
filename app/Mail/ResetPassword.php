@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Lang;
 
 class ResetPassword extends Mailable
 {
@@ -33,7 +34,8 @@ class ResetPassword extends Mailable
     public function build()
     {
         return $this->markdown('mail.reset')
-                    ->with('token', $this->token)
+            ->subject(Lang::get('mail.reset.subject'))
+            ->with('token', $this->token)
                     ->with('email', $this->email);
     }
 }

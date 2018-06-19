@@ -93,11 +93,18 @@ class MessagesController extends Controller
         if(in_array($userId, $allowed)){
             $thread->activateAllParticipants();
 
+            $message = Input::get('message');
+            if(empty($message))
+            {
+                Session::flash('errors', Lang::get('messages.messenger.empty_message'));
+                return redirect()->route('messages.show', $id);
+            }
+
             // Message
             Message::create([
                 'thread_id' => $thread->id,
                 'user_id' => Auth::id(),
-                'body' => Input::get('message'),
+                'body' => $message,
             ]);
 
             return redirect()->route('messages.show', $id);

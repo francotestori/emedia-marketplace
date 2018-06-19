@@ -9,14 +9,21 @@
 return [
     'sidebar' => [
         'home' => 'Home',
-        'web' => 'Mis webs',
+        'web' => [
+            'admin' => 'Listado de Webs',
+            'advertiser' => 'Webs y Blogs',
+            'editor' => 'Mis webs',
+        ],
         'editors' => 'Editores',
         'advertisers' => 'Anunciantes',
         'transactions' => 'Transacciones',
-        'packages' => 'Paquetes de Credito',
-        'profits' => 'Ganancias',
-        'revenues' => 'Rentas',
-        'withdrawals' => 'Retiros',
+        'packages' => [
+            'advertiser' => 'Paquetes de Credito',
+            'admin' => 'Gestor de Paquetes',
+        ],
+        'profits' => 'Gestor de Porcentajes',
+        'revenues' => 'Ganancias',
+        'withdrawals' => 'Gestor de Retiros',
         'sales' => 'Ventas',
         'wallet' => 'Monedero',
         'purchases' => 'Compras',
@@ -64,7 +71,7 @@ return [
         ],
 
         'emedia' => [
-            'about' => 'Acerca de EMediaMarket',
+            'about' => 'Acerca de eMediaMarket',
             'description' => [
                 'first' => 'Después de haber ',
                 'second' => 'trabajado muchos años en el mundo del marketing digital ',

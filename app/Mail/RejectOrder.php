@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Lang;
 
 class RejectOrder extends Mailable
 {
@@ -35,6 +36,7 @@ class RejectOrder extends Mailable
     public function build()
     {
         return $this->markdown('mail.reject')
+            ->subject(Lang::get('mail.reject.subject'))
             ->with('message', $this->message)
             ->with('url', $this->url)
             ->with('editor', $this->editor);

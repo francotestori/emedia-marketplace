@@ -23,15 +23,17 @@ $wallet_id = Auth::user()->getWallet()->id;
 $transaction = $event->transactions()->where($search_id, $wallet_id)->first();
 ?>
 
-<div class="row single-msj-row">
+<div class="clearfix single-msj-row">
     <div class="col-md-12">
         <div class="media alert alert-default">
             <h4 class="media-heading">
                 <span>
                     <a href="{{ route('messages.show', $thread->id) }}">
-                        {{Lang::get('titles.subject', ['id' => $transaction->id, 'subject' => $thread->subject])}}
+                        {{Lang::get('titles.subject', ['id' => $transaction->id,
+                                                       'subject' => Lang::get('messages.query', ['user' => $thread->participantsString(Auth::id()),
+                                                       'url' => $event->getAddspace()->url])])}}
                     </a>
-                    <span class="unread-msjs">({{ $thread->userUnreadMessagesCount(Auth::id()) }} unread)</span>
+                    <span class="unread-msjs">({{Lang::get('messages.messenger.unread', ['count' => $thread->userUnreadMessagesCount(Auth::id())])}})</span>
                 </span>
             </h4>
             <span>
@@ -53,7 +55,7 @@ $transaction = $event->transactions()->where($search_id, $wallet_id)->first();
                     </span>
                 </h5>-->
                 <h5 class="msj-status">
-                    <strong class="btn {{$class}}" disabled>{{$event->state}}</strong>
+                    <strong class="btn {{$class}}" disabled>{{Lang::get('tables.'.$event->state)}}</strong>
                 </h5>
             @endif
         </div>

@@ -11,7 +11,7 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
 @section('content')
     <div class="panel panel-default">
         <div class="panel-title">
-            <div class="row">
+            <div class="clearfix">
                 <div class="col-md-6 emedia-title">
                     <h1>
                         {{Lang::get('titles.users.index')}}
@@ -20,14 +20,14 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
                 </div>
                 <div class="col-md-6 emedia-title">
                     @if(Auth::user()->isManager())
-                        <a href="{{route('users.create')}}" class="btn btn-block btn-emedia pull-right">{{Lang::get('forms.basic.create')}}</a>
+                        <a href="{{route('users.create')}}" class="btn btn-block btn-emedia btn-create-user">{{Lang::get('forms.basic.create')}}</a>
                     @endif
                 </div>
             </div>
         </div>
         <br>
 
-        <div class="panel-heading">
+        <div class="panel-heading table-panel">
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -40,7 +40,7 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
             @endif
             <div class="row">
                 <div class="col-lg-12">
-                    <table class="table" id="addspaces-table" @if(count($users_to_show)) data-ride="datatables" @endif>
+                    <table class="table editor-users-table" id="addspaces-table" @if(count($users_to_show)) data-ride="datatables" @endif>
                         <thead>
                             <tr>
                                 <th>{{Lang::get('tables.users.id')}}</th>
@@ -58,22 +58,27 @@ $users_to_show = ($type == null) ? $users : ($type == 'editor' ? $editors : $adv
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->getRole()}}</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <a class="btn btn-info" href="{{route('users.edit', ['id' => $user->id])}}">
-                                                    {{Lang::get('forms.basic.edit')}}
+                                        <td><!-- <img src="{{asset('img/login-anunciantes.png')}}" -->
+                                            <div class="btn-actions-container">
+                                                <a class="btn-edit-action" href="{{route('users.edit', ['id' => $user->id])}}">
+                                                    <i class="fa fa-pencil-square-o"></i>
+                                                </a>
+                                                <a href="{{route('users.password', $user->id)}}" class="password-change">
+                                                    <img src="{{asset('img/key1.png')}}" alt="change password">
+                                                </a>
+                                                <!--<button class="btn btn-warning" data-toggle="modal" data-target="{{'#password'.$user->id}}">{{Lang::get('forms.users.send')}}</button>-->
+                                                <a href="{{'#password'.$user->id}}" data-toggle="modal" class="password-send">
+                                                    <img src="{{asset('img/key2.png')}}" alt="send password">
                                                 </a>
                                                 @if($user->activated)
-                                                    <a class="btn btn-danger" href="{{route('users.deactivate',[$user->id])}}">
-                                                        {{Lang::get('forms.users.deactivate')}}
+                                                    <a class="btn-close-action" href="{{route('users.deactivate',[$user->id])}}">
+                                                        <i class="fa fa-times-circle"></i>
                                                     </a>
                                                 @else
-                                                    <a class="btn btn-primary" href="{{route('users.activate',[$user->id])}}">
-                                                        {{Lang::get('forms.users.activate')}}
+                                                    <a class="btn-play-action" href="{{route('users.activate',[$user->id])}}">
+                                                        <i class="fa fa-play-circle"></i>
                                                     </a>
-                                                @endif
-                                                <a href="{{route('users.password', $user->id)}}" class="btn btn-success">{{Lang::get('forms.users.change')}}</a>
-                                                <button class="btn btn-warning" data-toggle="modal" data-target="{{'#password'.$user->id}}">{{Lang::get('forms.users.send')}}</button>
+                                                @endif                                                
                                             </div>
                                         </td>
                                         <!-- Modal de enviar password -->

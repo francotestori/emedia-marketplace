@@ -1,5 +1,10 @@
 @extends('layouts.emedia-layout')
 
+@section('metadata')
+    <meta name="description" content="">
+    <title>eMediaMarket</title>
+@endsection
+
 @section('content')
     <section class="login">
         <div class="logo-anunciantes">

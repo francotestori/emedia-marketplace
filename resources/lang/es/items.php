@@ -15,8 +15,8 @@ return [
 
     'web' => 'Mis webs',
 
-    'profit' => 'Ganancia',
-    'revenue' => 'Renta',
+    'profit' => 'Porcentaje',
+    'revenue' => 'Ganancia',
 
     'price' => 'Precio:',
     'visits' => 'Visitas:',
