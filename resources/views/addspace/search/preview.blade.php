@@ -8,7 +8,7 @@ $addspace = Addspace::find($addspaceArray['id']);
     <div class="advertiser-web-result">
         <div class="box-title">            
             <a target="_blank" class="ejemplo-titular" href="{{$addspace->url}}">
-                {{substr(str_replace_first('www.','',str_replace_first('http://', '', $addspace->url)),0,27)}}
+                {{substr(str_replace_first('www.','',str_replace_first('http://', '', $addspace->url)),0,35)}}
             </a>
         </div>        
         <div class="web-result-info">

@@ -22,8 +22,9 @@
                     {{Lang::get('mail.purchase.your')}}
                     <span style="color:#000">{{$url}}</span>
                 </strong>
-                {{Lang::get('mail.purchase.realized')}}<br />
-                {{Lang::get('mail.purchase.working')}}
+                {{Lang::get('mail.purchase.realized')}}<br/>
+                {{Lang::get('mail.purchase.working')}} <br/>
+                {{Lang::get('mail.purchase.notify')}}
             </p>
             <table width="457" border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -51,7 +52,9 @@
         </td>
     </tr>
     <tr>
-        <td bgcolor="#676767" align="center"><img src="{{asset('img/mail/logo-footer.png')}}" width="136" height="31" alt="eMediaMarket" /></td>
+        <td bgcolor="#676767" align="center">
+            <img src="{{asset('img/mail/logo-footer.png')}}" width="136" height="31" alt="eMediaMarket" />
+        </td>
     </tr>
 </table>
 </body>

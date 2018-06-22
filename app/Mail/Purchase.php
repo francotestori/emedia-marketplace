@@ -36,7 +36,7 @@ class Purchase extends Mailable
     public function build()
     {
         return $this->markdown('mail.purchase')
-                    ->subject(Lang::get('mail.purchase.subject'))
+                    ->subject(Lang::get('mail.purchase.subject', ['web' => $this->url]))
                     ->with('thread', $this->thread)
                     ->with('url', $this->url)
                     ->with('advertiser', $this->advertiser);

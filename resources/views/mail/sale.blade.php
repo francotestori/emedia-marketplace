@@ -51,7 +51,9 @@
         </td>
     </tr>
     <tr>
-        <td bgcolor="#676767" align="center"><img src="{{asset('img/mail/logo-footer.png')}}logo-footer.jpg"  alt="eMediaMarket" /></td>
+        <td bgcolor="#676767" align="center">
+            <img src="{{asset('img/mail/logo-footer.png')}}" width="136" height="31" alt="eMediaMarket"/>
+        </td>
     </tr>
 </table>
 </body>

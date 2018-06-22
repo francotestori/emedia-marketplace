@@ -19,7 +19,7 @@
                 <div class="box-title">
                     <h3>
                         <i class="fa fa-pencil-square-o" aria-hidden></i>
-                        {{Lang::get('items.editors')}}
+                        <a href="{{url('users').'?type=editor'}}">{{Lang::get('items.editors')}}</a>
                     </h3>
                 </div>
                 <div class="box-content">
@@ -35,7 +35,7 @@
                 <div class="box-title">
                     <h3>
                         <i class="fa fa-bullhorn" aria-hidden></i>
-                        {{Lang::get('items.advertisers')}}
+                        <a href="{{url('users').'?type=advertiser'}}">{{Lang::get('items.advertisers')}}</a>
                     </h3>
                 </div>
                 <div class="box-content">

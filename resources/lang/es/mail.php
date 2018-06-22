@@ -40,41 +40,41 @@ return [
     ],
 
     'sale' => [
-        'subject' => 'Felicitaciones! un anunciante está interesado en tu artículo',
-        'name' => '¡Hola :user !',
+        'subject' => 'Buenas noticias! Tienes una oferta para anunciar en tu sitio',
+        'name' => '¡Felicitaciones :user !',
         'interested' => 'Hay un anunciante interesado en publicitar en tu web!',
         'specification' => 'Lee detenidamente las especificaciones del pedido',
         'decision' => 'y decide si vas a aceptar o rechazar su orden.',
-        'see' => 'Ver ',
-        'order' => 'el pedido',
+        'see' => 'Ver las',
+        'order' => ' especificaciones del pedido',
     ],
 
     'purchase' => [
-        'subject' => 'Compra',
+        'subject' => 'Buenas noticias! Tu compra en :web ha sido aprobada',
         'congratulations' => '¡Felicitaciones ',
         'your' => 'Tu compra en  ',
-        'realized' => 'ha sido efectuada ',
+        'realized' => 'ha sido aprobada ',
         'working' => 'y el editor ya estará trabajando en tu pedido.',
+        'notify' => 'Te notificaremos cuando el artículo esté listo para que puedas revisarlo.',
     ],
 
     'reject' => [
-        'subject' => 'Rechazo',
-        'name' => '¡Hola :user!',
+        'subject' => 'Tu orden en :web ha sido rechazada',
+        'name' => 'Hola :user',
         'addspace' => 'Lamentamos informarte que tu orden en el sitio :url ha sido rechazada.',
         'review' => 'La misma pasará a un estado de revisión por nuestro equipo para confirmar o rechazar dicha operacion.',
         'reason' => 'El motivo ha sido: ',
     ],
 
     'accept' => [
-        'subject' => 'Felicitaciones! tu venta ha sido exitosa',
+        'subject' => 'El articulo ha sido aprobado',
         'name' => '¡Hola :user!',
         'good' => '¡Buenas noticias!',
         'accepted' => 'Te informamos que el anunciante ha aprobado el artículo ',
         'article' => 'que has publicado.',
-        'credited' => 'Ya hemos acreditado el pago en tu cuenta de eMediaMarket.',
+        'credited' => 'Ya hemos acreditado el pago en tu cuenta.',
         'see' => 'Ver ',
         'wallet' => 'mi cuenta',
-
     ],
 
     ];

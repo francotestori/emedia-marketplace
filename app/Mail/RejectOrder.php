@@ -36,7 +36,7 @@ class RejectOrder extends Mailable
     public function build()
     {
         return $this->markdown('mail.reject')
-            ->subject(Lang::get('mail.reject.subject'))
+            ->subject(Lang::get('mail.reject.subject', ['web' => $this->url]))
             ->with('message', $this->message)
             ->with('url', $this->url)
             ->with('editor', $this->editor);
